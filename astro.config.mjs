@@ -3,14 +3,14 @@ import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@tailwindcss/vite';
-import node from '@astrojs/node';
+import vercel from '@astrojs/vercel/serverless';
 import auth from 'auth-astro';
 
 // https://astro.build/config
 export default defineConfig({
-  output: 'static',
+  output: 'hybrid',
   site: 'https://007-sama.vercel.app',
-  adapter: node({ mode: 'standalone' }),
+  adapter: vercel(),
   image: {
     remotePatterns: [{ protocol: 'https' }],
   },

@@ -84,6 +84,12 @@ jobs:
           path: dist/
           retention-days: 1
 
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vercel-output
+          path: .vercel/
+          retention-days: 1
+
   test-e2e:
     needs: build
     runs-on: ubuntu-latest
@@ -132,6 +138,11 @@ jobs:
         with:
           name: dist
           path: dist/
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: vercel-output
+          path: .vercel/
 
       - name: Deploy a Vercel
         env:
