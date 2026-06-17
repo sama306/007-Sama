@@ -8,7 +8,7 @@ import auth from 'auth-astro';
 
 // https://astro.build/config
 export default defineConfig({
-  output: 'hybrid',
+  output: 'static',
   site: 'https://007-sama.vercel.app',
   adapter: vercel(),
   image: {
