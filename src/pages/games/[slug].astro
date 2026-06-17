@@ -236,9 +236,7 @@ const hasStores = data.stores.length > 0
                 <h2 class="mb-4 text-2xl font-bold text-[var(--color-text-primary)]">Galería</h2>
                 <div class="grid gap-4 sm:grid-cols-2">
                   {gallery.map((img, i) => (
-                    <div
-                      class="overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)]"
-                    >
+                    <div class="overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)]">
                       <Image
                         src={img}
                         alt={`${data.title} screenshot ${i + 1}`}
@@ -347,9 +345,7 @@ const hasStores = data.stores.length > 0
                 <dd class="flex flex-wrap gap-1.5 pt-1">
                   {
                     data.platform.map((p) => (
-                      <span
-                        class="rounded border border-[var(--color-border)] px-2 py-0.5 text-xs font-medium uppercase text-[var(--color-text-muted)]"
-                      >
+                      <span class="rounded border border-[var(--color-border)] px-2 py-0.5 text-xs font-medium uppercase text-[var(--color-text-muted)]">
                         {platformLabels[p]}
                       </span>
                     ))
@@ -367,9 +363,7 @@ const hasStores = data.stores.length > 0
                 </h3>
                 <div class="flex flex-wrap gap-2">
                   {data.tags.map((tag) => (
-                    <span
-                      class="rounded border border-[var(--color-border)] bg-[var(--color-bg-primary)] px-2.5 py-1 text-xs text-[var(--color-text-muted)]"
-                    >
+                    <span class="rounded border border-[var(--color-border)] bg-[var(--color-bg-primary)] px-2.5 py-1 text-xs text-[var(--color-text-muted)]">
                       {tag}
                     </span>
                   ))}

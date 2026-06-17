@@ -100,9 +100,7 @@ const platformLabels: Record<string, string> = {
       <div class="flex flex-wrap items-center gap-1.5">
         {
           data.platform.map((p) => (
-            <span
-              class="rounded border border-[var(--color-border)] px-1.5 py-0.5 text-[10px] font-medium uppercase text-[var(--color-text-muted)]"
-            >
+            <span class="rounded border border-[var(--color-border)] px-1.5 py-0.5 text-[10px] font-medium uppercase text-[var(--color-text-muted)]">
               {platformLabels[p] ?? p}
             </span>
           ))

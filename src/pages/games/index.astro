@@ -70,7 +70,13 @@ const allGames = await getCollection('games', ({ data }) => data.status === 'pub
       }
     }
 
-    function updateUrl(params: { genre: string; platform: string; price: string; rating: string; sort: string }) {
+    function updateUrl(params: {
+      genre: string
+      platform: string
+      price: string
+      rating: string
+      sort: string
+    }) {
       const searchParams = new URLSearchParams()
       if (params.genre) searchParams.set('genre', params.genre)
       if (params.platform) searchParams.set('platform', params.platform)
@@ -166,19 +172,27 @@ const allGames = await getCollection('games', ({ data }) => data.status === 'pub
       const sort = urlParams.get('sort')
 
       if (genre) {
-        const el = document.querySelector(`input[name="genre"][value="${genre}"]`) as HTMLInputElement
+        const el = document.querySelector(
+          `input[name="genre"][value="${genre}"]`,
+        ) as HTMLInputElement
         if (el) el.checked = true
       }
       if (platform) {
-        const el = document.querySelector(`input[name="platform"][value="${platform}"]`) as HTMLInputElement
+        const el = document.querySelector(
+          `input[name="platform"][value="${platform}"]`,
+        ) as HTMLInputElement
         if (el) el.checked = true
       }
       if (price) {
-        const el = document.querySelector(`input[name="price"][value="${price}"]`) as HTMLInputElement
+        const el = document.querySelector(
+          `input[name="price"][value="${price}"]`,
+        ) as HTMLInputElement
         if (el) el.checked = true
       }
       if (rating) {
-        const el = document.querySelector(`input[name="rating"][value="${rating}"]`) as HTMLInputElement
+        const el = document.querySelector(
+          `input[name="rating"][value="${rating}"]`,
+        ) as HTMLInputElement
         if (el) el.checked = true
       }
       if (sort && sortSelect) {
@@ -198,9 +212,13 @@ const allGames = await getCollection('games', ({ data }) => data.status === 'pub
     clearBtn?.addEventListener('click', (e) => {
       e.preventDefault()
       const firstGenre = document.querySelector('input[name="genre"][value=""]') as HTMLInputElement
-      const firstPlatform = document.querySelector('input[name="platform"][value=""]') as HTMLInputElement
+      const firstPlatform = document.querySelector(
+        'input[name="platform"][value=""]',
+      ) as HTMLInputElement
       const firstPrice = document.querySelector('input[name="price"][value=""]') as HTMLInputElement
-      const firstRating = document.querySelector('input[name="rating"][value="0"]') as HTMLInputElement
+      const firstRating = document.querySelector(
+        'input[name="rating"][value="0"]',
+      ) as HTMLInputElement
       if (firstGenre) firstGenre.checked = true
       if (firstPlatform) firstPlatform.checked = true
       if (firstPrice) firstPrice.checked = true
