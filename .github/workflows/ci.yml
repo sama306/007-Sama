@@ -20,7 +20,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22.12
+          node-version: '22.14'
           cache: pnpm
 
       - run: pnpm install
@@ -37,7 +37,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22.12
+          node-version: '22.14'
           cache: pnpm
 
       - run: pnpm install
@@ -54,7 +54,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22.12
+          node-version: '22.14'
           cache: pnpm
 
       - run: pnpm install
@@ -77,7 +77,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22.12
+          node-version: '22.14'
           cache: pnpm
 
       - run: pnpm install
@@ -98,7 +98,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22.12
+          node-version: '22.14'
           cache: pnpm
 
       - run: pnpm install
