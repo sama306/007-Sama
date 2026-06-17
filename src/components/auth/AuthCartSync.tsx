@@ -21,6 +21,9 @@ export default function AuthCartSync() {
         const userId = session.user.id;
         if (!userId || userId === 'guest') return;
 
+        migrateGuestWishlist(userId);
+        migrateGuestOrders(userId);
+
         currentUserId.set(userId);
 
         const items = cartItems.get();
@@ -28,9 +31,6 @@ export default function AuthCartSync() {
           addToast('info', 'Tu carrito fue recuperado.');
           sessionStorage.setItem(RECOVERED_FLAG, 'true');
         }
-
-        migrateGuestWishlist(userId);
-        migrateGuestOrders(userId);
       } catch {
         /* noop */
       }
