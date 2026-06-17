@@ -54,7 +54,7 @@ jobs:
       - run: pnpm lint
       - run: pnpm format:check
 
-  test:unit:
+  test-unit:
     needs: lint
     runs-on: ubuntu-latest
     steps:
@@ -84,7 +84,7 @@ jobs:
           path: coverage/
 
   build:
-    needs: test:unit
+    needs: test-unit
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -118,7 +118,7 @@ jobs:
           name: dist
           path: dist/
 
-  test:e2e:
+  test-e2e:
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -160,7 +160,7 @@ jobs:
           path: test-results/
 
   deploy:
-    needs: test:e2e
+    needs: test-e2e
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
