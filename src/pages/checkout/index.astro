@@ -1,27 +1,40 @@
 ---
-import BaseLayout from '@layouts/BaseLayout.astro';
-import CheckoutSummary from '@components/cart/CheckoutSummary';
-import CheckoutForm from '@components/cart/CheckoutForm';
+import BaseLayout from '@layouts/BaseLayout.astro'
+import CheckoutSummary from '@components/cart/CheckoutSummary'
+import CheckoutForm from '@components/cart/CheckoutForm'
 
-export const prerender = false;
+export const prerender = false
 ---
 
-<BaseLayout title="Finalizar Compra" description="Completa tu compra simulada en 007-Sama." noindex={true} type="website">
-
+<BaseLayout
+  title="Finalizar Compra"
+  description="Completa tu compra simulada en 007-Sama."
+  noindex={true}
+  type="website"
+>
   <section class="mx-auto max-w-[var(--max-width-content)] px-6 py-12">
     <div class="mb-12 flex items-center justify-center gap-2 text-sm font-medium">
       <span class="flex items-center gap-2 text-[var(--color-accent-primary)]">
-        <span class="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--color-accent-primary)] text-xs text-white">✓</span>
+        <span
+          class="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--color-accent-primary)] text-xs text-white"
+          >✓</span
+        >
         Carrito
       </span>
-      <span class="h-px w-12 bg-[var(--color-accent-primary)]" />
+      <span class="h-px w-12 bg-[var(--color-accent-primary)]"></span>
       <span class="flex items-center gap-2 text-[var(--color-accent-primary)]">
-        <span class="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--color-accent-primary)] text-xs text-white">2</span>
+        <span
+          class="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--color-accent-primary)] text-xs text-white"
+          >2</span
+        >
         Checkout
       </span>
-      <span class="h-px w-12 bg-[var(--color-border)]" />
+      <span class="h-px w-12 bg-[var(--color-border)]"></span>
       <span class="flex items-center gap-2 text-[var(--color-text-muted)]">
-        <span class="flex h-7 w-7 items-center justify-center rounded-full border border-[var(--color-border)] text-xs">3</span>
+        <span
+          class="flex h-7 w-7 items-center justify-center rounded-full border border-[var(--color-border)] text-xs"
+          >3</span
+        >
         Confirmación
       </span>
     </div>

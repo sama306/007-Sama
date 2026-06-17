@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
-import { clearCart } from '@stores/cartStore';
+import { useEffect } from 'react'
+import { clearCart } from '@stores/cartStore'
 
 export default function CartClearer() {
   useEffect(() => {
-    clearCart();
-  }, []);
+    clearCart()
+  }, [])
 
-  return null;
+  return null
 }

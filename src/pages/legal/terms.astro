@@ -1,16 +1,16 @@
 ---
-import BaseLayout from '@layouts/BaseLayout.astro';
+import BaseLayout from '@layouts/BaseLayout.astro'
 
-const lastUpdated = new Date('2026-06-17');
+const lastUpdated = new Date('2026-06-17')
 const formattedDate = lastUpdated.toLocaleDateString('es-ES', {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
-});
+})
 
 interface TocItem {
-  id: string;
-  label: string;
+  id: string
+  label: string
 }
 
 const toc: TocItem[] = [
@@ -23,7 +23,7 @@ const toc: TocItem[] = [
   { id: 'seccion-privacidad', label: '7. Privacidad' },
   { id: 'seccion-modificaciones', label: '8. Modificaciones' },
   { id: 'seccion-contacto', label: '9. Contacto' },
-];
+]
 ---
 
 <BaseLayout
@@ -32,7 +32,9 @@ const toc: TocItem[] = [
 >
   <section class="relative overflow-hidden bg-[var(--gradient-hero)]">
     <div class="mx-auto max-w-[var(--max-width-content)] px-6 py-20 text-center">
-      <h1 class="animate-fade-in-up text-3xl font-bold text-[var(--color-text-primary)] md:text-5xl">
+      <h1
+        class="animate-fade-in-up text-3xl font-bold text-[var(--color-text-primary)] md:text-5xl"
+      >
         Términos del Servicio
       </h1>
       <p class="animate-fade-in-up mt-4 text-sm text-[var(--color-text-muted)]">
@@ -46,21 +48,25 @@ const toc: TocItem[] = [
       open
       class="mb-12 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] md:open"
     >
-      <summary class="cursor-pointer px-6 py-4 text-sm font-semibold uppercase tracking-wider text-[var(--color-text-secondary)] md:cursor-default md:select-none">
+      <summary
+        class="cursor-pointer px-6 py-4 text-sm font-semibold uppercase tracking-wider text-[var(--color-text-secondary)] md:cursor-default md:select-none"
+      >
         Contenido
       </summary>
       <nav class="border-t border-[var(--color-border)] px-6 py-4">
         <ol class="space-y-2">
-          {toc.map((item) => (
-            <li>
-              <a
-                href={`#${item.id}`}
-                class="text-sm text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-accent)]"
-              >
-                {item.label}
-              </a>
-            </li>
-          ))}
+          {
+            toc.map((item) => (
+              <li>
+                <a
+                  href={`#${item.id}`}
+                  class="text-sm text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-accent)]"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
         </ol>
       </nav>
     </details>
@@ -70,7 +76,9 @@ const toc: TocItem[] = [
         <h2 class="mb-4 text-xl font-bold text-[var(--color-text-primary)] md:text-2xl">
           1. Aceptación de los términos
         </h2>
-        <div class="space-y-3 text-sm leading-relaxed text-[var(--color-text-secondary)] md:text-base">
+        <div
+          class="space-y-3 text-sm leading-relaxed text-[var(--color-text-secondary)] md:text-base"
+        >
           <p>
             Al acceder y utilizar el sitio web 007-Sama (en adelante, "el Sitio"), usted acepta
             cumplir con estos Términos del Servicio y todas las leyes y regulaciones aplicables. Si
@@ -94,18 +102,19 @@ const toc: TocItem[] = [
         <h2 class="mb-4 text-xl font-bold text-[var(--color-text-primary)] md:text-2xl">
           2. Descripción del servicio
         </h2>
-        <div class="space-y-3 text-sm leading-relaxed text-[var(--color-text-secondary)] md:text-base">
+        <div
+          class="space-y-3 text-sm leading-relaxed text-[var(--color-text-secondary)] md:text-base"
+        >
           <p>
-            007-Sama es una tienda de videojuegos demostrativa construida con el framework Astro.
-            El Sitio simula la experiencia completa de una tienda en línea, incluyendo catálogo de
+            007-Sama es una tienda de videojuegos demostrativa construida con el framework Astro. El
+            Sitio simula la experiencia completa de una tienda en línea, incluyendo catálogo de
             productos, carrito de compras y proceso de checkout.
           </p>
           <p>
-            <strong>Importante:</strong> Los pagos se procesan exclusivamente en modo de prueba
-            utilizando el entorno sandbox de Stripe. No se realizan cobros reales bajo ninguna
-            circunstancia. Las únicas tarjetas aceptadas son las tarjetas de prueba proporcionadas
-            por Stripe para entornos de desarrollo, y ningún cargo real será aplicado a ninguna
-            tarjeta de crédito o débito.
+            <strong>Importante:</strong> Los pagos se procesan exclusivamente en modo de prueba utilizando
+            el entorno sandbox de Stripe. No se realizan cobros reales bajo ninguna circunstancia. Las
+            únicas tarjetas aceptadas son las tarjetas de prueba proporcionadas por Stripe para entornos
+            de desarrollo, y ningún cargo real será aplicado a ninguna tarjeta de crédito o débito.
           </p>
           <p>
             El Sitio puede incluir funcionalidades como cuentas de usuario, sistema de reseñas,
@@ -120,16 +129,16 @@ const toc: TocItem[] = [
         <h2 class="mb-4 text-xl font-bold text-[var(--color-text-primary)] md:text-2xl">
           3. Cuentas de usuario
         </h2>
-        <div class="space-y-3 text-sm leading-relaxed text-[var(--color-text-secondary)] md:text-base">
+        <div
+          class="space-y-3 text-sm leading-relaxed text-[var(--color-text-secondary)] md:text-base"
+        >
           <p>
             Para acceder a ciertas funcionalidades del Sitio, es necesario crear una cuenta de
             usuario. Al registrarse, usted declara y garantiza que:
           </p>
           <ul class="list-disc pl-6 space-y-1">
             <li>Tiene al menos 13 años de edad.</li>
-            <li>
-              La información proporcionada es precisa, actual y completa.
-            </li>
+            <li>La información proporcionada es precisa, actual y completa.</li>
             <li>
               Mantendrá la confidencialidad de su contraseña y será responsable de todas las
               actividades que ocurran bajo su cuenta.
@@ -137,9 +146,9 @@ const toc: TocItem[] = [
           </ul>
           <p>
             El Sitio ofrece registro mediante correo electrónico y contraseña, así como a través de
-            proveedores OAuth externos: Google y Steam. Al iniciar sesión con estos proveedores,
-            nos autoriza a acceder a la información básica de su perfil (nombre, correo electrónico
-            e imagen de perfil) conforme a la configuración de privacidad de cada plataforma.
+            proveedores OAuth externos: Google y Steam. Al iniciar sesión con estos proveedores, nos
+            autoriza a acceder a la información básica de su perfil (nombre, correo electrónico e
+            imagen de perfil) conforme a la configuración de privacidad de cada plataforma.
           </p>
           <p>
             Nos reservamos el derecho de suspender o cancelar cualquier cuenta que viole estos
@@ -153,7 +162,9 @@ const toc: TocItem[] = [
         <h2 class="mb-4 text-xl font-bold text-[var(--color-text-primary)] md:text-2xl">
           4. Compras y pagos
         </h2>
-        <div class="space-y-3 text-sm leading-relaxed text-[var(--color-text-secondary)] md:text-base">
+        <div
+          class="space-y-3 text-sm leading-relaxed text-[var(--color-text-secondary)] md:text-base"
+        >
           <p>
             El proceso de compra y pago en 007-Sama es <strong>completamente simulado</strong>. A
             continuación se detallan los aspectos clave:
@@ -169,7 +180,10 @@ const toc: TocItem[] = [
             </li>
             <li>
               Las únicas tarjetas aceptadas son las tarjetas de prueba de Stripe, como
-              <code class="rounded bg-[var(--color-bg-elevated)] px-1.5 py-0.5 text-[var(--color-accent-neon)]">4242&nbsp;4242&nbsp;4242&nbsp;4242</code>.
+              <code
+                class="rounded bg-[var(--color-bg-elevated)] px-1.5 py-0.5 text-[var(--color-accent-neon)]"
+                >4242&nbsp;4242&nbsp;4242&nbsp;4242</code
+              >.
             </li>
             <li>
               No se emiten productos físicos ni digitales reales. Los "juegos" adquiridos no serán
@@ -187,18 +201,20 @@ const toc: TocItem[] = [
         <h2 class="mb-4 text-xl font-bold text-[var(--color-text-primary)] md:text-2xl">
           5. Propiedad intelectual
         </h2>
-        <div class="space-y-3 text-sm leading-relaxed text-[var(--color-text-secondary)] md:text-base">
+        <div
+          class="space-y-3 text-sm leading-relaxed text-[var(--color-text-secondary)] md:text-base"
+        >
           <p>
-            El código fuente de 007-Sama es de código abierto y se distribuye bajo la licencia
-            MIT. Esto significa que cualquier persona puede utilizar, modificar y distribuir el
-            código de acuerdo con los términos de dicha licencia.
+            El código fuente de 007-Sama es de código abierto y se distribuye bajo la licencia MIT.
+            Esto significa que cualquier persona puede utilizar, modificar y distribuir el código de
+            acuerdo con los términos de dicha licencia.
           </p>
           <p>
             Sin embargo, las imágenes, nombres, marcas comerciales y otros activos relacionados con
             videojuegos de terceros que aparecen en el Sitio son propiedad de sus respectivos
-            dueños. Esto incluye, entre otros, nombres de juegos, capturas de pantalla, logotipos
-            de plataformas (PlayStation, Xbox, Nintendo, Steam) y cualquier otro material protegido
-            por derechos de autor o marcas registradas.
+            dueños. Esto incluye, entre otros, nombres de juegos, capturas de pantalla, logotipos de
+            plataformas (PlayStation, Xbox, Nintendo, Steam) y cualquier otro material protegido por
+            derechos de autor o marcas registradas.
           </p>
           <p>
             El uso de estos materiales se realiza únicamente con fines demostrativos y educativos,
@@ -212,7 +228,9 @@ const toc: TocItem[] = [
         <h2 class="mb-4 text-xl font-bold text-[var(--color-text-primary)] md:text-2xl">
           6. Limitación de responsabilidad
         </h2>
-        <div class="space-y-3 text-sm leading-relaxed text-[var(--color-text-secondary)] md:text-base">
+        <div
+          class="space-y-3 text-sm leading-relaxed text-[var(--color-text-secondary)] md:text-base"
+        >
           <p>
             El Sitio se proporciona "tal cual" y "según disponibilidad", sin garantías de ningún
             tipo, ya sean expresas o implícitas, incluyendo pero no limitándose a garantías de
@@ -226,8 +244,8 @@ const toc: TocItem[] = [
           </p>
           <p>
             Recomendamos no utilizar información sensible o datos personales reales durante la
-            interacción con el Sitio, dado que las medidas de seguridad implementadas corresponden
-            a un entorno de desarrollo y no a un servicio de producción comercial.
+            interacción con el Sitio, dado que las medidas de seguridad implementadas corresponden a
+            un entorno de desarrollo y no a un servicio de producción comercial.
           </p>
         </div>
       </section>
@@ -236,11 +254,13 @@ const toc: TocItem[] = [
         <h2 class="mb-4 text-xl font-bold text-[var(--color-text-primary)] md:text-2xl">
           7. Privacidad
         </h2>
-        <div class="space-y-3 text-sm leading-relaxed text-[var(--color-text-secondary)] md:text-base">
+        <div
+          class="space-y-3 text-sm leading-relaxed text-[var(--color-text-secondary)] md:text-base"
+        >
           <p>
             El manejo de sus datos personales se rige por nuestra Política de Privacidad. Le
-            recomendamos leer detenidamente dicho documento para comprender cómo recopilamos,
-            usamos y protegemos su información.
+            recomendamos leer detenidamente dicho documento para comprender cómo recopilamos, usamos
+            y protegemos su información.
           </p>
           <p>
             <a
@@ -257,15 +277,17 @@ const toc: TocItem[] = [
         <h2 class="mb-4 text-xl font-bold text-[var(--color-text-primary)] md:text-2xl">
           8. Modificaciones
         </h2>
-        <div class="space-y-3 text-sm leading-relaxed text-[var(--color-text-secondary)] md:text-base">
+        <div
+          class="space-y-3 text-sm leading-relaxed text-[var(--color-text-secondary)] md:text-base"
+        >
           <p>
             Nos reservamos el derecho de modificar estos Términos del Servicio en cualquier momento.
             Los cambios entrarán en vigor inmediatamente después de su publicación en esta página.
           </p>
           <p>
             Notificaremos a los usuarios sobre cambios significativos actualizando la fecha de
-            "Última actualización" al inicio de esta página. El uso continuado del Sitio después
-            de dicha actualización constituye la aceptación de los nuevos términos.
+            "Última actualización" al inicio de esta página. El uso continuado del Sitio después de
+            dicha actualización constituye la aceptación de los nuevos términos.
           </p>
           <p>
             Le recomendamos revisar esta página periódicamente para mantenerse informado sobre
@@ -278,7 +300,9 @@ const toc: TocItem[] = [
         <h2 class="mb-4 text-xl font-bold text-[var(--color-text-primary)] md:text-2xl">
           9. Contacto
         </h2>
-        <div class="space-y-3 text-sm leading-relaxed text-[var(--color-text-secondary)] md:text-base">
+        <div
+          class="space-y-3 text-sm leading-relaxed text-[var(--color-text-secondary)] md:text-base"
+        >
           <p>
             Si tiene preguntas, inquietudes o comentarios sobre estos Términos del Servicio, puede
             comunicarse con nosotros a través del siguiente correo electrónico:

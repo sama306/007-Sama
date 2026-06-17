@@ -1,21 +1,21 @@
 ---
-import BaseLayout from '@layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro'
+import { getCollection } from 'astro:content'
 
-const publishedGames = await getCollection('games', ({ data }) => data.status === 'published');
+const publishedGames = await getCollection('games', ({ data }) => data.status === 'published')
 
 interface SearchEntry {
-  title: string;
-  slug: string;
-  description: string;
-  genre: string;
-  platform: string[];
-  price: number;
-  discount: number;
-  rating: number;
-  tags: string[];
-  developer: string;
-  image: string;
+  title: string
+  slug: string
+  description: string
+  genre: string
+  platform: string[]
+  price: number
+  discount: number
+  rating: number
+  tags: string[]
+  developer: string
+  image: string
 }
 
 const searchData: SearchEntry[] = publishedGames.map(({ data }) => ({
@@ -30,10 +30,14 @@ const searchData: SearchEntry[] = publishedGames.map(({ data }) => ({
   tags: data.tags,
   developer: data.developer,
   image: data.images[0] ?? '',
-}));
+}))
 ---
 
-<BaseLayout title="Buscar Juegos" description="Encuentra videojuegos en nuestro catálogo" noindex={true}>
+<BaseLayout
+  title="Buscar Juegos"
+  description="Encuentra videojuegos en nuestro catálogo"
+  noindex={true}
+>
   <div class="mx-auto max-w-[var(--max-width-content)] px-6 py-16">
     <div class="mx-auto mb-6 max-w-2xl text-center">
       <h1 class="mb-2 text-3xl font-bold text-[var(--color-text-primary)]">Buscar juegos</h1>
@@ -45,9 +49,15 @@ const searchData: SearchEntry[] = publishedGames.map(({ data }) => ({
     <div class="relative mx-auto mb-8 max-w-xl">
       <svg
         class="pointer-events-none absolute left-5 top-1/2 z-10 h-5 w-5 -translate-y-1/2 text-[var(--color-text-muted)]"
-        fill="none" viewBox="0 0 24 24" stroke="currentColor"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
       >
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
       </svg>
       <input
         id="search-input"
@@ -63,19 +73,46 @@ const searchData: SearchEntry[] = publishedGames.map(({ data }) => ({
 
     <div id="search-results" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       <div id="empty-state" class="col-span-full py-20 text-center">
-        <svg class="mx-auto mb-4 h-12 w-12 text-[var(--color-text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        <svg
+          class="mx-auto mb-4 h-12 w-12 text-[var(--color-text-muted)]"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
         </svg>
-        <p class="text-lg font-medium text-[var(--color-text-primary)]">Encontrá tu próximo juego favorito</p>
-        <p class="mt-1 text-sm text-[var(--color-text-muted)]">Escribí arriba para empezar a buscar</p>
+        <p class="text-lg font-medium text-[var(--color-text-primary)]">
+          Encontrá tu próximo juego favorito
+        </p>
+        <p class="mt-1 text-sm text-[var(--color-text-muted)]">
+          Escribí arriba para empezar a buscar
+        </p>
       </div>
 
       <div id="no-results" class="col-span-full hidden py-20 text-center">
-        <svg class="mx-auto mb-4 h-12 w-12 text-[var(--color-text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <svg
+          class="mx-auto mb-4 h-12 w-12 text-[var(--color-text-muted)]"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+            d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          ></path>
         </svg>
-        <p class="text-lg font-medium text-[var(--color-text-primary)]">No encontramos juegos para tu búsqueda</p>
-        <p class="mt-1 text-sm text-[var(--color-text-muted)]">Probá con otro título o explorá el catálogo completo.</p>
+        <p class="text-lg font-medium text-[var(--color-text-primary)]">
+          No encontramos juegos para tu búsqueda
+        </p>
+        <p class="mt-1 text-sm text-[var(--color-text-muted)]">
+          Probá con otro título o explorá el catálogo completo.
+        </p>
       </div>
     </div>
   </div>
@@ -83,66 +120,66 @@ const searchData: SearchEntry[] = publishedGames.map(({ data }) => ({
   <div id="search-data" data-json={JSON.stringify(searchData)} hidden></div>
 
   <script>
-    import Fuse from 'fuse.js';
+    import Fuse from 'fuse.js'
 
-    const dataEl = document.getElementById('search-data');
-    const data = JSON.parse(dataEl.dataset.json);
+    const dataEl = document.getElementById('search-data')
+    const data = JSON.parse(dataEl.dataset.json)
 
     const fuse = new Fuse(data, {
       keys: ['title'],
       threshold: 0.2,
       includeScore: true,
       minMatchCharLength: 2,
-    });
+    })
 
-    const input = document.getElementById('search-input');
-    const resultsContainer = document.getElementById('search-results');
-    const resultCount = document.getElementById('result-count');
-    const emptyState = document.getElementById('empty-state');
-    const noResults = document.getElementById('no-results');
+    const input = document.getElementById('search-input')
+    const resultsContainer = document.getElementById('search-results')
+    const resultCount = document.getElementById('result-count')
+    const emptyState = document.getElementById('empty-state')
+    const noResults = document.getElementById('no-results')
 
     const platformLabels = {
       pc: 'PC',
       ps5: 'PS5',
       'xbox-series-x': 'X/S',
       switch: 'Switch',
-    };
+    }
 
     function renderResults(fuseResults) {
-      const existing = resultsContainer.querySelectorAll('.search-result-card');
-      for (const el of existing) el.remove();
+      const existing = resultsContainer.querySelectorAll('.search-result-card')
+      for (const el of existing) el.remove()
 
-      emptyState.classList.add('hidden');
-      noResults.classList.add('hidden');
+      emptyState.classList.add('hidden')
+      noResults.classList.add('hidden')
 
-      const query = input.value.trim();
+      const query = input.value.trim()
 
       if (query.length === 0) {
-        emptyState.classList.remove('hidden');
-        resultCount.textContent = '';
-        return;
+        emptyState.classList.remove('hidden')
+        resultCount.textContent = ''
+        return
       }
 
       if (fuseResults.length === 0) {
-        noResults.classList.remove('hidden');
-        resultCount.textContent = '';
-        return;
+        noResults.classList.remove('hidden')
+        resultCount.textContent = ''
+        return
       }
 
-      resultCount.textContent = `${fuseResults.length} resultado${fuseResults.length !== 1 ? 's' : ''}`;
+      resultCount.textContent = `${fuseResults.length} resultado${fuseResults.length !== 1 ? 's' : ''}`
 
-      const fragment = document.createDocumentFragment();
+      const fragment = document.createDocumentFragment()
 
       for (const { item } of fuseResults) {
-        const discountedPrice = item.discount > 0
-          ? (item.price * (1 - item.discount / 100)).toFixed(2)
-          : null;
+        const discountedPrice =
+          item.discount > 0 ? (item.price * (1 - item.discount / 100)).toFixed(2) : null
 
-        const stars = Math.round(item.rating);
-        const emptyStars = 5 - stars;
+        const stars = Math.round(item.rating)
+        const emptyStars = 5 - stars
 
-        const card = document.createElement('article');
-        card.className = 'search-result-card card-hover group relative flex flex-col overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-card)]';
+        const card = document.createElement('article')
+        card.className =
+          'search-result-card card-hover group relative flex flex-col overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-card)]'
 
         card.innerHTML = `
           <a href="/games/${item.slug}" class="flex flex-col">
@@ -162,47 +199,48 @@ const searchData: SearchEntry[] = publishedGames.map(({ data }) => ({
                 ${item.platform.map((p) => `<span class="rounded border border-[var(--color-border)] px-1.5 py-0.5 text-[10px] font-medium uppercase text-[var(--color-text-muted)]">${platformLabels[p] || p}</span>`).join('')}
               </div>
               <div class="flex items-baseline gap-2">
-                ${discountedPrice
-                  ? `<span class="text-lg font-bold text-[var(--color-accent-primary)]">$${discountedPrice}</span><span class="text-sm text-[var(--color-text-muted)] line-through">$${item.price.toFixed(2)}</span>`
-                  : `<span class="text-lg font-bold text-[var(--color-text-primary)]">$${item.price.toFixed(2)}</span>`
+                ${
+                  discountedPrice
+                    ? `<span class="text-lg font-bold text-[var(--color-accent-primary)]">$${discountedPrice}</span><span class="text-sm text-[var(--color-text-muted)] line-through">$${item.price.toFixed(2)}</span>`
+                    : `<span class="text-lg font-bold text-[var(--color-text-primary)]">$${item.price.toFixed(2)}</span>`
                 }
               </div>
             </div>
           </a>
-        `;
+        `
 
-        fragment.appendChild(card);
+        fragment.appendChild(card)
       }
 
-      resultsContainer.appendChild(fragment);
+      resultsContainer.appendChild(fragment)
     }
 
     function doSearch() {
-      const query = input.value.trim();
-      const fuseResults = query.length >= 2 ? fuse.search(query) : [];
-      renderResults(fuseResults);
+      const query = input.value.trim()
+      const fuseResults = query.length >= 2 ? fuse.search(query) : []
+      renderResults(fuseResults)
 
-      const url = query ? `?q=${encodeURIComponent(query)}` : window.location.pathname;
-      history.replaceState(null, '', url);
+      const url = query ? `?q=${encodeURIComponent(query)}` : window.location.pathname
+      history.replaceState(null, '', url)
     }
 
-    input.addEventListener('input', doSearch);
+    input.addEventListener('input', doSearch)
 
     input.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
-        e.preventDefault();
-        doSearch();
+        e.preventDefault()
+        doSearch()
       }
       if (e.key === 'Escape') {
-        input.blur();
+        input.blur()
       }
-    });
+    })
 
-    const params = new URLSearchParams(window.location.search);
-    const q = params.get('q');
+    const params = new URLSearchParams(window.location.search)
+    const q = params.get('q')
     if (q) {
-      input.value = q;
-      doSearch();
+      input.value = q
+      doSearch()
     }
   </script>
 </BaseLayout>

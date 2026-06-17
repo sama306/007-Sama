@@ -1,23 +1,27 @@
 ---
-import BaseLayout from '@layouts/BaseLayout.astro';
-import JsonLd from '@components/seo/JsonLd.astro';
-import GameCard from '@components/game/GameCard.astro';
-import { getCollection } from 'astro:content';
-import { SITE_URL } from '@lib/constants';
+import BaseLayout from '@layouts/BaseLayout.astro'
+import JsonLd from '@components/seo/JsonLd.astro'
+import GameCard from '@components/game/GameCard.astro'
+import { getCollection } from 'astro:content'
+import { SITE_URL } from '@lib/constants'
 
-const userId = Astro.locals.user?.id ?? 'guest';
+const userId = Astro.locals.user?.id ?? 'guest'
 
-const allGames = await getCollection('games', ({ data }) => data.status === 'published');
+const allGames = await getCollection('games', ({ data }) => data.status === 'published')
 
-const featured = allGames.filter(({ data }) => data.featured);
+const featured = allGames.filter(({ data }) => data.featured)
 
 const sortedByDate = [...allGames].sort(
   (a, b) => b.data.releaseDate.getTime() - a.data.releaseDate.getTime(),
-);
-const newReleases = sortedByDate.slice(0, 4);
+)
+const newReleases = sortedByDate.slice(0, 4)
 ---
 
-<BaseLayout title="Descubrí los mejores videojuegos" description="Catálogo de videojuegos para PC, PS5, Xbox Series X y Nintendo Switch." type="website">
+<BaseLayout
+  title="Descubrí los mejores videojuegos"
+  description="Catálogo de videojuegos para PC, PS5, Xbox Series X y Nintendo Switch."
+  type="website"
+>
   <JsonLd
     schema={{
       '@context': 'https://schema.org',
@@ -34,14 +38,19 @@ const newReleases = sortedByDate.slice(0, 4);
   <section class="relative overflow-hidden bg-[var(--gradient-hero)]">
     <div class="mx-auto max-w-[var(--max-width-content)] px-6 py-24 md:py-32">
       <div class="animate-fade-in-up mx-auto max-w-3xl text-center">
-        <span class="mb-6 inline-block animate-glow-pulse rounded-full border border-[var(--color-border-accent)] bg-[var(--color-accent-glow)] px-4 py-1.5 text-sm font-medium text-[var(--color-accent-neon)]">
+        <span
+          class="mb-6 inline-block animate-glow-pulse rounded-full border border-[var(--color-border-accent)] bg-[var(--color-accent-glow)] px-4 py-1.5 text-sm font-medium text-[var(--color-accent-neon)]"
+        >
           🎮 +500 juegos disponibles
         </span>
-        <h1 class="font-[family-name:var(--font-display)] text-5xl font-bold leading-tight text-[var(--color-text-primary)] md:text-7xl">
+        <h1
+          class="font-[family-name:var(--font-display)] text-5xl font-bold leading-tight text-[var(--color-text-primary)] md:text-7xl"
+        >
           Descubrí los mejores<br />videojuegos
         </h1>
         <p class="mx-auto mt-6 max-w-2xl text-lg text-[var(--color-text-secondary)] md:text-xl">
-          Explorá el catálogo, seguí los nuevos lanzamientos y mantenete al día con las últimas noticias del mundo gamer.
+          Explorá el catálogo, seguí los nuevos lanzamientos y mantenete al día con las últimas
+          noticias del mundo gamer.
         </p>
         <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
           <a
@@ -61,49 +70,87 @@ const newReleases = sortedByDate.slice(0, 4);
     </div>
   </section>
 
-  {featured.length > 0 && (
-    <section class="mx-auto max-w-[var(--max-width-content)] px-6 py-20 stagger-children">
-      <h2 class="mb-2 text-2xl font-bold text-[var(--color-text-primary)]">Destacados</h2>
-      <p class="mb-8 text-sm text-[var(--color-text-muted)]">Los títulos más populares de nuestro catálogo</p>
-      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {featured.map((game) => <GameCard game={game} userId={userId} />)}
-      </div>
-    </section>
-  )}
+  {
+    featured.length > 0 && (
+      <section class="mx-auto max-w-[var(--max-width-content)] px-6 py-20 stagger-children">
+        <h2 class="mb-2 text-2xl font-bold text-[var(--color-text-primary)]">Destacados</h2>
+        <p class="mb-8 text-sm text-[var(--color-text-muted)]">
+          Los títulos más populares de nuestro catálogo
+        </p>
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {featured.map((game) => (
+            <GameCard game={game} userId={userId} />
+          ))}
+        </div>
+      </section>
+    )
+  }
 
   <section class="mx-auto max-w-[var(--max-width-content)] px-6 py-20 stagger-children">
     <h2 class="mb-2 text-2xl font-bold text-[var(--color-text-primary)]">¿Por qué elegirnos?</h2>
-    <p class="mb-10 text-sm text-[var(--color-text-muted)]">Todo lo que necesitás para disfrutar del gaming</p>
+    <p class="mb-10 text-sm text-[var(--color-text-muted)]">
+      Todo lo que necesitás para disfrutar del gaming
+    </p>
     <div class="grid gap-6 md:grid-cols-3">
-      <div class="card-hover rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] p-8">
-        <span class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-[var(--color-accent-glow)] text-2xl">🎯</span>
+      <div
+        class="card-hover rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] p-8"
+      >
+        <span
+          class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-[var(--color-accent-glow)] text-2xl"
+          >🎯</span
+        >
         <h3 class="mb-2 text-lg font-semibold text-[var(--color-text-primary)]">Catálogo curado</h3>
-        <p class="text-sm text-[var(--color-text-secondary)]">Solo los mejores títulos, seleccionados por gamers</p>
+        <p class="text-sm text-[var(--color-text-secondary)]">
+          Solo los mejores títulos, seleccionados por gamers
+        </p>
       </div>
-      <div class="card-hover rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] p-8">
-        <span class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-[var(--color-accent-glow)] text-2xl">🚀</span>
-        <h3 class="mb-2 text-lg font-semibold text-[var(--color-text-primary)]">Nuevos lanzamientos</h3>
-        <p class="text-sm text-[var(--color-text-secondary)]">Siempre actualizado con los últimos lanzamientos</p>
+      <div
+        class="card-hover rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] p-8"
+      >
+        <span
+          class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-[var(--color-accent-glow)] text-2xl"
+          >🚀</span
+        >
+        <h3 class="mb-2 text-lg font-semibold text-[var(--color-text-primary)]">
+          Nuevos lanzamientos
+        </h3>
+        <p class="text-sm text-[var(--color-text-secondary)]">
+          Siempre actualizado con los últimos lanzamientos
+        </p>
       </div>
-      <div class="card-hover rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] p-8">
-        <span class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-[var(--color-accent-glow)] text-2xl">📰</span>
+      <div
+        class="card-hover rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] p-8"
+      >
+        <span
+          class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-[var(--color-accent-glow)] text-2xl"
+          >📰</span
+        >
         <h3 class="mb-2 text-lg font-semibold text-[var(--color-text-primary)]">Noticias gaming</h3>
-        <p class="text-sm text-[var(--color-text-secondary)]">Las novedades más importantes del mundo gamer</p>
+        <p class="text-sm text-[var(--color-text-secondary)]">
+          Las novedades más importantes del mundo gamer
+        </p>
       </div>
     </div>
   </section>
 
-  {newReleases.length > 0 && (
-    <section class="mx-auto max-w-[var(--max-width-content)] px-6 pb-20 stagger-children">
-      <div class="mb-6 flex items-center justify-between">
-        <h2 class="text-2xl font-bold text-[var(--color-text-primary)]">Nuevos Lanzamientos</h2>
-        <a href="/new-releases" class="text-sm font-medium text-[var(--color-accent-secondary)] transition-colors hover:text-[var(--color-accent-neon)]">
-          Ver todos &rarr;
-        </a>
-      </div>
-      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {newReleases.map((game) => <GameCard game={game} userId={userId} />)}
-      </div>
-    </section>
-  )}
+  {
+    newReleases.length > 0 && (
+      <section class="mx-auto max-w-[var(--max-width-content)] px-6 pb-20 stagger-children">
+        <div class="mb-6 flex items-center justify-between">
+          <h2 class="text-2xl font-bold text-[var(--color-text-primary)]">Nuevos Lanzamientos</h2>
+          <a
+            href="/new-releases"
+            class="text-sm font-medium text-[var(--color-accent-secondary)] transition-colors hover:text-[var(--color-accent-neon)]"
+          >
+            Ver todos &rarr;
+          </a>
+        </div>
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {newReleases.map((game) => (
+            <GameCard game={game} userId={userId} />
+          ))}
+        </div>
+      </section>
+    )
+  }
 </BaseLayout>

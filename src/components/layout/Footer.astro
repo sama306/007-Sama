@@ -1,12 +1,11 @@
 ---
-
-const year = new Date().getFullYear();
+const year = new Date().getFullYear()
 const footerLinks = [
   { href: '/games', label: 'Catálogo' },
   { href: '/new-releases', label: 'Novedades' },
   { href: '/news', label: 'Noticias' },
   { href: '/search', label: 'Buscar' },
-];
+]
 ---
 
 <footer class="border-t border-[var(--color-border)] bg-[var(--color-bg-secondary)]">
@@ -21,25 +20,31 @@ const footerLinks = [
     </div>
 
     <div>
-      <h3 class="mb-3 text-sm font-semibold uppercase tracking-wider text-[var(--color-text-secondary)]">
+      <h3
+        class="mb-3 text-sm font-semibold uppercase tracking-wider text-[var(--color-text-secondary)]"
+      >
         Enlaces
       </h3>
       <ul class="space-y-2">
-        {footerLinks.map((link) => (
-          <li>
-            <a
-              href={link.href}
-              class="text-sm text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-accent)]"
-            >
-              {link.label}
-            </a>
-          </li>
-        ))}
+        {
+          footerLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="text-sm text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-accent)]"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
       </ul>
     </div>
 
     <div>
-      <h3 class="mb-3 text-sm font-semibold uppercase tracking-wider text-[var(--color-text-secondary)]">
+      <h3
+        class="mb-3 text-sm font-semibold uppercase tracking-wider text-[var(--color-text-secondary)]"
+      >
         Legal
       </h3>
       <ul class="space-y-2">

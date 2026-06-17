@@ -26,9 +26,9 @@ status: published
 
 ## Cooperativo con alma
 
-A diferencia del Elden Ring original, Nightreign está diseñado exclusivamente para el cooperativo de tres jugadores. Cada jugador elige un *Nightfarer*, una clase con habilidades únicas que van desde el combate cuerpo a cuerpo pesado hasta la magia de apoyo.
+A diferencia del Elden Ring original, Nightreign está diseñado exclusivamente para el cooperativo de tres jugadores. Cada jugador elige un _Nightfarer_, una clase con habilidades únicas que van desde el combate cuerpo a cuerpo pesado hasta la magia de apoyo.
 
-La estructura es similar a un *roguelite*: los jugadores exploran un mapa que cambia cada partida, derrotan jefes menores, recolectan mejoras y finalmente se enfrentan al jefe de la noche. Si caen, vuelven a empezar —pero conservan cierto progreso desbloqueable.
+La estructura es similar a un _roguelite_: los jugadores exploran un mapa que cambia cada partida, derrotan jefes menores, recolectan mejoras y finalmente se enfrentan al jefe de la noche. Si caen, vuelven a empezar —pero conservan cierto progreso desbloqueable.
 
 ## ¿Merece la pena?
 

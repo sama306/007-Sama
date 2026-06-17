@@ -1,3 +1,3 @@
-import { atom } from 'nanostores';
+import { atom } from 'nanostores'
 
-export const currentUserId = atom<string>('guest');
+export const currentUserId = atom<string>('guest')

@@ -25,7 +25,7 @@ status: published
 
 ## Una historia de resistencia
 
-Ambientado en los años oscuros entre *La Venganza de los Sith* y *Una Nueva Esperanza*, el juego sigue a un grupo de combatientes rebeldes conocido como "Zero Company". Sin entrenamiento Jedi, sin sables láser —solo astucia, determinación y mucho coraje.
+Ambientado en los años oscuros entre _La Venganza de los Sith_ y _Una Nueva Esperanza_, el juego sigue a un grupo de combatientes rebeldes conocido como "Zero Company". Sin entrenamiento Jedi, sin sables láser —solo astucia, determinación y mucho coraje.
 
 El juego adopta un enfoque táctico por escuadras. Controlas hasta cuatro miembros del equipo, cada uno con habilidades únicas: desde la especialista en sigilo hasta el experto en demoliciones. Los escenarios son misiones abiertas que pueden abordarse de múltiples formas.
 

@@ -1,15 +1,15 @@
 export interface SearchGame {
-  title: string;
-  slug: string;
-  description: string;
-  genre: string;
-  platform: string[];
-  price: number;
-  discount: number;
-  rating: number;
-  tags: string[];
-  developer: string;
-  image: string;
+  title: string
+  slug: string
+  description: string
+  genre: string
+  platform: string[]
+  price: number
+  discount: number
+  rating: number
+  tags: string[]
+  developer: string
+  image: string
 }
 
 export const fuseKeys = [
@@ -18,7 +18,7 @@ export const fuseKeys = [
   { name: 'tags', weight: 3 },
   { name: 'developer', weight: 1 },
   { name: 'genre', weight: 1 },
-];
+]
 
 export const fuseOptions = {
   keys: fuseKeys,
@@ -26,4 +26,4 @@ export const fuseOptions = {
   distance: 200,
   includeScore: true,
   minMatchCharLength: 2,
-};
+}

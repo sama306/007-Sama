@@ -1,17 +1,17 @@
-import { useStore } from '@nanostores/react';
-import { cartCount, toggleCart } from '@stores/cartStore';
-import { useEffect, useState } from 'react';
+import { useStore } from '@nanostores/react'
+import { cartCount, toggleCart } from '@stores/cartStore'
+import { useEffect, useState } from 'react'
 
 export default function CartCounter() {
-  const count = useStore(cartCount);
-  const [bounce, setBounce] = useState(false);
+  const count = useStore(cartCount)
+  const [bounce, setBounce] = useState(false)
 
   useEffect(() => {
-    if (count === 0) return;
-    setBounce(true);
-    const id = setTimeout(() => setBounce(false), 400);
-    return () => clearTimeout(id);
-  }, [count]);
+    if (count === 0) return
+    setBounce(true)
+    const id = setTimeout(() => setBounce(false), 400)
+    return () => clearTimeout(id)
+  }, [count])
 
   return (
     <button
@@ -45,5 +45,5 @@ export default function CartCounter() {
         </span>
       )}
     </button>
-  );
+  )
 }

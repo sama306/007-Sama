@@ -1,26 +1,37 @@
 ---
-import BaseLayout from '@layouts/BaseLayout.astro';
-import GameFilters from '@components/game/GameFilters.astro';
-import GameGrid from '@components/game/GameGrid.astro';
-import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro'
+import GameFilters from '@components/game/GameFilters.astro'
+import GameGrid from '@components/game/GameGrid.astro'
+import { getCollection } from 'astro:content'
 
-const userId = Astro.locals.user?.id ?? 'guest';
+const userId = Astro.locals.user?.id ?? 'guest'
 
-const allGames = await getCollection('games', ({ data }) => data.status === 'published');
+const allGames = await getCollection('games', ({ data }) => data.status === 'published')
 ---
 
-<BaseLayout title="Catálogo de Juegos" description="Explora nuestro catálogo completo de videojuegos para todas las plataformas.">
+<BaseLayout
+  title="Catálogo de Juegos"
+  description="Explora nuestro catálogo completo de videojuegos para todas las plataformas."
+>
   <div class="mx-auto max-w-[var(--max-width-content)] px-6 py-12">
     <div class="mb-10">
-      <h1 class="pl-4 text-3xl font-bold text-[var(--color-text-primary)]" style="border-left: 3px solid var(--color-accent-primary);">
+      <h1
+        class="pl-4 text-3xl font-bold text-[var(--color-text-primary)]"
+        style="border-left: 3px solid var(--color-accent-primary);"
+      >
         Catálogo
       </h1>
       <p class="mt-2 max-w-2xl text-sm text-[var(--color-text-secondary)]">
-        Explorá nuestra colección completa. Filtrá por plataforma, género o precio para encontrar tu próximo juego favorito.
+        Explorá nuestra colección completa. Filtrá por plataforma, género o precio para encontrar tu
+        próximo juego favorito.
       </p>
       <p class="mt-1 text-xs text-[var(--color-text-muted)]">
         <span id="filter-count">{allGames.length}</span> de {allGames.length} juegos
-        <a href="/games" id="clear-filters" class="ml-2 text-[var(--color-accent-secondary)] hover:text-[var(--color-accent-neon)] hidden">
+        <a
+          href="/games"
+          id="clear-filters"
+          class="ml-2 text-[var(--color-accent-secondary)] hover:text-[var(--color-accent-neon)] hidden"
+        >
           Limpiar filtros
         </a>
       </p>
@@ -36,20 +47,20 @@ const allGames = await getCollection('games', ({ data }) => data.status === 'pub
   </div>
 
   <script>
-    const applyBtn = document.getElementById('apply-filters');
-    const filterInputs = document.querySelectorAll('.filter-input');
-    const sortSelect = document.getElementById('filter-sort');
-    const cards = document.querySelectorAll('.game-card');
-    const gridContainer = document.getElementById('game-grid-container');
-    const countEl = document.getElementById('filter-count');
-    const clearBtn = document.getElementById('clear-filters');
+    const applyBtn = document.getElementById('apply-filters')
+    const filterInputs = document.querySelectorAll('.filter-input')
+    const sortSelect = document.getElementById('filter-sort')
+    const cards = document.querySelectorAll('.game-card')
+    const gridContainer = document.getElementById('game-grid-container')
+    const countEl = document.getElementById('filter-count')
+    const clearBtn = document.getElementById('clear-filters')
 
     function getParams() {
-      const genre = document.querySelector('input[name="genre"]:checked');
-      const platform = document.querySelector('input[name="platform"]:checked');
-      const price = document.querySelector('input[name="price"]:checked');
-      const rating = document.querySelector('input[name="rating"]:checked');
-      const sort = sortSelect.value;
+      const genre = document.querySelector('input[name="genre"]:checked')
+      const platform = document.querySelector('input[name="platform"]:checked')
+      const price = document.querySelector('input[name="price"]:checked')
+      const rating = document.querySelector('input[name="rating"]:checked')
+      const sort = sortSelect.value
 
       return {
         genre: genre ? genre.value : '',
@@ -57,141 +68,146 @@ const allGames = await getCollection('games', ({ data }) => data.status === 'pub
         price: price ? price.value : '',
         rating: rating ? rating.value : '0',
         sort,
-      };
+      }
     }
 
     function updateUrl(params) {
-      const searchParams = new URLSearchParams();
-      if (params.genre) searchParams.set('genre', params.genre);
-      if (params.platform) searchParams.set('platform', params.platform);
-      if (params.price) searchParams.set('price', params.price);
-      if (params.rating && params.rating !== '0') searchParams.set('rating', params.rating);
-      if (params.sort) searchParams.set('sort', params.sort);
+      const searchParams = new URLSearchParams()
+      if (params.genre) searchParams.set('genre', params.genre)
+      if (params.platform) searchParams.set('platform', params.platform)
+      if (params.price) searchParams.set('price', params.price)
+      if (params.rating && params.rating !== '0') searchParams.set('rating', params.rating)
+      if (params.sort) searchParams.set('sort', params.sort)
 
-      const qs = searchParams.toString();
-      const newUrl = qs ? `/games?${qs}` : '/games';
-      window.history.replaceState({}, '', newUrl);
+      const qs = searchParams.toString()
+      const newUrl = qs ? `/games?${qs}` : '/games'
+      window.history.replaceState({}, '', newUrl)
     }
 
     function priceFromValue(val, cardPrice) {
-      if (!val) return true;
-      if (val === '-20') return cardPrice <= 20;
-      if (val === '20-40') return cardPrice >= 20 && cardPrice <= 40;
-      if (val === '40-60') return cardPrice >= 40 && cardPrice <= 60;
-      if (val === '60-') return cardPrice >= 60;
-      return true;
+      if (!val) return true
+      if (val === '-20') return cardPrice <= 20
+      if (val === '20-40') return cardPrice >= 20 && cardPrice <= 40
+      if (val === '40-60') return cardPrice >= 40 && cardPrice <= 60
+      if (val === '60-') return cardPrice >= 60
+      return true
     }
 
     function filterAndSort() {
-      const params = getParams();
-      updateUrl(params);
+      const params = getParams()
+      updateUrl(params)
 
-      const visible = [];
-      const hidden = [];
+      const visible = []
+      const hidden = []
 
       cards.forEach((card) => {
-        const genre = card.dataset.genre;
-        const platforms = card.dataset.platforms.split(',');
-        const price = parseFloat(card.dataset.price);
-        const rating = parseFloat(card.dataset.rating);
-        let show = true;
+        const genre = card.dataset.genre
+        const platforms = card.dataset.platforms.split(',')
+        const price = parseFloat(card.dataset.price)
+        const rating = parseFloat(card.dataset.rating)
+        let show = true
 
-        if (params.genre && genre !== params.genre) show = false;
-        if (show && params.platform && !platforms.includes(params.platform)) show = false;
-        if (show && params.rating && rating < parseInt(params.rating)) show = false;
-        if (show && params.price && !priceFromValue(params.price, price)) show = false;
+        if (params.genre && genre !== params.genre) show = false
+        if (show && params.platform && !platforms.includes(params.platform)) show = false
+        if (show && params.rating && rating < parseInt(params.rating)) show = false
+        if (show && params.price && !priceFromValue(params.price, price)) show = false
 
-        if (show) visible.push(card);
-        else hidden.push(card);
-      });
+        if (show) visible.push(card)
+        else hidden.push(card)
+      })
 
       if (params.sort) {
         visible.sort((a, b) => {
-          const priceA = parseFloat(a.dataset.price);
-          const priceB = parseFloat(b.dataset.price);
-          const ratingA = parseFloat(a.dataset.rating);
-          const ratingB = parseFloat(b.dataset.rating);
+          const priceA = parseFloat(a.dataset.price)
+          const priceB = parseFloat(b.dataset.price)
+          const ratingA = parseFloat(a.dataset.rating)
+          const ratingB = parseFloat(b.dataset.rating)
 
           switch (params.sort) {
-            case 'price_asc': return priceA - priceB;
-            case 'price_desc': return priceB - priceA;
-            case 'rating': return ratingB - ratingA;
+            case 'price_asc':
+              return priceA - priceB
+            case 'price_desc':
+              return priceB - priceA
+            case 'rating':
+              return ratingB - ratingA
             case 'release_date':
-              return (a.dataset.release || '').localeCompare(b.dataset.release || '') * -1;
-            default: return 0;
+              return (a.dataset.release || '').localeCompare(b.dataset.release || '') * -1
+            default:
+              return 0
           }
-        });
+        })
       }
 
-      const container = gridContainer?.querySelector('.grid') || gridContainer;
+      const container = gridContainer?.querySelector('.grid') || gridContainer
       if (container) {
-        hidden.forEach((c) => c.remove());
-        visible.forEach((c) => container.appendChild(c));
+        hidden.forEach((c) => c.remove())
+        visible.forEach((c) => container.appendChild(c))
       }
 
       cards.forEach((c) => {
-        c.style.display = visible.includes(c) ? '' : 'none';
-      });
+        c.style.display = visible.includes(c) ? '' : 'none'
+      })
 
-      countEl.textContent = visible.length;
+      countEl.textContent = visible.length
 
-      const hasFilters = params.genre || params.platform || params.price || (params.rating && params.rating !== '0');
-      clearBtn.classList.toggle('hidden', !hasFilters);
+      const hasFilters =
+        params.genre || params.platform || params.price || (params.rating && params.rating !== '0')
+      clearBtn.classList.toggle('hidden', !hasFilters)
     }
 
     function restoreFromUrl() {
-      const urlParams = new URLSearchParams(window.location.search);
+      const urlParams = new URLSearchParams(window.location.search)
 
-      const genre = urlParams.get('genre');
-      const platform = urlParams.get('platform');
-      const price = urlParams.get('price');
-      const rating = urlParams.get('rating');
-      const sort = urlParams.get('sort');
+      const genre = urlParams.get('genre')
+      const platform = urlParams.get('platform')
+      const price = urlParams.get('price')
+      const rating = urlParams.get('rating')
+      const sort = urlParams.get('sort')
 
       if (genre) {
-        const el = document.querySelector(`input[name="genre"][value="${genre}"]`);
-        if (el) el.checked = true;
+        const el = document.querySelector(`input[name="genre"][value="${genre}"]`)
+        if (el) el.checked = true
       }
       if (platform) {
-        const el = document.querySelector(`input[name="platform"][value="${platform}"]`);
-        if (el) el.checked = true;
+        const el = document.querySelector(`input[name="platform"][value="${platform}"]`)
+        if (el) el.checked = true
       }
       if (price) {
-        const el = document.querySelector(`input[name="price"][value="${price}"]`);
-        if (el) el.checked = true;
+        const el = document.querySelector(`input[name="price"][value="${price}"]`)
+        if (el) el.checked = true
       }
       if (rating) {
-        const el = document.querySelector(`input[name="rating"][value="${rating}"]`);
-        if (el) el.checked = true;
+        const el = document.querySelector(`input[name="rating"][value="${rating}"]`)
+        if (el) el.checked = true
       }
       if (sort && sortSelect) {
-        sortSelect.value = sort;
+        sortSelect.value = sort
       }
 
       if (genre || platform || price || rating) {
-        filterAndSort();
+        filterAndSort()
       }
     }
 
     applyBtn?.addEventListener('click', (e) => {
-      e.preventDefault();
-      filterAndSort();
-    });
+      e.preventDefault()
+      filterAndSort()
+    })
 
     clearBtn?.addEventListener('click', (e) => {
-      e.preventDefault();
-      const firstGenre = document.querySelector('input[name="genre"][value=""]');
-      const firstPlatform = document.querySelector('input[name="platform"][value=""]');
-      const firstPrice = document.querySelector('input[name="price"][value=""]');
-      const firstRating = document.querySelector('input[name="rating"][value="0"]');
-      if (firstGenre) firstGenre.checked = true;
-      if (firstPlatform) firstPlatform.checked = true;
-      if (firstPrice) firstPrice.checked = true;
-      if (firstRating) firstRating.checked = true;
-      if (sortSelect) sortSelect.value = '';
-      filterAndSort();
-    });
+      e.preventDefault()
+      const firstGenre = document.querySelector('input[name="genre"][value=""]')
+      const firstPlatform = document.querySelector('input[name="platform"][value=""]')
+      const firstPrice = document.querySelector('input[name="price"][value=""]')
+      const firstRating = document.querySelector('input[name="rating"][value="0"]')
+      if (firstGenre) firstGenre.checked = true
+      if (firstPlatform) firstPlatform.checked = true
+      if (firstPrice) firstPrice.checked = true
+      if (firstRating) firstRating.checked = true
+      if (sortSelect) sortSelect.value = ''
+      filterAndSort()
+    })
 
-    restoreFromUrl();
+    restoreFromUrl()
   </script>
 </BaseLayout>

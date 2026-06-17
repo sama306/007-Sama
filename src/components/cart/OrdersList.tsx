@@ -1,16 +1,16 @@
-import { useState, useEffect, useCallback } from 'react';
-import { getOrders } from '@stores/ordersStore';
-import type { Order } from '@/types/cart';
+import { useState, useEffect, useCallback } from 'react'
+import { getOrders } from '@stores/ordersStore'
+import type { Order } from '@/types/cart'
 
 interface Props {
-  userId: string;
+  userId: string
 }
 
 const statusConfig: Record<string, { label: string; color: string }> = {
   completed: { label: 'Completado', color: '#22c55e' },
   pending: { label: 'Pendiente', color: '#f59e0b' },
   refunded: { label: 'Reembolsado', color: '#ef4444' },
-};
+}
 
 function OrderDetail({ order }: { order: Order }) {
   return (
@@ -21,10 +21,20 @@ function OrderDetail({ order }: { order: Order }) {
           {order.items.map((item) => (
             <div key={item.id} className="flex items-center gap-3">
               <div className="h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-[var(--color-bg-secondary)]">
-                <img src={item.image} alt={item.title} className="h-full w-full object-cover" width="64" height="64" loading="lazy" decoding="async" />
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="h-full w-full object-cover"
+                  width="64"
+                  height="64"
+                  loading="lazy"
+                  decoding="async"
+                />
               </div>
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-medium text-[var(--color-text-primary)]">{item.title}</p>
+                <p className="truncate text-sm font-medium text-[var(--color-text-primary)]">
+                  {item.title}
+                </p>
                 <p className="text-xs text-[var(--color-text-muted)]">
                   {item.platform} &times;{item.quantity}
                 </p>
@@ -39,66 +49,93 @@ function OrderDetail({ order }: { order: Order }) {
           <h4 className="text-sm font-semibold text-[var(--color-text-primary)]">Resumen</h4>
           <div className="flex justify-between">
             <span className="text-[var(--color-text-secondary)]">Subtotal</span>
-            <span className="font-medium text-[var(--color-text-primary)]">${order.subtotal.toFixed(2)}</span>
+            <span className="font-medium text-[var(--color-text-primary)]">
+              ${order.subtotal.toFixed(2)}
+            </span>
           </div>
           <div className="flex justify-between">
             <span className="text-[var(--color-text-secondary)]">IVA (21%)</span>
-            <span className="font-medium text-[var(--color-text-primary)]">${(order.total - order.subtotal).toFixed(2)}</span>
+            <span className="font-medium text-[var(--color-text-primary)]">
+              ${(order.total - order.subtotal).toFixed(2)}
+            </span>
           </div>
           <hr className="border-[var(--color-border)]" />
           <div className="flex justify-between text-base">
             <span className="font-semibold text-[var(--color-text-primary)]">Total</span>
-            <span className="font-bold text-[var(--color-accent-neon)]">${order.total.toFixed(2)}</span>
+            <span className="font-bold text-[var(--color-accent-neon)]">
+              ${order.total.toFixed(2)}
+            </span>
           </div>
           <div className="pt-2">
-            <p className="text-xs text-[var(--color-text-muted)]">ID de sesión: <span className="font-mono">{order.id}</span></p>
+            <p className="text-xs text-[var(--color-text-muted)]">
+              ID de sesión: <span className="font-mono">{order.id}</span>
+            </p>
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export default function OrdersList({ userId }: Props) {
-  const [allOrders, setAllOrders] = useState<Order[]>(() => getOrders(userId));
-  const [expandedId, setExpandedId] = useState<string | null>(null);
-  const [pdfStates, setPdfStates] = useState<Record<string, 'idle' | 'generating' | 'downloaded'>>({});
+  const [allOrders, setAllOrders] = useState<Order[]>(() => getOrders(userId))
+  const [expandedId, setExpandedId] = useState<string | null>(null)
+  const [pdfStates, setPdfStates] = useState<Record<string, 'idle' | 'generating' | 'downloaded'>>(
+    {},
+  )
 
   const handleDownload = useCallback(async (order: Order) => {
-    const id = order.id;
-    setPdfStates((prev) => ({ ...prev, [id]: 'generating' }));
+    const id = order.id
+    setPdfStates((prev) => ({ ...prev, [id]: 'generating' }))
     try {
-      const { generateOrderPDF } = await import('@lib/pdf');
-      generateOrderPDF(order);
-      setPdfStates((prev) => ({ ...prev, [id]: 'downloaded' }));
+      const { generateOrderPDF } = await import('@lib/pdf')
+      generateOrderPDF(order)
+      setPdfStates((prev) => ({ ...prev, [id]: 'downloaded' }))
       setTimeout(() => {
-        setPdfStates((prev) => ({ ...prev, [id]: 'idle' }));
-      }, 1500);
+        setPdfStates((prev) => ({ ...prev, [id]: 'idle' }))
+      }, 1500)
     } catch (err) {
-      console.error('Error generating PDF:', err);
-      setPdfStates((prev) => ({ ...prev, [id]: 'idle' }));
+      console.error('Error generating PDF:', err)
+      setPdfStates((prev) => ({ ...prev, [id]: 'idle' }))
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
-    setAllOrders(getOrders(userId));
-  }, [userId]);
+    setAllOrders(getOrders(userId))
+  }, [userId])
 
   if (allOrders.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-24 text-center">
-        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="mb-6 text-[var(--color-text-muted)]">
+        <svg
+          width="64"
+          height="64"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="mb-6 text-[var(--color-text-muted)]"
+        >
           <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
           <line x1="3" y1="6" x2="21" y2="6" />
           <path d="M16 10a4 4 0 0 1-8 0" />
         </svg>
-        <p className="mb-2 text-lg font-medium text-[var(--color-text-primary)]">Todavía no realizaste ningún pedido</p>
-        <p className="mb-8 text-sm text-[var(--color-text-muted)]">Completá una compra para ver tus pedidos aquí.</p>
-        <a href="/games" className="rounded-lg bg-[var(--color-accent-primary)] px-8 py-3 text-sm font-semibold text-white transition-all hover:bg-[var(--color-accent-secondary)] hover:shadow-[0_0_20px_var(--color-accent-glow)]">
+        <p className="mb-2 text-lg font-medium text-[var(--color-text-primary)]">
+          Todavía no realizaste ningún pedido
+        </p>
+        <p className="mb-8 text-sm text-[var(--color-text-muted)]">
+          Completá una compra para ver tus pedidos aquí.
+        </p>
+        <a
+          href="/games"
+          className="rounded-lg bg-[var(--color-accent-primary)] px-8 py-3 text-sm font-semibold text-white transition-all hover:bg-[var(--color-accent-secondary)] hover:shadow-[0_0_20px_var(--color-accent-glow)]"
+        >
           Explorar catálogo
         </a>
       </div>
-    );
+    )
   }
 
   return (
@@ -161,21 +198,58 @@ export default function OrdersList({ userId }: Props) {
                   <td className="py-4">
                     <div className="flex items-center gap-2">
                       <button
-                        onClick={(e) => { e.stopPropagation(); handleDownload(order); }}
-                        disabled={pdfStates[order.id] !== undefined && pdfStates[order.id] !== 'idle'}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleDownload(order)
+                        }}
+                        disabled={
+                          pdfStates[order.id] !== undefined && pdfStates[order.id] !== 'idle'
+                        }
                         className="inline-flex items-center gap-1.5 rounded-md border border-[var(--color-accent-primary)] px-2.5 py-1 text-xs font-medium text-[var(--color-accent-primary)] transition-all hover:bg-[var(--color-accent-primary)] hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
                       >
                         {pdfStates[order.id] === 'generating' ? (
                           <>Generando&hellip;</>
                         ) : pdfStates[order.id] === 'downloaded' ? (
-                          <><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>Descargado</>
+                          <>
+                            <svg
+                              width="12"
+                              height="12"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                            Descargado
+                          </>
                         ) : (
-                          <><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>Descargar PDF</>
+                          <>
+                            <svg
+                              width="12"
+                              height="12"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                              <polyline points="7 10 12 15 17 10" />
+                              <line x1="12" y1="15" x2="12" y2="3" />
+                            </svg>
+                            Descargar PDF
+                          </>
                         )}
                       </button>
                       <svg
                         className="h-4 w-4 text-[var(--color-text-muted)] transition-transform"
-                        style={{ transform: expandedId === order.id ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                        style={{
+                          transform: expandedId === order.id ? 'rotate(180deg)' : 'rotate(0deg)',
+                        }}
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
@@ -190,7 +264,10 @@ export default function OrdersList({ userId }: Props) {
                 </tr>
                 {expandedId === order.id && (
                   <tr key={`${order.id}-detail`}>
-                    <td colSpan={7} className="border-b border-[var(--color-border)] bg-[var(--color-bg-secondary)]">
+                    <td
+                      colSpan={7}
+                      className="border-b border-[var(--color-border)] bg-[var(--color-bg-secondary)]"
+                    >
                       <OrderDetail order={order} />
                     </td>
                   </tr>
@@ -262,9 +339,39 @@ export default function OrdersList({ userId }: Props) {
                     {pdfStates[order.id] === 'generating' ? (
                       <>Generando&hellip;</>
                     ) : pdfStates[order.id] === 'downloaded' ? (
-                      <><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg> Descargado</>
+                      <>
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>{' '}
+                        Descargado
+                      </>
                     ) : (
-                      <><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg> Descargar PDF</>
+                      <>
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                          <polyline points="7 10 12 15 17 10" />
+                          <line x1="12" y1="15" x2="12" y2="3" />
+                        </svg>{' '}
+                        Descargar PDF
+                      </>
                     )}
                   </button>
                 </div>
@@ -274,5 +381,5 @@ export default function OrdersList({ userId }: Props) {
         ))}
       </div>
     </div>
-  );
+  )
 }

@@ -16,7 +16,10 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 
     if (isRateLimited(ip)) {
       return new Response(
-        JSON.stringify({ error: 'RATE_LIMIT', message: 'Esperá 15 minutos antes de intentar de nuevo.' }),
+        JSON.stringify({
+          error: 'RATE_LIMIT',
+          message: 'Esperá 15 minutos antes de intentar de nuevo.',
+        }),
         { status: 429, headers: { 'Content-Type': 'application/json' } },
       )
     }
@@ -59,7 +62,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     return new Response(
       JSON.stringify({
         success: true,
-        message: 'Si el email existe, recibirás un correo con instrucciones para restablecer tu contraseña.',
+        message:
+          'Si el email existe, recibirás un correo con instrucciones para restablecer tu contraseña.',
       }),
       { status: 200, headers: { 'Content-Type': 'application/json' } },
     )

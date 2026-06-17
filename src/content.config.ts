@@ -1,5 +1,5 @@
-import { defineCollection, z } from 'astro:content';
-import { glob } from 'astro/loaders';
+import { defineCollection, z } from 'astro:content'
+import { glob } from 'astro/loaders'
 
 const gamesCollection = defineCollection({
   loader: glob({ pattern: '**/[^_]*.md', base: './src/content/games' }),
@@ -10,15 +10,7 @@ const gamesCollection = defineCollection({
     price: z.number().positive(),
     discount: z.number().min(0).max(100).default(0),
     platform: z.array(z.enum(['pc', 'ps5', 'xbox-series-x', 'switch'])),
-    genre: z.enum([
-      'action',
-      'rpg',
-      'strategy',
-      'adventure',
-      'simulation',
-      'sports',
-      'horror',
-    ]),
+    genre: z.enum(['action', 'rpg', 'strategy', 'adventure', 'simulation', 'sports', 'horror']),
     developer: z.string(),
     publisher: z.string().optional(),
     releaseDate: z.coerce.date(),
@@ -43,7 +35,7 @@ const gamesCollection = defineCollection({
       })
       .optional(),
   }),
-});
+})
 
 const newsCollection = defineCollection({
   loader: glob({ pattern: '**/[^_]*.md', base: './src/content/news' }),
@@ -68,6 +60,6 @@ const newsCollection = defineCollection({
     relatedGames: z.array(z.string()).default([]),
     status: z.enum(['published', 'draft']).default('draft'),
   }),
-});
+})
 
-export const collections = { games: gamesCollection, news: newsCollection };
+export const collections = { games: gamesCollection, news: newsCollection }

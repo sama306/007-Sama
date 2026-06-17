@@ -1,7 +1,7 @@
 ---
-import CartCounter from '@components/cart/CartCounter';
-import CartDrawer from '@components/cart/CartDrawer';
-import UserMenu from '@components/layout/UserMenu';
+import CartCounter from '@components/cart/CartCounter'
+import CartDrawer from '@components/cart/CartDrawer'
+import UserMenu from '@components/layout/UserMenu'
 
 const navLinks = [
   { href: '/', label: 'Inicio' },
@@ -9,34 +9,44 @@ const navLinks = [
   { href: '/new-releases', label: 'Novedades' },
   { href: '/news', label: 'Noticias' },
   { href: '/search', label: 'Buscar' },
-];
+]
 ---
 
-<header id="site-header" class="sticky top-0 z-50 border-b border-[var(--color-border)] bg-[var(--color-bg-primary)]/80 backdrop-blur-[12px] transition-shadow duration-300">
-  <div
-    class="mx-auto flex h-16 max-w-[var(--max-width-content)] items-center justify-between px-6"
-  >
-    <a href="/" class="text-xl font-bold tracking-tight text-[var(--color-accent-secondary)] transition-colors hover:text-[var(--color-accent-neon)]">
+<header
+  id="site-header"
+  class="sticky top-0 z-50 border-b border-[var(--color-border)] bg-[var(--color-bg-primary)]/80 backdrop-blur-[12px] transition-shadow duration-300"
+>
+  <div class="mx-auto flex h-16 max-w-[var(--max-width-content)] items-center justify-between px-6">
+    <a
+      href="/"
+      class="text-xl font-bold tracking-tight text-[var(--color-accent-secondary)] transition-colors hover:text-[var(--color-accent-neon)]"
+    >
       007-Sama
     </a>
 
     <nav class="hidden items-center gap-8 sm:flex">
-      {navLinks.map((link) => (
-        <a
-          href={link.href}
-          class="nav-link text-sm font-medium"
-        >
-          {link.label}
-        </a>
-      ))}
+      {
+        navLinks.map((link) => (
+          <a href={link.href} class="nav-link text-sm font-medium">
+            {link.label}
+          </a>
+        ))
+      }
     </nav>
 
     <div class="flex items-center gap-3">
       <UserMenu client:load />
       <CartCounter client:load />
       <button class="sm:hidden text-[var(--color-text-primary)]" aria-label="Menú">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M3 12h18M3 6h18M3 18h18" />
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M3 12h18M3 6h18M3 18h18"></path>
         </svg>
       </button>
     </div>
@@ -45,24 +55,24 @@ const navLinks = [
 <CartDrawer client:load />
 
 <script>
-  const header = document.getElementById('site-header');
-  let ticking = false;
+  const header = document.getElementById('site-header')
+  let ticking = false
 
   function updateShadow() {
     if (window.scrollY > 16) {
-      header.classList.add('shadow-[0_4px_30px_rgba(0,0,0,0.3)]');
+      header.classList.add('shadow-[0_4px_30px_rgba(0,0,0,0.3)]')
     } else {
-      header.classList.remove('shadow-[0_4px_30px_rgba(0,0,0,0.3)]');
+      header.classList.remove('shadow-[0_4px_30px_rgba(0,0,0,0.3)]')
     }
-    ticking = false;
+    ticking = false
   }
 
   document.addEventListener('scroll', () => {
     if (!ticking) {
-      requestAnimationFrame(updateShadow);
-      ticking = true;
+      requestAnimationFrame(updateShadow)
+      ticking = true
     }
-  });
+  })
 
-  updateShadow();
+  updateShadow()
 </script>

@@ -28,8 +28,9 @@ Rockstar Games ha confirmado que **Grand Theft Auto VI** ha roto todos los réco
 Según datos proporcionados por Take-Two Interactive, las reservas de GTA VI han superado los **$1.2 mil millones de dólares** a nivel global, tres meses antes de su lanzamiento previsto para el **15 de septiembre de 2026**.
 
 Para ponerlo en contexto:
-- Supera en un 40% las preventas de *Call of Duty: Modern Warfare II*
-- Duplica las cifras de *GTA V* en el mismo período
+
+- Supera en un 40% las preventas de _Call of Duty: Modern Warfare II_
+- Duplica las cifras de _GTA V_ en el mismo período
 - Es el juego más reservado en PlayStation Store y Xbox Store simultáneamente
 
 ## El fenómeno cultural

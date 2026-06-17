@@ -1,13 +1,16 @@
 ---
-import BaseLayout from '@layouts/BaseLayout.astro';
-import CartPageItems from '@components/cart/CartPageItems';
-import CartSummary from '@components/cart/CartSummary';
+import BaseLayout from '@layouts/BaseLayout.astro'
+import CartPageItems from '@components/cart/CartPageItems'
+import CartSummary from '@components/cart/CartSummary'
 
-export const prerender = true;
+export const prerender = true
 ---
 
-<BaseLayout title="Carrito de Compras" description="Revisa los juegos en tu carrito de compras en 007-Sama." noindex={true}>
-
+<BaseLayout
+  title="Carrito de Compras"
+  description="Revisa los juegos en tu carrito de compras en 007-Sama."
+  noindex={true}
+>
   <section class="mx-auto max-w-[var(--max-width-content)] px-6 py-12">
     <h1 class="animate-fade-in-up mb-8 text-3xl font-bold text-[var(--color-text-primary)]">
       Tu carrito

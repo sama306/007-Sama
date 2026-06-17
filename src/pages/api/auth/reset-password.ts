@@ -67,10 +67,10 @@ export const POST: APIRoute = async ({ request }) => {
     await updateUserPassword(validation.email, password)
     consumeResetToken(token)
 
-    return new Response(
-      JSON.stringify({ success: true }),
-      { status: 200, headers: { 'Content-Type': 'application/json' } },
-    )
+    return new Response(JSON.stringify({ success: true }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    })
   } catch (err) {
     console.error('[reset-password]', err)
     return new Response(

@@ -1,4 +1,4 @@
-import { useStore } from '@nanostores/react';
+import { useStore } from '@nanostores/react'
 import {
   cartItems,
   cartSubtotal,
@@ -6,13 +6,13 @@ import {
   removeFromCart,
   updateQuantity,
   toggleCart,
-} from '@stores/cartStore';
-import { addToast } from '@stores/toastStore';
+} from '@stores/cartStore'
+import { addToast } from '@stores/toastStore'
 
 export default function CartDrawer() {
-  const items = useStore(cartItems);
-  const subtotal = useStore(cartSubtotal);
-  const open = useStore(isCartOpen);
+  const items = useStore(cartItems)
+  const subtotal = useStore(cartSubtotal)
+  const open = useStore(isCartOpen)
 
   return (
     <>
@@ -29,15 +29,22 @@ export default function CartDrawer() {
         }`}
       >
         <div className="flex items-center justify-between border-b border-[var(--color-border)] px-5 py-4">
-          <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">
-            Carrito
-          </h2>
+          <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">Carrito</h2>
           <button
             onClick={toggleCart}
             className="rounded-lg p-1.5 text-[var(--color-text-muted)] transition-colors hover:bg-[var(--color-bg-elevated)] hover:text-[var(--color-text-primary)]"
             aria-label="Cerrar carrito"
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <line x1="18" y1="6" x2="6" y2="18" />
               <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
@@ -62,20 +69,14 @@ export default function CartDrawer() {
                 <circle cx="20" cy="21" r="1" />
                 <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
               </svg>
-              <p className="text-sm text-[var(--color-text-muted)]">
-                Tu carrito está vacío
-              </p>
+              <p className="text-sm text-[var(--color-text-muted)]">Tu carrito está vacío</p>
             </div>
           ) : (
             <ul className="divide-y divide-[var(--color-border)]">
               {items.map((item) => (
                 <li key={item.id} className="flex gap-4 px-5 py-4">
                   <div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-[var(--color-bg-secondary)]">
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="h-full w-full object-cover"
-                    />
+                    <img src={item.image} alt={item.title} className="h-full w-full object-cover" />
                   </div>
                   <div className="flex flex-1 flex-col justify-between gap-1.5 min-w-0">
                     <div className="flex items-start justify-between gap-2">
@@ -83,16 +84,26 @@ export default function CartDrawer() {
                         <h3 className="truncate text-sm font-medium text-[var(--color-text-primary)]">
                           {item.title}
                         </h3>
-                        <p className="text-xs text-[var(--color-text-muted)]">
-                          {item.platform}
-                        </p>
+                        <p className="text-xs text-[var(--color-text-muted)]">{item.platform}</p>
                       </div>
                       <button
-                        onClick={() => { removeFromCart(item.id); addToast('info', 'Producto eliminado'); }}
+                        onClick={() => {
+                          removeFromCart(item.id)
+                          addToast('info', 'Producto eliminado')
+                        }}
                         className="shrink-0 rounded p-1 text-[var(--color-text-muted)] transition-colors hover:bg-[var(--color-bg-elevated)] hover:text-[var(--color-error)]"
                         aria-label={`Eliminar ${item.title}`}
                       >
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
                           <polyline points="3 6 5 6 21 6" />
                           <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
                         </svg>
@@ -148,5 +159,5 @@ export default function CartDrawer() {
         )}
       </div>
     </>
-  );
+  )
 }

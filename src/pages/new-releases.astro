@@ -1,31 +1,31 @@
 ---
-import { Image } from 'astro:assets';
-import BaseLayout from '@layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets'
+import BaseLayout from '@layouts/BaseLayout.astro'
+import { getCollection } from 'astro:content'
 
-const allGames = await getCollection('games', ({ data }) => data.status === 'published');
+const allGames = await getCollection('games', ({ data }) => data.status === 'published')
 
-const today = new Date();
-const thirtyDaysAgo = new Date();
-thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+const today = new Date()
+const thirtyDaysAgo = new Date()
+thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
 
 const justReleased = allGames
   .filter(({ data }) => {
-    const rd = new Date(data.releaseDate);
-    return rd <= today && rd >= thirtyDaysAgo;
+    const rd = new Date(data.releaseDate)
+    return rd <= today && rd >= thirtyDaysAgo
   })
-  .sort((a, b) => new Date(b.data.releaseDate).getTime() - new Date(a.data.releaseDate).getTime());
+  .sort((a, b) => new Date(b.data.releaseDate).getTime() - new Date(a.data.releaseDate).getTime())
 
 const upcoming = allGames
   .filter(({ data }) => new Date(data.releaseDate) > today)
-  .sort((a, b) => new Date(a.data.releaseDate).getTime() - new Date(b.data.releaseDate).getTime());
+  .sort((a, b) => new Date(a.data.releaseDate).getTime() - new Date(b.data.releaseDate).getTime())
 
 const platformLabels: Record<string, string> = {
   pc: 'PC',
   ps5: 'PS5',
   'xbox-series-x': 'X/S',
   switch: 'Switch',
-};
+}
 
 const genreLabels: Record<string, string> = {
   action: 'Acción',
@@ -35,14 +35,14 @@ const genreLabels: Record<string, string> = {
   simulation: 'Simulación',
   sports: 'Deportes',
   horror: 'Terror',
-};
+}
 
 function formatDate(date: Date): string {
-  return date.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+  return date.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })
 }
 
 function daysUntil(date: Date): number {
-  return Math.ceil((date.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+  return Math.ceil((date.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
 }
 ---
 
@@ -52,9 +52,12 @@ function daysUntil(date: Date): number {
 >
   <section class="relative overflow-hidden bg-[var(--gradient-hero)]">
     <div class="mx-auto max-w-[var(--max-width-content)] px-6 py-20 text-center">
-      <h1 class="mb-4 text-4xl font-bold text-[var(--color-text-primary)] md:text-5xl">Nuevos Lanzamientos</h1>
+      <h1 class="mb-4 text-4xl font-bold text-[var(--color-text-primary)] md:text-5xl">
+        Nuevos Lanzamientos
+      </h1>
       <p class="mx-auto max-w-2xl text-base text-[var(--color-text-secondary)]">
-        Los juegos más esperados, recién llegados y próximos a lanzarse. Seguí de cerca los títulos que están dando que hablar.
+        Los juegos más esperados, recién llegados y próximos a lanzarse. Seguí de cerca los títulos
+        que están dando que hablar.
       </p>
     </div>
   </section>
@@ -64,15 +67,16 @@ function daysUntil(date: Date): number {
       justReleased.length > 0 && (
         <section class="mb-16 stagger-children">
           <div class="mb-6 flex items-center gap-3">
-            <span class="rounded bg-[#ef4444] px-2.5 py-0.5 text-xs font-bold text-white">NUEVO</span>
+            <span class="rounded bg-[#ef4444] px-2.5 py-0.5 text-xs font-bold text-white">
+              NUEVO
+            </span>
             <h2 class="text-xl font-semibold text-[var(--color-text-primary)]">Recién Lanzados</h2>
           </div>
 
           <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {justReleased.map(({ data }) => {
-              const discountedPrice = data.discount > 0
-                ? (data.price * (1 - data.discount / 100)).toFixed(2)
-                : null;
+              const discountedPrice =
+                data.discount > 0 ? (data.price * (1 - data.discount / 100)).toFixed(2) : null
               return (
                 <a
                   href={`/games/${data.slug}`}
@@ -95,7 +99,9 @@ function daysUntil(date: Date): number {
                   </div>
 
                   <div class="flex flex-1 flex-col gap-2 p-4">
-                    <h3 class="text-base font-semibold text-[var(--color-text-primary)]">{data.title}</h3>
+                    <h3 class="text-base font-semibold text-[var(--color-text-primary)]">
+                      {data.title}
+                    </h3>
 
                     <div class="flex items-center gap-2 text-xs text-[var(--color-text-muted)]">
                       <span>{genreLabels[data.genre] ?? data.genre}</span>
@@ -105,21 +111,29 @@ function daysUntil(date: Date): number {
                       <span>{formatDate(new Date(data.releaseDate))}</span>
                     </div>
 
-                    <p class="text-xs text-[var(--color-text-muted)] line-clamp-2">{data.description}</p>
+                    <p class="text-xs text-[var(--color-text-muted)] line-clamp-2">
+                      {data.description}
+                    </p>
 
                     <div class="mt-auto flex items-baseline gap-2">
                       {discountedPrice ? (
                         <>
-                          <span class="text-lg font-bold text-[var(--color-accent-primary)]">${discountedPrice}</span>
-                          <span class="text-sm text-[var(--color-text-muted)] line-through">${data.price.toFixed(2)}</span>
+                          <span class="text-lg font-bold text-[var(--color-accent-primary)]">
+                            ${discountedPrice}
+                          </span>
+                          <span class="text-sm text-[var(--color-text-muted)] line-through">
+                            ${data.price.toFixed(2)}
+                          </span>
                         </>
                       ) : (
-                        <span class="text-lg font-bold text-[var(--color-text-primary)]">${data.price.toFixed(2)}</span>
+                        <span class="text-lg font-bold text-[var(--color-text-primary)]">
+                          ${data.price.toFixed(2)}
+                        </span>
                       )}
                     </div>
                   </div>
                 </a>
-              );
+              )
             })}
           </div>
         </section>
@@ -130,13 +144,17 @@ function daysUntil(date: Date): number {
       upcoming.length > 0 && (
         <section class="mb-16 stagger-children">
           <div class="mb-6 flex items-center gap-3">
-            <span class="rounded bg-[var(--color-accent-primary)] px-2.5 py-0.5 text-xs font-bold text-white">PRÓXIMO</span>
-            <h2 class="text-xl font-semibold text-[var(--color-text-primary)]">Próximos Lanzamientos</h2>
+            <span class="rounded bg-[var(--color-accent-primary)] px-2.5 py-0.5 text-xs font-bold text-white">
+              PRÓXIMO
+            </span>
+            <h2 class="text-xl font-semibold text-[var(--color-text-primary)]">
+              Próximos Lanzamientos
+            </h2>
           </div>
 
           <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {upcoming.map(({ data }) => {
-              const remainingDays = daysUntil(new Date(data.releaseDate));
+              const remainingDays = daysUntil(new Date(data.releaseDate))
               return (
                 <a
                   href={`/games/${data.slug}`}
@@ -159,7 +177,9 @@ function daysUntil(date: Date): number {
                   </div>
 
                   <div class="flex flex-1 flex-col gap-2 p-4">
-                    <h3 class="text-base font-semibold text-[var(--color-text-primary)]">{data.title}</h3>
+                    <h3 class="text-base font-semibold text-[var(--color-text-primary)]">
+                      {data.title}
+                    </h3>
 
                     <div class="flex items-center gap-2 text-xs text-[var(--color-text-muted)]">
                       <span>{genreLabels[data.genre] ?? data.genre}</span>
@@ -167,22 +187,28 @@ function daysUntil(date: Date): number {
                       <span>{data.platform.map((p) => platformLabels[p] ?? p).join(', ')}</span>
                     </div>
 
-                    <p class="text-xs text-[var(--color-text-muted)] line-clamp-2">{data.description}</p>
+                    <p class="text-xs text-[var(--color-text-muted)] line-clamp-2">
+                      {data.description}
+                    </p>
 
                     <div class="mt-auto rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)] p-3">
                       <p class="text-xs text-[var(--color-text-muted)]">Lanzamiento</p>
-                      <p class="text-sm font-semibold text-[var(--color-text-primary)]">{formatDate(new Date(data.releaseDate))}</p>
+                      <p class="text-sm font-semibold text-[var(--color-text-primary)]">
+                        {formatDate(new Date(data.releaseDate))}
+                      </p>
                       <p class="mt-0.5 text-xs text-[var(--color-accent-secondary)]">
                         {remainingDays === 1 ? 'Mañana' : `Faltan ${remainingDays} días`}
                       </p>
                     </div>
 
                     <div class="flex items-baseline gap-2">
-                      <span class="text-lg font-bold text-[var(--color-text-primary)]">${data.price.toFixed(2)}</span>
+                      <span class="text-lg font-bold text-[var(--color-text-primary)]">
+                        ${data.price.toFixed(2)}
+                      </span>
                     </div>
                   </div>
                 </a>
-              );
+              )
             })}
           </div>
         </section>
@@ -192,11 +218,25 @@ function daysUntil(date: Date): number {
     {
       justReleased.length === 0 && upcoming.length === 0 && (
         <div class="py-20 text-center">
-          <svg class="mx-auto mb-4 h-12 w-12 text-[var(--color-text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+          <svg
+            class="mx-auto mb-4 h-12 w-12 text-[var(--color-text-muted)]"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+            />
           </svg>
-          <p class="text-lg font-medium text-[var(--color-text-primary)]">No hay novedades por ahora</p>
-          <p class="mt-1 text-sm text-[var(--color-text-muted)]">Vuelve pronto para ver nuevos lanzamientos.</p>
+          <p class="text-lg font-medium text-[var(--color-text-primary)]">
+            No hay novedades por ahora
+          </p>
+          <p class="mt-1 text-sm text-[var(--color-text-muted)]">
+            Vuelve pronto para ver nuevos lanzamientos.
+          </p>
         </div>
       )
     }

@@ -1,45 +1,50 @@
-import { useState, useCallback, useEffect } from 'react';
-import { useStore } from '@nanostores/react';
-import { currentUserId } from '@stores/authStore';
-import { isInWishlist, addToWishlist, removeFromWishlist } from '@stores/wishlistStore';
-import { addToast } from '@stores/toastStore';
+import { useState, useCallback, useEffect } from 'react'
+import { useStore } from '@nanostores/react'
+import { currentUserId } from '@stores/authStore'
+import { isInWishlist, addToWishlist, removeFromWishlist } from '@stores/wishlistStore'
+import { addToast } from '@stores/toastStore'
 
 interface Props {
-  slug: string;
-  userId: string;
-  title?: string;
-  variant?: 'icon' | 'text';
+  slug: string
+  userId: string
+  title?: string
+  variant?: 'icon' | 'text'
 }
 
-export default function WishlistButton({ slug, userId: propUserId, title, variant = 'icon' }: Props) {
-  const storeUserId = useStore(currentUserId);
-  const effectiveUserId = propUserId !== 'guest' ? propUserId : storeUserId;
-  const [active, setActive] = useState(() => isInWishlist(effectiveUserId, slug));
-  const [animating, setAnimating] = useState(false);
+export default function WishlistButton({
+  slug,
+  userId: propUserId,
+  title,
+  variant = 'icon',
+}: Props) {
+  const storeUserId = useStore(currentUserId)
+  const effectiveUserId = propUserId !== 'guest' ? propUserId : storeUserId
+  const [active, setActive] = useState(() => isInWishlist(effectiveUserId, slug))
+  const [animating, setAnimating] = useState(false)
 
   useEffect(() => {
-    setActive(isInWishlist(effectiveUserId, slug));
-  }, [effectiveUserId, slug]);
+    setActive(isInWishlist(effectiveUserId, slug))
+  }, [effectiveUserId, slug])
 
   const handleClick = useCallback(
     (e: React.MouseEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (animating) return;
-      setAnimating(true);
+      e.preventDefault()
+      e.stopPropagation()
+      if (animating) return
+      setAnimating(true)
       if (active) {
-        removeFromWishlist(effectiveUserId, slug);
-        setActive(false);
-        addToast('info', 'Eliminado de tu lista de deseos');
+        removeFromWishlist(effectiveUserId, slug)
+        setActive(false)
+        addToast('info', 'Eliminado de tu lista de deseos')
       } else {
-        addToWishlist(effectiveUserId, slug);
-        setActive(true);
-        addToast('success', 'Agregado a tu lista de deseos ♥');
+        addToWishlist(effectiveUserId, slug)
+        setActive(true)
+        addToast('success', 'Agregado a tu lista de deseos ♥')
       }
-      setTimeout(() => setAnimating(false), 300);
+      setTimeout(() => setAnimating(false), 300)
     },
     [slug, effectiveUserId, active, animating],
-  );
+  )
 
   if (variant === 'text') {
     return (
@@ -59,7 +64,7 @@ export default function WishlistButton({ slug, userId: propUserId, title, varian
         <span style={{ color: '#ef4444' }}>{active ? '♥' : '♡'}</span>
         {active ? 'Quitar de favoritos' : 'Agregar a favoritos'}
       </button>
-    );
+    )
   }
 
   return (
@@ -77,9 +82,7 @@ export default function WishlistButton({ slug, userId: propUserId, title, varian
         transition: 'transform 0.3s ease-out',
       }}
     >
-      <span style={{ fontSize: '16px', lineHeight: 1 }}>
-        {active ? '♥' : '♡'}
-      </span>
+      <span style={{ fontSize: '16px', lineHeight: 1 }}>{active ? '♥' : '♡'}</span>
     </button>
-  );
+  )
 }

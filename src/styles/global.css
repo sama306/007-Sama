@@ -26,7 +26,12 @@
     min-height: 100dvh;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-display);
     line-height: 1.2;
     font-weight: 700;
@@ -63,7 +68,8 @@
     font-size: inherit;
   }
 
-  ul, ol {
+  ul,
+  ol {
     list-style: none;
   }
 
@@ -85,7 +91,9 @@
 
   /* Primary button hover */
   .btn-primary {
-    transition: background 0.2s ease, box-shadow 0.2s ease;
+    transition:
+      background 0.2s ease,
+      box-shadow 0.2s ease;
   }
 
   .btn-primary:hover {

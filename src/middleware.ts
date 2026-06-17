@@ -1,16 +1,16 @@
-import { getSession } from 'auth-astro/server';
-import { defineMiddleware } from 'astro/middleware';
+import { getSession } from 'auth-astro/server'
+import { defineMiddleware } from 'astro/middleware'
 
-const SSR_PREFIXES = ['/account', '/checkout', '/api'];
-const PROTECTED_PREFIXES = ['/account', '/checkout'];
+const SSR_PREFIXES = ['/account', '/checkout', '/api']
+const PROTECTED_PREFIXES = ['/account', '/checkout']
 
 export const onRequest = defineMiddleware(async (context, next) => {
-  const { pathname } = context.url;
-  const needsSession = SSR_PREFIXES.some((p) => pathname.startsWith(p));
+  const { pathname } = context.url
+  const needsSession = SSR_PREFIXES.some((p) => pathname.startsWith(p))
 
-  const session = needsSession ? await getSession(context.request) : null;
+  const session = needsSession ? await getSession(context.request) : null
 
-  context.locals.session = session;
+  context.locals.session = session
 
   context.locals.user = session?.user
     ? {
@@ -18,16 +18,21 @@ export const onRequest = defineMiddleware(async (context, next) => {
         name: session.user.name ?? '',
         email: session.user.email ?? '',
         image: (session.user as { image?: string }).image ?? undefined,
-        role: ((session.user as { role?: string }).role ?? 'user') as 'guest' | 'user' | 'premium' | 'editor' | 'admin',
+        role: ((session.user as { role?: string }).role ?? 'user') as
+          | 'guest'
+          | 'user'
+          | 'premium'
+          | 'editor'
+          | 'admin',
       }
-    : null;
+    : null
 
   if (PROTECTED_PREFIXES.some((p) => pathname.startsWith(p))) {
     if (!session) {
-      const redirect = encodeURIComponent(pathname);
-      return context.redirect(`/auth/login?redirect=${redirect}`);
+      const redirect = encodeURIComponent(pathname)
+      return context.redirect(`/auth/login?redirect=${redirect}`)
     }
   }
 
-  return next();
-});
+  return next()
+})

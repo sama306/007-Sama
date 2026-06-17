@@ -1,21 +1,21 @@
-import Stripe from 'stripe';
-import { getCollection } from 'astro:content';
-import type { CollectionEntry } from 'astro:content';
-import type { CartItem } from '@/types/cart';
+import Stripe from 'stripe'
+import { getCollection } from 'astro:content'
+import type { CollectionEntry } from 'astro:content'
+import type { CartItem } from '@/types/cart'
 
-export const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY);
+export const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY)
 
 export async function createCheckoutSession(items: CartItem[], origin: string) {
-  const games = await getCollection('games');
+  const games = await getCollection('games')
 
   const line_items = items.map((item) => {
-    const game = games.find((g: CollectionEntry<'games'>) => g.data.slug === item.slug);
+    const game = games.find((g: CollectionEntry<'games'>) => g.data.slug === item.slug)
     if (!game) {
-      throw new Error(`Game not found: ${item.slug}`);
+      throw new Error(`Game not found: ${item.slug}`)
     }
 
-    const discountedPrice = game.data.price * (1 - game.data.discount / 100);
-    const unitAmount = Math.round(discountedPrice * 100);
+    const discountedPrice = game.data.price * (1 - game.data.discount / 100)
+    const unitAmount = Math.round(discountedPrice * 100)
 
     return {
       price_data: {
@@ -27,14 +27,14 @@ export async function createCheckoutSession(items: CartItem[], origin: string) {
         unit_amount: unitAmount,
       },
       quantity: item.quantity,
-    };
-  });
+    }
+  })
 
   const metadataItems = items.map((i) => ({
     slug: i.slug,
     quantity: i.quantity,
     platform: i.platform,
-  }));
+  }))
 
   const session = await stripe.checkout.sessions.create({
     mode: 'payment',
@@ -44,7 +44,7 @@ export async function createCheckoutSession(items: CartItem[], origin: string) {
     metadata: {
       items: JSON.stringify(metadataItems),
     },
-  });
+  })
 
-  return session;
+  return session
 }

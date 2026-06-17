@@ -1,39 +1,38 @@
 ---
-import BaseLayout from '@layouts/BaseLayout.astro';
-import SaveOrder from '@components/cart/SaveOrder';
-import { stripe } from '@lib/stripe';
-import { getCollection } from 'astro:content';
-import type { CartItem } from '@/types/cart';
+import BaseLayout from '@layouts/BaseLayout.astro'
+import SaveOrder from '@components/cart/SaveOrder'
+import { stripe } from '@lib/stripe'
+import { getCollection } from 'astro:content'
+import type { CartItem } from '@/types/cart'
 
-export const prerender = false;
+export const prerender = false
 
-const url = new URL(Astro.request.url);
-const sessionId = url.searchParams.get('session_id');
+const url = new URL(Astro.request.url)
+const sessionId = url.searchParams.get('session_id')
 
 if (!sessionId) {
-  return Astro.redirect('/');
+  return Astro.redirect('/')
 }
 
-let session;
+let session
 try {
-  session = await stripe.checkout.sessions.retrieve(sessionId);
+  session = await stripe.checkout.sessions.retrieve(sessionId)
 } catch {
-  return Astro.redirect('/');
+  return Astro.redirect('/')
 }
 
-const userId = Astro.locals.user?.id ?? 'guest';
+const userId = Astro.locals.user?.id ?? 'guest'
 
-const metaItems: Array<{ slug: string; quantity: number; platform: string }> = session.metadata?.items
+const metaItems: Array<{ slug: string; quantity: number; platform: string }> = session.metadata
+  ?.items
   ? JSON.parse(session.metadata.items)
-  : [];
+  : []
 
-const games = await getCollection('games');
+const games = await getCollection('games')
 
 const cartItems: CartItem[] = metaItems.map((item) => {
-  const game = games.find((g) => g.data.slug === item.slug);
-  const discountedPrice = game
-    ? game.data.price * (1 - game.data.discount / 100)
-    : 0;
+  const game = games.find((g) => g.data.slug === item.slug)
+  const discountedPrice = game ? game.data.price * (1 - game.data.discount / 100) : 0
   return {
     id: `${item.slug}-${item.platform}`,
     slug: item.slug,
@@ -42,13 +41,13 @@ const cartItems: CartItem[] = metaItems.map((item) => {
     quantity: item.quantity,
     image: game?.data.images[0] ?? '',
     platform: item.platform,
-  };
-});
+  }
+})
 
-const amountTotal = session.amount_total ? (session.amount_total / 100).toFixed(2) : '0.00';
-const customerEmail = session.customer_details?.email ?? '';
-const paymentStatus = session.payment_status;
-const orderDate = new Date().toISOString();
+const amountTotal = session.amount_total ? (session.amount_total / 100).toFixed(2) : '0.00'
+const customerEmail = session.customer_details?.email ?? ''
+const paymentStatus = session.payment_status
+const orderDate = new Date().toISOString()
 ---
 
 <BaseLayout title="Compra confirmada — 007-Sama">
@@ -67,14 +66,41 @@ const orderDate = new Date().toISOString();
 
   <section class="mx-auto flex max-w-2xl flex-col items-center px-6 py-16 text-center">
     <div class="mb-8">
-      <svg class="mx-auto h-20 w-20" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="40" cy="40" r="36" stroke="var(--color-success)" stroke-width="4" fill="none"
-          stroke-dasharray="226" stroke-dashoffset="226">
-          <animate attributeName="stroke-dashoffset" from="226" to="0" dur="0.6s" fill="freeze" />
+      <svg
+        class="mx-auto h-20 w-20"
+        viewBox="0 0 80 80"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle
+          cx="40"
+          cy="40"
+          r="36"
+          stroke="var(--color-success)"
+          stroke-width="4"
+          fill="none"
+          stroke-dasharray="226"
+          stroke-dashoffset="226"
+        >
+          <animate attributeName="stroke-dashoffset" from="226" to="0" dur="0.6s" fill="freeze"
+          ></animate>
         </circle>
-        <path d="M28 42l8 8 16-16" stroke="var(--color-success)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"
-          stroke-dasharray="50" stroke-dashoffset="50">
-          <animate attributeName="stroke-dashoffset" from="50" to="0" dur="0.4s" begin="0.5s" fill="freeze" />
+        <path
+          d="M28 42l8 8 16-16"
+          stroke="var(--color-success)"
+          stroke-width="4"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-dasharray="50"
+          stroke-dashoffset="50"
+        >
+          <animate
+            attributeName="stroke-dashoffset"
+            from="50"
+            to="0"
+            dur="0.4s"
+            begin="0.5s"
+            fill="freeze"></animate>
         </path>
       </svg>
     </div>
@@ -87,18 +113,22 @@ const orderDate = new Date().toISOString();
       {paymentStatus === 'paid' && ' El pago fue confirmado.'}
     </p>
 
-    <div class="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] p-6 text-left">
+    <div
+      class="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] p-6 text-left"
+    >
       <h2 class="mb-4 text-base font-semibold text-[var(--color-text-primary)]">
         Detalles del pedido
       </h2>
 
       <div class="space-y-3 text-sm">
-        {customerEmail && (
-          <div class="flex justify-between">
-            <span class="text-[var(--color-text-secondary)]">Email</span>
-            <span class="font-medium text-[var(--color-text-primary)]">{customerEmail}</span>
-          </div>
-        )}
+        {
+          customerEmail && (
+            <div class="flex justify-between">
+              <span class="text-[var(--color-text-secondary)]">Email</span>
+              <span class="font-medium text-[var(--color-text-primary)]">{customerEmail}</span>
+            </div>
+          )
+        }
         <div class="flex justify-between">
           <span class="text-[var(--color-text-secondary)]">Total</span>
           <span class="font-bold text-[var(--color-accent-neon)]">${amountTotal} USD</span>
@@ -109,26 +139,26 @@ const orderDate = new Date().toISOString();
         </div>
       </div>
 
-      {metaItems.length > 0 && (
-        <>
-          <hr class="my-4 border-[var(--color-border)]" />
-          <h3 class="mb-3 text-sm font-semibold text-[var(--color-text-primary)]">
-            Productos
-          </h3>
-          <div class="space-y-2">
-            {metaItems.map((item, i) => (
-              <div key={i} class="flex items-center justify-between text-sm">
-                <span class="font-medium text-[var(--color-text-primary)]">
-                  {item.slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
-                </span>
-                <span class="text-[var(--color-text-muted)]">
-                  {item.platform} &times;{item.quantity}
-                </span>
-              </div>
-            ))}
-          </div>
-        </>
-      )}
+      {
+        metaItems.length > 0 && (
+          <>
+            <hr class="my-4 border-[var(--color-border)]" />
+            <h3 class="mb-3 text-sm font-semibold text-[var(--color-text-primary)]">Productos</h3>
+            <div class="space-y-2">
+              {metaItems.map((item, i) => (
+                <div key={i} class="flex items-center justify-between text-sm">
+                  <span class="font-medium text-[var(--color-text-primary)]">
+                    {item.slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
+                  </span>
+                  <span class="text-[var(--color-text-muted)]">
+                    {item.platform} &times;{item.quantity}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </>
+        )
+      }
     </div>
 
     <p class="mt-8 text-sm text-[var(--color-text-muted)]">

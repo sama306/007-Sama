@@ -1,41 +1,40 @@
-import { useEffect } from 'react';
-import { cartItems } from '@stores/cartStore';
-import { currentUserId } from '@stores/authStore';
-import { migrateGuestWishlist } from '@stores/wishlistStore';
-import { migrateGuestOrders } from '@stores/ordersStore';
-import { addToast } from '@stores/toastStore';
+import { useEffect } from 'react'
+import { cartItems } from '@stores/cartStore'
+import { currentUserId } from '@stores/authStore'
+import { migrateGuestWishlist } from '@stores/wishlistStore'
+import { migrateGuestOrders } from '@stores/ordersStore'
+import { addToast } from '@stores/toastStore'
 
-const RECOVERED_FLAG = '007-sama-cart-recovered';
+const RECOVERED_FLAG = '007-sama-cart-recovered'
 
 export default function AuthCartSync() {
   useEffect(() => {
-    const flag = sessionStorage.getItem(RECOVERED_FLAG);
-    if (flag) return;
-
-    (async () => {
+    const flag = sessionStorage.getItem(RECOVERED_FLAG)
+    if (flag) return
+    ;(async () => {
       try {
-        const res = await fetch('/api/auth/session');
-        const session = await res.json();
-        if (!session || !session.user) return;
+        const res = await fetch('/api/auth/session')
+        const session = await res.json()
+        if (!session || !session.user) return
 
-        const userId = session.user.id;
-        if (!userId || userId === 'guest') return;
+        const userId = session.user.id
+        if (!userId || userId === 'guest') return
 
-        migrateGuestWishlist(userId);
-        migrateGuestOrders(userId);
+        migrateGuestWishlist(userId)
+        migrateGuestOrders(userId)
 
-        currentUserId.set(userId);
+        currentUserId.set(userId)
 
-        const items = cartItems.get();
+        const items = cartItems.get()
         if (items.length > 0) {
-          addToast('info', 'Tu carrito fue recuperado.');
-          sessionStorage.setItem(RECOVERED_FLAG, 'true');
+          addToast('info', 'Tu carrito fue recuperado.')
+          sessionStorage.setItem(RECOVERED_FLAG, 'true')
         }
       } catch {
         /* noop */
       }
-    })();
-  }, []);
+    })()
+  }, [])
 
-  return null;
+  return null
 }

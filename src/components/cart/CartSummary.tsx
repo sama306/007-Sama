@@ -1,59 +1,59 @@
-import { useStore } from '@nanostores/react';
-import { cartItems, cartSubtotal } from '@stores/cartStore';
-import { useState, useCallback } from 'react';
+import { useStore } from '@nanostores/react'
+import { cartItems, cartSubtotal } from '@stores/cartStore'
+import { useState, useCallback } from 'react'
 
-const TAX_RATE = 0.21;
-const VALID_COUPON = 'PORTFOLIO2026';
-const DISCOUNT_RATE = 0.1;
+const TAX_RATE = 0.21
+const VALID_COUPON = 'PORTFOLIO2026'
+const DISCOUNT_RATE = 0.1
 
 export default function CartSummary() {
-  const items = useStore(cartItems);
-  const subtotal = useStore(cartSubtotal);
-  const [coupon, setCoupon] = useState('');
-  const [discount, setDiscount] = useState(0);
-  const [couponError, setCouponError] = useState('');
-  const [couponApplied, setCouponApplied] = useState(false);
+  const items = useStore(cartItems)
+  const subtotal = useStore(cartSubtotal)
+  const [coupon, setCoupon] = useState('')
+  const [discount, setDiscount] = useState(0)
+  const [couponError, setCouponError] = useState('')
+  const [couponApplied, setCouponApplied] = useState(false)
 
-  const [checkingOut, setCheckingOut] = useState(false);
+  const [checkingOut, setCheckingOut] = useState(false)
 
   const handleCheckout = useCallback(async () => {
-    setCheckingOut(true);
+    setCheckingOut(true)
     try {
       const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ items }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? 'Error al procesar el checkout');
-      window.location.href = data.url;
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error ?? 'Error al procesar el checkout')
+      window.location.href = data.url
     } catch (err) {
-      alert(err instanceof Error ? err.message : 'Error al procesar el checkout');
-      setCheckingOut(false);
+      alert(err instanceof Error ? err.message : 'Error al procesar el checkout')
+      setCheckingOut(false)
     }
-  }, [items]);
+  }, [items])
 
-  const tax = subtotal * TAX_RATE;
-  const total = subtotal + tax - discount;
+  const tax = subtotal * TAX_RATE
+  const total = subtotal + tax - discount
 
   const handleApplyCoupon = () => {
-    const code = coupon.trim().toUpperCase();
+    const code = coupon.trim().toUpperCase()
     if (!code) {
-      setCouponError('Ingresá un código');
-      return;
+      setCouponError('Ingresá un código')
+      return
     }
     if (code === VALID_COUPON) {
-      setDiscount(subtotal * DISCOUNT_RATE);
-      setCouponApplied(true);
-      setCouponError('');
+      setDiscount(subtotal * DISCOUNT_RATE)
+      setCouponApplied(true)
+      setCouponError('')
     } else {
-      setCouponError('Código inválido');
-      setDiscount(0);
-      setCouponApplied(false);
+      setCouponError('Código inválido')
+      setDiscount(0)
+      setCouponApplied(false)
     }
-  };
+  }
 
-  if (items.length === 0) return null;
+  if (items.length === 0) return null
 
   return (
     <div className="sticky top-24 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] p-6">
@@ -71,9 +71,7 @@ export default function CartSummary() {
 
         <div className="flex items-center justify-between">
           <span className="text-[var(--color-text-secondary)]">IVA (21%)</span>
-          <span className="font-medium text-[var(--color-text-primary)]">
-            ${tax.toFixed(2)}
-          </span>
+          <span className="font-medium text-[var(--color-text-primary)]">${tax.toFixed(2)}</span>
         </div>
 
         {discount > 0 && (
@@ -99,8 +97,8 @@ export default function CartSummary() {
             type="text"
             value={coupon}
             onChange={(e) => {
-              setCoupon(e.target.value);
-              setCouponError('');
+              setCoupon(e.target.value)
+              setCouponError('')
             }}
             placeholder="Código de descuento"
             className="flex-1 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-primary)] px-3 py-2 text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] outline-none transition-colors focus:border-[var(--color-accent-primary)]"
@@ -113,9 +111,7 @@ export default function CartSummary() {
             Aplicar
           </button>
         </div>
-        {couponError && (
-          <p className="text-xs text-[var(--color-error)]">{couponError}</p>
-        )}
+        {couponError && <p className="text-xs text-[var(--color-error)]">{couponError}</p>}
         {couponApplied && (
           <p className="text-xs text-[var(--color-success)]">¡Código aplicado! 10% de descuento.</p>
         )}
@@ -140,5 +136,5 @@ export default function CartSummary() {
         🔒 Pago seguro con Stripe
       </p>
     </div>
-  );
+  )
 }

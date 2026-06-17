@@ -1,14 +1,17 @@
-import { randomBytes } from 'node:crypto';
+import { randomBytes } from 'node:crypto'
 
 /**
  * En producción guardar tokens en DB con tabla password_reset_tokens
  * y eliminarlos automáticamente con un cron job.
  */
-const resetTokens = new Map<string, {
-  email: string
-  expiresAt: number
-  used: boolean
-}>()
+const resetTokens = new Map<
+  string,
+  {
+    email: string
+    expiresAt: number
+    used: boolean
+  }
+>()
 
 export function generateResetToken(email: string): string {
   const token = randomBytes(32).toString('hex')
