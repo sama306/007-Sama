@@ -101,7 +101,9 @@ jobs:
           name: dist
           path: dist/
 
-      - run: echo "SITE_URL=http://localhost:4321" >> .env
+      - run: |
+          echo "SITE_URL=http://localhost:4321" >> .env
+          echo "AUTH_SECRET=ci-test-secret-do-not-use-in-production" >> .env
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm test:e2e
 

@@ -8,7 +8,15 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const { pathname } = context.url
   const needsSession = SSR_PREFIXES.some((p) => pathname.startsWith(p))
 
-  const session = needsSession ? await getSession(context.request) : null
+  let session = null
+
+  if (needsSession) {
+    try {
+      session = await getSession(context.request)
+    } catch (error) {
+      console.error('Auth middleware error:', error)
+    }
+  }
 
   context.locals.session = session
 
