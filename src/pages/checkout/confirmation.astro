@@ -50,7 +50,11 @@ const paymentStatus = session.payment_status
 const orderDate = new Date().toISOString()
 ---
 
-<BaseLayout title="Compra confirmada — 007-Sama">
+<BaseLayout
+  title="Compra confirmada — 007-Sama"
+  description="Resumen de tu pedido en 007-Sama"
+  noindex={true}
+>
   <meta name="robots" content="noindex" />
 
   <SaveOrder
@@ -146,7 +150,7 @@ const orderDate = new Date().toISOString()
             <h3 class="mb-3 text-sm font-semibold text-[var(--color-text-primary)]">Productos</h3>
             <div class="space-y-2">
               {metaItems.map((item, i) => (
-                <div key={i} class="flex items-center justify-between text-sm">
+                <div class="flex items-center justify-between text-sm">
                   <span class="font-medium text-[var(--color-text-primary)]">
                     {item.slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
                   </span>

@@ -14,7 +14,6 @@ interface Props {
 export default function WishlistButton({
   slug,
   userId: propUserId,
-  title,
   variant = 'icon',
 }: Props) {
   const storeUserId = useStore(currentUserId)

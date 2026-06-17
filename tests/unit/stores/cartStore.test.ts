@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { cartItems, cartCount, cartSubtotal, cartTotal, addToCart, removeFromCart, updateQuantity, clearCart, isCartOpen } from '@/stores/cartStore';
+import { cartItems, cartCount, cartTotal, addToCart, removeFromCart, updateQuantity, clearCart, isCartOpen } from '@/stores/cartStore';
 import type { CartItem } from '@/types/cart';
 
 const mockItem: Omit<CartItem, 'quantity'> = {

@@ -55,7 +55,7 @@ const navLinks = [
 <CartDrawer client:load />
 
 <script>
-  const header = document.getElementById('site-header')
+  const header = document.getElementById('site-header') as HTMLElement
   let ticking = false
 
   function updateShadow() {

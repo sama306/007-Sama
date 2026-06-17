@@ -75,7 +75,6 @@ const platformLabels: Record<string, string> = {
         {
           Array.from({ length: stars }, (_, i) => (
             <svg
-              key={`star-${i}`}
               class="h-3.5 w-3.5 text-[var(--color-accent-secondary)]"
               fill="currentColor"
               viewBox="0 0 20 20"
@@ -87,7 +86,6 @@ const platformLabels: Record<string, string> = {
         {
           Array.from({ length: emptyStars }, (_, i) => (
             <svg
-              key={`empty-${i}`}
               class="h-3.5 w-3.5 text-[var(--color-border)]"
               fill="currentColor"
               viewBox="0 0 20 20"
@@ -103,7 +101,6 @@ const platformLabels: Record<string, string> = {
         {
           data.platform.map((p) => (
             <span
-              key={p}
               class="rounded border border-[var(--color-border)] px-1.5 py-0.5 text-[10px] font-medium uppercase text-[var(--color-text-muted)]"
             >
               {platformLabels[p] ?? p}

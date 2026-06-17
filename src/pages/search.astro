@@ -122,8 +122,8 @@ const searchData: SearchEntry[] = publishedGames.map(({ data }) => ({
   <script>
     import Fuse from 'fuse.js'
 
-    const dataEl = document.getElementById('search-data')
-    const data = JSON.parse(dataEl.dataset.json)
+    const dataEl = document.getElementById('search-data') as HTMLElement
+    const data = JSON.parse(dataEl!.dataset.json!)
 
     const fuse = new Fuse(data, {
       keys: ['title'],
@@ -132,20 +132,20 @@ const searchData: SearchEntry[] = publishedGames.map(({ data }) => ({
       minMatchCharLength: 2,
     })
 
-    const input = document.getElementById('search-input')
-    const resultsContainer = document.getElementById('search-results')
-    const resultCount = document.getElementById('result-count')
-    const emptyState = document.getElementById('empty-state')
-    const noResults = document.getElementById('no-results')
+    const input = document.getElementById('search-input') as HTMLInputElement
+    const resultsContainer = document.getElementById('search-results') as HTMLElement
+    const resultCount = document.getElementById('result-count') as HTMLElement
+    const emptyState = document.getElementById('empty-state') as HTMLElement
+    const noResults = document.getElementById('no-results') as HTMLElement
 
-    const platformLabels = {
+    const platformLabels: Record<string, string> = {
       pc: 'PC',
       ps5: 'PS5',
       'xbox-series-x': 'X/S',
       switch: 'Switch',
     }
 
-    function renderResults(fuseResults) {
+    function renderResults(fuseResults: any[]) {
       const existing = resultsContainer.querySelectorAll('.search-result-card')
       for (const el of existing) el.remove()
 
@@ -196,7 +196,7 @@ const searchData: SearchEntry[] = publishedGames.map(({ data }) => ({
                 <span class="ml-1 text-xs text-[var(--color-text-muted)]">${item.rating.toFixed(1)}</span>
               </div>
               <div class="flex flex-wrap items-center gap-1.5">
-                ${item.platform.map((p) => `<span class="rounded border border-[var(--color-border)] px-1.5 py-0.5 text-[10px] font-medium uppercase text-[var(--color-text-muted)]">${platformLabels[p] || p}</span>`).join('')}
+                ${item.platform.map((p: string) => `<span class="rounded border border-[var(--color-border)] px-1.5 py-0.5 text-[10px] font-medium uppercase text-[var(--color-text-muted)]">${platformLabels[p] || p}</span>`).join('')}
               </div>
               <div class="flex items-baseline gap-2">
                 ${

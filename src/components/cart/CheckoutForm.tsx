@@ -1,6 +1,7 @@
 import { useStore } from '@nanostores/react'
-import { cartItems, clearCart } from '@stores/cartStore'
-import { useState, useCallback, useEffect } from 'react'
+import { cartItems } from '@stores/cartStore'
+// import { clearCart } from '@stores/cartStore' // TODO: usar al completar pedido
+import { useState, useCallback } from 'react'
 
 export default function CheckoutForm() {
   const items = useStore(cartItems)

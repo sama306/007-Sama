@@ -128,7 +128,6 @@ const hasStores = data.stores.length > 0
               {
                 Array.from({ length: stars }, (_, i) => (
                   <svg
-                    key={i}
                     class="h-5 w-5 text-[var(--color-accent-secondary)]"
                     fill="currentColor"
                     viewBox="0 0 20 20"
@@ -140,7 +139,6 @@ const hasStores = data.stores.length > 0
               {
                 Array.from({ length: emptyStars }, (_, i) => (
                   <svg
-                    key={i}
                     class="h-5 w-5 text-[var(--color-border)]"
                     fill="currentColor"
                     viewBox="0 0 20 20"
@@ -158,7 +156,6 @@ const hasStores = data.stores.length > 0
               {
                 data.platform.map((p) => (
                   <span
-                    key={p}
                     class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold uppercase"
                     style={{
                       backgroundColor: `${platformColors[p]}20`,
@@ -240,7 +237,6 @@ const hasStores = data.stores.length > 0
                 <div class="grid gap-4 sm:grid-cols-2">
                   {gallery.map((img, i) => (
                     <div
-                      key={i}
                       class="overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)]"
                     >
                       <Image
@@ -352,7 +348,6 @@ const hasStores = data.stores.length > 0
                   {
                     data.platform.map((p) => (
                       <span
-                        key={p}
                         class="rounded border border-[var(--color-border)] px-2 py-0.5 text-xs font-medium uppercase text-[var(--color-text-muted)]"
                       >
                         {platformLabels[p]}
@@ -373,7 +368,6 @@ const hasStores = data.stores.length > 0
                 <div class="flex flex-wrap gap-2">
                   {data.tags.map((tag) => (
                     <span
-                      key={tag}
                       class="rounded border border-[var(--color-border)] bg-[var(--color-bg-primary)] px-2.5 py-1 text-xs text-[var(--color-text-muted)]"
                     >
                       {tag}
@@ -393,7 +387,6 @@ const hasStores = data.stores.length > 0
                 <div class="flex flex-col gap-2">
                   {data.stores.map((store) => (
                     <a
-                      key={store.label}
                       href={store.url}
                       target="_blank"
                       rel="noopener noreferrer"

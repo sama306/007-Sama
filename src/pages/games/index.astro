@@ -47,19 +47,18 @@ const allGames = await getCollection('games', ({ data }) => data.status === 'pub
   </div>
 
   <script>
-    const applyBtn = document.getElementById('apply-filters')
-    const filterInputs = document.querySelectorAll('.filter-input')
-    const sortSelect = document.getElementById('filter-sort')
+    const applyBtn = document.getElementById('apply-filters') as HTMLElement
+    const sortSelect = document.getElementById('filter-sort') as HTMLSelectElement
     const cards = document.querySelectorAll('.game-card')
-    const gridContainer = document.getElementById('game-grid-container')
-    const countEl = document.getElementById('filter-count')
-    const clearBtn = document.getElementById('clear-filters')
+    const gridContainer = document.getElementById('game-grid-container') as HTMLElement
+    const countEl = document.getElementById('filter-count') as HTMLElement
+    const clearBtn = document.getElementById('clear-filters') as HTMLElement
 
     function getParams() {
-      const genre = document.querySelector('input[name="genre"]:checked')
-      const platform = document.querySelector('input[name="platform"]:checked')
-      const price = document.querySelector('input[name="price"]:checked')
-      const rating = document.querySelector('input[name="rating"]:checked')
+      const genre = document.querySelector('input[name="genre"]:checked') as HTMLInputElement
+      const platform = document.querySelector('input[name="platform"]:checked') as HTMLInputElement
+      const price = document.querySelector('input[name="price"]:checked') as HTMLInputElement
+      const rating = document.querySelector('input[name="rating"]:checked') as HTMLInputElement
       const sort = sortSelect.value
 
       return {
@@ -71,7 +70,7 @@ const allGames = await getCollection('games', ({ data }) => data.status === 'pub
       }
     }
 
-    function updateUrl(params) {
+    function updateUrl(params: { genre: string; platform: string; price: string; rating: string; sort: string }) {
       const searchParams = new URLSearchParams()
       if (params.genre) searchParams.set('genre', params.genre)
       if (params.platform) searchParams.set('platform', params.platform)
@@ -84,7 +83,7 @@ const allGames = await getCollection('games', ({ data }) => data.status === 'pub
       window.history.replaceState({}, '', newUrl)
     }
 
-    function priceFromValue(val, cardPrice) {
+    function priceFromValue(val: string, cardPrice: number) {
       if (!val) return true
       if (val === '-20') return cardPrice <= 20
       if (val === '20-40') return cardPrice >= 20 && cardPrice <= 40
@@ -97,14 +96,15 @@ const allGames = await getCollection('games', ({ data }) => data.status === 'pub
       const params = getParams()
       updateUrl(params)
 
-      const visible = []
-      const hidden = []
+      const visible: HTMLElement[] = []
+      const hidden: HTMLElement[] = []
 
       cards.forEach((card) => {
-        const genre = card.dataset.genre
-        const platforms = card.dataset.platforms.split(',')
-        const price = parseFloat(card.dataset.price)
-        const rating = parseFloat(card.dataset.rating)
+        const el = card as HTMLElement
+        const genre = el.dataset.genre
+        const platforms = el.dataset.platforms!.split(',')
+        const price = parseFloat(el.dataset.price!)
+        const rating = parseFloat(el.dataset.rating!)
         let show = true
 
         if (params.genre && genre !== params.genre) show = false
@@ -112,16 +112,16 @@ const allGames = await getCollection('games', ({ data }) => data.status === 'pub
         if (show && params.rating && rating < parseInt(params.rating)) show = false
         if (show && params.price && !priceFromValue(params.price, price)) show = false
 
-        if (show) visible.push(card)
-        else hidden.push(card)
+        if (show) visible.push(el)
+        else hidden.push(el)
       })
 
       if (params.sort) {
         visible.sort((a, b) => {
-          const priceA = parseFloat(a.dataset.price)
-          const priceB = parseFloat(b.dataset.price)
-          const ratingA = parseFloat(a.dataset.rating)
-          const ratingB = parseFloat(b.dataset.rating)
+          const priceA = parseFloat(a.dataset.price!)
+          const priceB = parseFloat(b.dataset.price!)
+          const ratingA = parseFloat(a.dataset.rating!)
+          const ratingB = parseFloat(b.dataset.rating!)
 
           switch (params.sort) {
             case 'price_asc':
@@ -145,10 +145,11 @@ const allGames = await getCollection('games', ({ data }) => data.status === 'pub
       }
 
       cards.forEach((c) => {
-        c.style.display = visible.includes(c) ? '' : 'none'
+        const cardEl = c as HTMLElement
+        cardEl.style.display = visible.includes(cardEl) ? '' : 'none'
       })
 
-      countEl.textContent = visible.length
+      countEl.textContent = String(visible.length)
 
       const hasFilters =
         params.genre || params.platform || params.price || (params.rating && params.rating !== '0')
@@ -165,19 +166,19 @@ const allGames = await getCollection('games', ({ data }) => data.status === 'pub
       const sort = urlParams.get('sort')
 
       if (genre) {
-        const el = document.querySelector(`input[name="genre"][value="${genre}"]`)
+        const el = document.querySelector(`input[name="genre"][value="${genre}"]`) as HTMLInputElement
         if (el) el.checked = true
       }
       if (platform) {
-        const el = document.querySelector(`input[name="platform"][value="${platform}"]`)
+        const el = document.querySelector(`input[name="platform"][value="${platform}"]`) as HTMLInputElement
         if (el) el.checked = true
       }
       if (price) {
-        const el = document.querySelector(`input[name="price"][value="${price}"]`)
+        const el = document.querySelector(`input[name="price"][value="${price}"]`) as HTMLInputElement
         if (el) el.checked = true
       }
       if (rating) {
-        const el = document.querySelector(`input[name="rating"][value="${rating}"]`)
+        const el = document.querySelector(`input[name="rating"][value="${rating}"]`) as HTMLInputElement
         if (el) el.checked = true
       }
       if (sort && sortSelect) {
@@ -196,10 +197,10 @@ const allGames = await getCollection('games', ({ data }) => data.status === 'pub
 
     clearBtn?.addEventListener('click', (e) => {
       e.preventDefault()
-      const firstGenre = document.querySelector('input[name="genre"][value=""]')
-      const firstPlatform = document.querySelector('input[name="platform"][value=""]')
-      const firstPrice = document.querySelector('input[name="price"][value=""]')
-      const firstRating = document.querySelector('input[name="rating"][value="0"]')
+      const firstGenre = document.querySelector('input[name="genre"][value=""]') as HTMLInputElement
+      const firstPlatform = document.querySelector('input[name="platform"][value=""]') as HTMLInputElement
+      const firstPrice = document.querySelector('input[name="price"][value=""]') as HTMLInputElement
+      const firstRating = document.querySelector('input[name="rating"][value="0"]') as HTMLInputElement
       if (firstGenre) firstGenre.checked = true
       if (firstPlatform) firstPlatform.checked = true
       if (firstPrice) firstPrice.checked = true

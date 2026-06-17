@@ -98,7 +98,7 @@ const currentPriceValue =
           </label>
           {
             GENRES.map((genre) => (
-              <label key={genre} class="cursor-pointer">
+              <label class="cursor-pointer">
                 <input
                   type="radio"
                   name="genre"
@@ -136,7 +136,7 @@ const currentPriceValue =
           </label>
           {
             PLATFORMS.map((platform) => (
-              <label key={platform} class="cursor-pointer">
+              <label class="cursor-pointer">
                 <input
                   type="radio"
                   name="platform"
@@ -160,7 +160,7 @@ const currentPriceValue =
         <div class="flex flex-wrap gap-2">
           {
             priceRanges.map((range) => (
-              <label key={range.value} class="cursor-pointer">
+              <label class="cursor-pointer">
                 <input
                   type="radio"
                   name="price"
@@ -184,7 +184,7 @@ const currentPriceValue =
         <div class="flex flex-wrap gap-2">
           {
             ratingOptions.map((opt) => (
-              <label key={opt.value} class="cursor-pointer">
+              <label class="cursor-pointer">
                 <input
                   type="radio"
                   name="rating"
@@ -212,7 +212,7 @@ const currentPriceValue =
         >
           {
             sortOptions.map((opt) => (
-              <option key={opt.value} value={opt.value} selected={currentSort === opt.value}>
+              <option value={opt.value} selected={currentSort === opt.value}>
                 {opt.label}
               </option>
             ))
