@@ -11,9 +11,9 @@ export default defineConfig({
   timeout: 30000,
   projects: [{ name: 'chromium', use: { browserName: 'chromium' } }],
   webServer: {
-    command: 'pnpm dev',
+    command: 'pnpm preview',
     url: 'http://localhost:4321',
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: true,
     timeout: 120000,
   },
 })
