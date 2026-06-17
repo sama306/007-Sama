@@ -9,17 +9,17 @@ test('la home carga y muestra el titulo principal del sitio', async ({ page }) =
 })
 
 test('el link del header Catálogo navega a /games', async ({ page }) => {
-  await page.getByRole('link', { name: 'Catálogo' }).click()
+  await page.getByRole('link', { name: 'Catálogo' }).first().click()
   await expect(page).toHaveURL('/games')
 })
 
 test('el link del header Noticias navega a /news', async ({ page }) => {
-  await page.getByRole('link', { name: 'Noticias' }).click()
+  await page.getByRole('link', { name: 'Noticias' }).first().click()
   await expect(page).toHaveURL('/news')
 })
 
 test('el link del header Novedades navega a /new-releases', async ({ page }) => {
-  await page.getByRole('link', { name: 'Novedades' }).click()
+  await page.getByRole('link', { name: 'Novedades' }).first().click()
   await expect(page).toHaveURL('/new-releases')
 })
 

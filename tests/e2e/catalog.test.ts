@@ -16,12 +16,12 @@ test('hacer click en una GameCard navega a /games/[slug]', async ({ page }) => {
 
 test('la pagina de detalle muestra el titulo del juego', async ({ page }) => {
   await page.goto('/games/elden-ring')
-  await expect(page.locator('h1')).toBeVisible()
+  await expect(page.getByRole('heading', { name: /elden ring/i })).toBeVisible()
 })
 
 test('la pagina de detalle muestra el precio', async ({ page }) => {
   await page.goto('/games/elden-ring')
-  await expect(page.getByText(/\$\d+\.\d{2}/)).toBeVisible()
+  await expect(page.getByText(/\$\d+\.\d{2}/).first()).toBeVisible()
 })
 
 test('la pagina de detalle tiene el boton Agregar al carrito', async ({ page }) => {
@@ -33,7 +33,7 @@ test('el filtro de plataforma filtra los resultados', async ({ page }) => {
   await page.goto('/games')
   const allCards = page.locator('.game-card')
   const initialCount = await allCards.count()
-  await page.locator('input[name="platform"][value="switch"]').click({ force: true })
+  await page.getByText('Nintendo Switch').click()
   await page.getByRole('button', { name: 'Aplicar filtros' }).click()
   await page.waitForTimeout(300)
   const filteredCount = await allCards.filter({ has: page.locator('a') }).filter({ visible: true }).count()
@@ -44,7 +44,7 @@ test('el filtro de genero filtra los resultados', async ({ page }) => {
   await page.goto('/games')
   const allCards = page.locator('.game-card')
   const initialCount = await allCards.count()
-  await page.locator('input[name="genre"][value="sports"]').click({ force: true })
+  await page.getByText('Deportes').click()
   await page.getByRole('button', { name: 'Aplicar filtros' }).click()
   await page.waitForTimeout(300)
   const filteredCount = await allCards.filter({ has: page.locator('a') }).filter({ visible: true }).count()
@@ -53,5 +53,5 @@ test('el filtro de genero filtra los resultados', async ({ page }) => {
 
 test('/new-releases carga y muestra juegos', async ({ page }) => {
   await page.goto('/new-releases')
-  await expect(page.locator('h1')).toContainText('Nuevos Lanzamientos')
+  await expect(page.getByRole('heading', { name: /nuevos lanzamientos/i })).toBeVisible()
 })
