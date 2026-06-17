@@ -29,3 +29,6 @@ playwright-report/
 coverage/
 lighthouse-report.html
 lighthouse-report-mobile.html
+
+.vercel
+.env*

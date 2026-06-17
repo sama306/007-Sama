@@ -88,10 +88,14 @@ jobs:
 
       - name: Deploy preview to Vercel
         id: vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
           DEPLOY_URL=$(vercel deploy --prebuilt \
-            --token=${{ secrets.VERCEL_TOKEN }} \
-            --scope=${{ secrets.VERCEL_ORG_ID }})
+            --token "$VERCEL_TOKEN" \
+            --scope "$VERCEL_ORG_ID")
           echo "preview_url=$DEPLOY_URL" >> $GITHUB_OUTPUT
 
       - name: Comment PR with preview URL
