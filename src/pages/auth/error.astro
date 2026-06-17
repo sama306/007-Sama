@@ -1,0 +1,57 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const error = Astro.url.searchParams.get('error') || '';
+
+const errorMessages: Record<string, string> = {
+  OAuthAccountNotLinked: 'Este email ya está registrado con otro método de inicio de sesión.',
+  OAuthSignin: 'Hubo un problema al iniciar sesión con el proveedor seleccionado.',
+  OAuthCallback: 'Hubo un error al procesar la respuesta del proveedor.',
+  OAuthCreateAccount: 'No se pudo crear la cuenta con el proveedor seleccionado.',
+  EmailCreateAccount: 'No se pudo crear la cuenta con ese email.',
+  Callback: 'Error en la autenticación. Intentá de nuevo.',
+  AccessDenied: 'Acceso denegado.',
+  Verification: 'El enlace de verificación expiró o ya fue usado.',
+  Configuration: 'Error de configuración del servidor.',
+  Default: 'Ocurrió un error inesperado. Intentá de nuevo.',
+};
+
+const message = errorMessages[error] || errorMessages.Default;
+---
+
+<BaseLayout title="Error de Autenticación" description="Error al iniciar sesión en 007-Sama." noindex={true}>
+  <div class="flex min-h-[calc(100dvh-var(--header-height))] items-center justify-center px-4 py-12">
+    <div class="w-full max-w-md text-center">
+      <div class="animate-fade-in-up">
+        <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-red-500/10">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-error)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+        </div>
+        <h1 class="text-2xl font-bold text-[var(--color-text-primary)]">
+          Error de autenticación
+        </h1>
+        <p class="mt-3 text-sm text-[var(--color-text-secondary)]">
+          {message}
+        </p>
+        {error && error !== 'Default' && (
+          <p class="mt-2 text-xs text-[var(--color-text-muted)]">
+            Código: {error}
+          </p>
+        )}
+        <a
+          href="/auth/login"
+          class="btn-primary mt-8 inline-flex items-center gap-2 rounded-lg bg-[var(--color-accent-primary)] px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-[var(--color-accent-secondary)] hover:shadow-[0_0_20px_var(--color-accent-glow)]"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5" />
+            <polyline points="12 19 5 12 12 5" />
+          </svg>
+          Volver al login
+        </a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

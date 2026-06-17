@@ -1,0 +1,153 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SaveOrder from '@components/cart/SaveOrder';
+import { stripe } from '@lib/stripe';
+import { getCollection } from 'astro:content';
+import type { CartItem } from '@types/cart';
+
+export const prerender = false;
+
+const url = new URL(Astro.request.url);
+const sessionId = url.searchParams.get('session_id');
+
+if (!sessionId) {
+  return Astro.redirect('/');
+}
+
+let session;
+try {
+  session = await stripe.checkout.sessions.retrieve(sessionId);
+} catch {
+  return Astro.redirect('/');
+}
+
+const userId = Astro.locals.user?.id ?? 'guest';
+
+const metaItems: Array<{ slug: string; quantity: number; platform: string }> = session.metadata?.items
+  ? JSON.parse(session.metadata.items)
+  : [];
+
+const games = await getCollection('games');
+
+const cartItems: CartItem[] = metaItems.map((item) => {
+  const game = games.find((g) => g.data.slug === item.slug);
+  const discountedPrice = game
+    ? game.data.price * (1 - game.data.discount / 100)
+    : 0;
+  return {
+    id: `${item.slug}-${item.platform}`,
+    slug: item.slug,
+    title: game?.data.title ?? item.slug,
+    price: discountedPrice,
+    quantity: item.quantity,
+    image: game?.data.images[0] ?? '',
+    platform: item.platform,
+  };
+});
+
+const amountTotal = session.amount_total ? (session.amount_total / 100).toFixed(2) : '0.00';
+const customerEmail = session.customer_details?.email ?? '';
+const paymentStatus = session.payment_status;
+const orderDate = new Date().toISOString();
+---
+
+<BaseLayout title="Compra confirmada — 007-Sama">
+  <meta name="robots" content="noindex" />
+
+  <SaveOrder
+    client:visible
+    sessionId={sessionId}
+    total={Number(amountTotal)}
+    items={JSON.stringify(cartItems)}
+    date={orderDate}
+    userId={userId}
+  />
+
+  <!-- En producción reemplazar localStorage por consultas a la DB -->
+
+  <section class="mx-auto flex max-w-2xl flex-col items-center px-6 py-16 text-center">
+    <div class="mb-8">
+      <svg class="mx-auto h-20 w-20" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="40" cy="40" r="36" stroke="var(--color-success)" stroke-width="4" fill="none"
+          stroke-dasharray="226" stroke-dashoffset="226">
+          <animate attributeName="stroke-dashoffset" from="226" to="0" dur="0.6s" fill="freeze" />
+        </circle>
+        <path d="M28 42l8 8 16-16" stroke="var(--color-success)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"
+          stroke-dasharray="50" stroke-dashoffset="50">
+          <animate attributeName="stroke-dashoffset" from="50" to="0" dur="0.4s" begin="0.5s" fill="freeze" />
+        </path>
+      </svg>
+    </div>
+
+    <h1 class="mb-2 text-3xl font-bold text-[var(--color-text-primary)]">
+      ¡Gracias por tu compra!
+    </h1>
+    <p class="mb-10 text-[var(--color-text-secondary)]">
+      Tu pedido ha sido procesado exitosamente.
+      {paymentStatus === 'paid' && ' El pago fue confirmado.'}
+    </p>
+
+    <div class="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] p-6 text-left">
+      <h2 class="mb-4 text-base font-semibold text-[var(--color-text-primary)]">
+        Detalles del pedido
+      </h2>
+
+      <div class="space-y-3 text-sm">
+        {customerEmail && (
+          <div class="flex justify-between">
+            <span class="text-[var(--color-text-secondary)]">Email</span>
+            <span class="font-medium text-[var(--color-text-primary)]">{customerEmail}</span>
+          </div>
+        )}
+        <div class="flex justify-between">
+          <span class="text-[var(--color-text-secondary)]">Total</span>
+          <span class="font-bold text-[var(--color-accent-neon)]">${amountTotal} USD</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-[var(--color-text-secondary)]">ID de sesión</span>
+          <span class="font-mono text-xs text-[var(--color-text-muted)]">{sessionId}</span>
+        </div>
+      </div>
+
+      {metaItems.length > 0 && (
+        <>
+          <hr class="my-4 border-[var(--color-border)]" />
+          <h3 class="mb-3 text-sm font-semibold text-[var(--color-text-primary)]">
+            Productos
+          </h3>
+          <div class="space-y-2">
+            {metaItems.map((item, i) => (
+              <div key={i} class="flex items-center justify-between text-sm">
+                <span class="font-medium text-[var(--color-text-primary)]">
+                  {item.slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
+                </span>
+                <span class="text-[var(--color-text-muted)]">
+                  {item.platform} &times;{item.quantity}
+                </span>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+
+    <p class="mt-8 text-sm text-[var(--color-text-muted)]">
+      Recibirás un email de confirmación en breve.
+    </p>
+
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+      <a
+        href="/"
+        class="rounded-lg bg-[var(--color-accent-primary)] px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-[var(--color-accent-secondary)] hover:shadow-[0_0_20px_var(--color-accent-glow)]"
+      >
+        Volver al inicio
+      </a>
+      <a
+        href="/games"
+        class="rounded-lg border border-[var(--color-border)] px-6 py-3 text-sm font-medium text-[var(--color-text-secondary)] transition-all hover:border-[var(--color-border-accent)] hover:text-[var(--color-text-primary)]"
+      >
+        Ver más juegos
+      </a>
+    </div>
+  </section>
+</BaseLayout>

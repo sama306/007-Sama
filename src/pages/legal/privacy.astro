@@ -1,0 +1,413 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const lastUpdated = new Date('2026-06-17');
+const formattedDate = lastUpdated.toLocaleDateString('es-ES', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+interface TocItem {
+  id: string;
+  label: string;
+}
+
+const toc: TocItem[] = [
+  { id: 'seccion-informacion', label: '1. Informaci\u00F3n que recopilamos' },
+  { id: 'seccion-uso', label: '2. C\u00F3mo usamos tu informaci\u00F3n' },
+  { id: 'seccion-proveedores', label: '3. Proveedores de servicio' },
+  { id: 'seccion-cookies', label: '4. Cookies y almacenamiento local' },
+  { id: 'seccion-seguridad', label: '5. Seguridad' },
+  { id: 'seccion-derechos', label: '6. Tus derechos' },
+  { id: 'seccion-retencion', label: '7. Retenci\u00F3n de datos' },
+  { id: 'seccion-cambios', label: '8. Cambios en esta pol\u00EDtica' },
+  { id: 'seccion-contacto', label: '9. Contacto' },
+];
+---
+
+<BaseLayout
+  title="Política de Privacidad"
+  description="Política de privacidad y manejo de datos personales en 007-Sama."
+>
+  <section class="relative overflow-hidden bg-[var(--gradient-hero)]">
+    <div class="mx-auto max-w-[var(--max-width-content)] px-6 py-20 text-center">
+      <h1 class="animate-fade-in-up text-3xl font-bold text-[var(--color-text-primary)] md:text-5xl">
+        Política de Privacidad
+      </h1>
+      <p class="animate-fade-in-up mt-4 text-sm text-[var(--color-text-muted)]">
+        Última actualización: {formattedDate}
+      </p>
+    </div>
+  </section>
+
+  <div class="mx-auto max-w-3xl px-6 py-12">
+    <details
+      open
+      class="mb-12 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] md:open"
+    >
+      <summary class="cursor-pointer px-6 py-4 text-sm font-semibold uppercase tracking-wider text-[var(--color-text-secondary)] md:cursor-default md:select-none">
+        Contenido
+      </summary>
+      <nav class="border-t border-[var(--color-border)] px-6 py-4">
+        <ol class="space-y-2">
+          {toc.map((item) => (
+            <li>
+              <a
+                href={`#${item.id}`}
+                class="text-sm text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-accent)]"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    </details>
+
+    <div class="stagger-children space-y-14">
+      <section style="scroll-margin-top: 6rem" id="seccion-informacion">
+        <h2 class="mb-4 text-xl font-bold text-[var(--color-text-primary)] md:text-2xl">
+          1. Información que recopilamos
+        </h2>
+        <div class="space-y-3 text-sm leading-relaxed text-[var(--color-text-secondary)] md:text-base">
+          <p>
+            En 007-Sama recopilamos la información necesaria para brindar la funcionalidad del
+            Sitio. Dependiendo de cómo interactúe con nosotros, podemos recopilar:
+          </p>
+
+          <h3 class="mt-6 text-sm font-semibold text-[var(--color-text-primary)]">
+            Datos de registro
+          </h3>
+          <p>
+            Cuando crea una cuenta mediante correo electrónico y contraseña, recopilamos su nombre
+            y dirección de correo electrónico. La contraseña se almacena de forma segura utilizando
+            bcrypt.
+          </p>
+
+          <h3 class="mt-6 text-sm font-semibold text-[var(--color-text-primary)]">
+            Datos de OAuth
+          </h3>
+          <p>
+            Si inicia sesión a través de Google o Steam, recopilamos la información básica del
+            perfil que estos proveedores ponen a disposición: nombre, correo electrónico e imagen
+            de perfil. No almacenamos tokens de acceso ni información sensible de estas cuentas.
+          </p>
+
+          <h3 class="mt-6 text-sm font-semibold text-[var(--color-text-primary)]">
+            Datos de uso
+          </h3>
+          <p>
+            Podemos recopilar información anónima sobre las páginas visitadas y las interacciones
+            dentro del Sitio con el fin de mejorar la experiencia de usuario. No utilizamos
+            herramientas de analytics de terceros que rastreen su actividad fuera del Sitio.
+          </p>
+
+          <h3 class="mt-6 text-sm font-semibold text-[var(--color-text-primary)]">
+            Datos del carrito
+          </h3>
+          <p>
+            La información del carrito de compras se almacena localmente en su navegador mediante
+            localStorage. Estos datos no se envían a nuestros servidores a menos que usted inicie
+            sesión, en cuyo caso se sincronizan con su cuenta para preservar el carrito entre
+            sesiones.
+          </p>
+        </div>
+      </section>
+
+      <section style="scroll-margin-top: 6rem" id="seccion-uso">
+        <h2 class="mb-4 text-xl font-bold text-[var(--color-text-primary)] md:text-2xl">
+          2. Cómo usamos tu información
+        </h2>
+        <div class="space-y-3 text-sm leading-relaxed text-[var(--color-text-secondary)] md:text-base">
+          <p>Utilizamos la información recopilada para los siguientes fines:</p>
+          <ul class="list-disc pl-6 space-y-1">
+            <li>Gestionar su cuenta de usuario y mantener su sesión activa.</li>
+            <li>Procesar pedidos simulados a través de Stripe en modo test.</li>
+            <li>
+              Preservar el contenido de su carrito y lista de deseos entre sesiones.
+            </li>
+            <li>
+              Mejorar y optimizar el Sitio basándonos en patrones de uso agregados.
+            </li>
+            <li>
+              Comunicarnos con usted en relación con su cuenta si es necesario.
+            </li>
+          </ul>
+          <p class="mt-4">
+            <strong>No vendemos, alquilamos ni compartimos sus datos personales con terceros</strong>
+            para fines de marketing, publicidad o cualquier otro propósito no relacionado
+            directamente con el funcionamiento del Sitio. La única excepción son los proveedores
+            de servicio necesarios para la operación (ver sección 3).
+          </p>
+        </div>
+      </section>
+
+      <section style="scroll-margin-top: 6rem" id="seccion-proveedores">
+        <h2 class="mb-4 text-xl font-bold text-[var(--color-text-primary)] md:text-2xl">
+          3. Proveedores de servicio
+        </h2>
+        <div class="space-y-3 text-sm leading-relaxed text-[var(--color-text-secondary)] md:text-base">
+          <p>
+            Para ofrecer la funcionalidad del Sitio, utilizamos los siguientes proveedores de
+            servicio externos. Cada uno de ellos tiene su propia política de privacidad que
+            recomendamos consultar:
+          </p>
+          <ul class="space-y-3 pl-0">
+            <li class="rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-card)] p-4">
+              <strong class="text-[var(--color-text-primary)]">Stripe</strong>
+              <p class="mt-1 text-xs text-[var(--color-text-muted)]">
+                Procesamiento de pagos en modo test. Stripe puede almacenar datos limitados de la
+                transacción simulada. No almacenamos ni tenemos acceso a los datos completos de la
+                tarjeta.
+              </p>
+              <a
+                href="https://stripe.com/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-1 inline-block text-xs text-[var(--color-accent-secondary)] hover:text-[var(--color-accent-neon)]"
+              >
+                stripe.com/privacy &rarr;
+              </a>
+            </li>
+            <li class="rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-card)] p-4">
+              <strong class="text-[var(--color-text-primary)]">Google OAuth</strong>
+              <p class="mt-1 text-xs text-[var(--color-text-muted)]">
+                Proveedor de autenticación. Accedemos solo a la información básica del perfil
+                autorizada por usted.
+              </p>
+              <a
+                href="https://policies.google.com/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-1 inline-block text-xs text-[var(--color-accent-secondary)] hover:text-[var(--color-accent-neon)]"
+              >
+                policies.google.com/privacy &rarr;
+              </a>
+            </li>
+            <li class="rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-card)] p-4">
+              <strong class="text-[var(--color-text-primary)]">Steam OpenID</strong>
+              <p class="mt-1 text-xs text-[var(--color-text-muted)]">
+                Proveedor de autenticación mediante Steam. Accedemos a su ID de Steam, nombre de
+                perfil y avatar público.
+              </p>
+              <a
+                href="https://store.steampowered.com/privacy_agreement"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-1 inline-block text-xs text-[var(--color-accent-secondary)] hover:text-[var(--color-accent-neon)]"
+              >
+                store.steampowered.com/privacy_agreement &rarr;
+              </a>
+            </li>
+            <li class="rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-card)] p-4">
+              <strong class="text-[var(--color-text-primary)]">Vercel</strong>
+              <p class="mt-1 text-xs text-[var(--color-text-muted)]">
+                Plataforma de hosting. Vercel puede almacenar logs del servidor con direcciones IP
+                anonimizadas.
+              </p>
+              <a
+                href="https://vercel.com/legal/privacy-policy"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-1 inline-block text-xs text-[var(--color-accent-secondary)] hover:text-[var(--color-accent-neon)]"
+              >
+                vercel.com/legal/privacy-policy &rarr;
+              </a>
+            </li>
+            <li class="rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-card)] p-4">
+              <strong class="text-[var(--color-text-primary)]">Resend</strong>
+              <p class="mt-1 text-xs text-[var(--color-text-muted)]">
+                Servicio de envío de correos electrónicos transaccionales (confirmación de registro,
+                recuperación de contraseña).
+              </p>
+              <a
+                href="https://resend.com/legal/privacy-policy"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-1 inline-block text-xs text-[var(--color-accent-secondary)] hover:text-[var(--color-accent-neon)]"
+              >
+                resend.com/legal/privacy-policy &rarr;
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section style="scroll-margin-top: 6rem" id="seccion-cookies">
+        <h2 class="mb-4 text-xl font-bold text-[var(--color-text-primary)] md:text-2xl">
+          4. Cookies y almacenamiento local
+        </h2>
+        <div class="space-y-3 text-sm leading-relaxed text-[var(--color-text-secondary)] md:text-base">
+          <p>007-Sama utiliza las siguientes tecnologías de almacenamiento:</p>
+          <ul class="list-disc pl-6 space-y-2">
+            <li>
+              <strong class="text-[var(--color-text-primary)]">Cookie de sesión (httpOnly):</strong>
+              Necesaria para mantener la sesión iniciada. Esta cookie es estrictamente necesaria
+              para el funcionamiento del Sitio y no puede ser deshabilitada. Es una cookie segura
+              y httpOnly, lo que significa que no puede ser leída por JavaScript del lado del
+              cliente.
+            </li>
+            <li>
+              <strong class="text-[var(--color-text-primary)]">localStorage:</strong>
+              Utilizado para almacenar el carrito de compras, la lista de deseos y preferencias de
+              la interfaz. Estos datos permanecen en su navegador y pueden ser eliminados en
+              cualquier momento desde la configuración del navegador.
+            </li>
+          </ul>
+          <p>
+            <strong>No utilizamos cookies de rastreo, cookies publicitarias ni cookies de
+            terceros</strong> para fines de marketing o análisis de comportamiento. Tampoco
+            utilizamos herramientas como Google Analytics, Facebook Pixel o similares.
+          </p>
+        </div>
+      </section>
+
+      <section style="scroll-margin-top: 6rem" id="seccion-seguridad">
+        <h2 class="mb-4 text-xl font-bold text-[var(--color-text-primary)] md:text-2xl">
+          5. Seguridad
+        </h2>
+        <div class="space-y-3 text-sm leading-relaxed text-[var(--color-text-secondary)] md:text-base">
+          <p>
+            Implementamos medidas de seguridad técnicas y organizativas para proteger su
+            información personal:
+          </p>
+          <ul class="list-disc pl-6 space-y-1">
+            <li>
+              <strong class="text-[var(--color-text-primary)]">Contraseñas:</strong> Se almacenan
+              utilizando el algoritmo de hash bcrypt con factor de costo 12. Nunca almacenamos
+              contraseñas en texto plano.
+            </li>
+            <li>
+              <strong class="text-[var(--color-text-primary)]">Sesiones:</strong> Utilizamos JSON
+              Web Tokens (JWT) firmados con una clave secreta (<code class="rounded bg-[var(--color-bg-elevated)] px-1.5 py-0.5 text-xs text-[var(--color-accent-neon)]">AUTH_SECRET</code>).
+              Los tokens se transmiten únicamente a través de cookies httpOnly y seguras.
+            </li>
+            <li>
+              <strong class="text-[var(--color-text-primary)]">Pagos:</strong> Los pagos son
+              procesados directamente por Stripe a través de Stripe Elements. Nunca almacenamos
+              números de tarjeta, códigos de seguridad (CVC) ni fechas de vencimiento en nuestros
+              servidores.
+            </li>
+            <li>
+              <strong class="text-[var(--color-text-primary)]">Comunicaciones:</strong> Todo el
+              tráfico entre su navegador y nuestros servidores está cifrado mediante TLS/SSL.
+            </li>
+          </ul>
+          <p>
+            Sin embargo, dado que 007-Sama es un proyecto de portafolio y no un servicio comercial
+            de producción, recomendamos no utilizar información sensible o datos personales reales
+            durante su interacción con el Sitio.
+          </p>
+        </div>
+      </section>
+
+      <section style="scroll-margin-top: 6rem" id="seccion-derechos">
+        <h2 class="mb-4 text-xl font-bold text-[var(--color-text-primary)] md:text-2xl">
+          6. Tus derechos
+        </h2>
+        <div class="space-y-3 text-sm leading-relaxed text-[var(--color-text-secondary)] md:text-base">
+          <p>
+            De acuerdo con la normativa de protección de datos (RGPD para usuarios en la Unión
+            Europea y leyes aplicables), usted tiene los siguientes derechos:
+          </p>
+          <ul class="list-disc pl-6 space-y-1">
+            <li>
+              <strong class="text-[var(--color-text-primary)]">Acceder a sus datos:</strong> Puede
+              ver y editar la información de su perfil desde la página
+              <a
+                href="/account"
+                class="text-[var(--color-accent-secondary)] hover:text-[var(--color-accent-neon)]"
+              > /account</a>.
+            </li>
+            <li>
+              <strong class="text-[var(--color-text-primary)]">Solicitar la eliminación de su
+              cuenta:</strong> Puede solicitar la eliminación completa de su cuenta y todos los
+              datos asociados enviando un correo a
+              <a
+                href="mailto:contacto@007-sama.com"
+                class="text-[var(--color-accent-secondary)] hover:text-[var(--color-accent-neon)]"
+              > valensamacoits1@gmail.com</a>.
+            </li>
+            <li>
+              <strong class="text-[var(--color-text-primary)]">Exportar sus datos:</strong> Puede
+              descargar un archivo con sus pedidos simulados y lista de deseos desde el dashboard
+              de su cuenta.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section style="scroll-margin-top: 6rem" id="seccion-retencion">
+        <h2 class="mb-4 text-xl font-bold text-[var(--color-text-primary)] md:text-2xl">
+          7. Retención de datos
+        </h2>
+        <div class="space-y-3 text-sm leading-relaxed text-[var(--color-text-secondary)] md:text-base">
+          <p>
+            Conservamos sus datos personales mientras su cuenta permanezca activa. Los criterios
+            de retención son los siguientes:
+          </p>
+          <ul class="list-disc pl-6 space-y-1">
+            <li>
+              <strong class="text-[var(--color-text-primary)]">Cuentas activas:</strong> Los datos
+              se conservan durante toda la vigencia de la cuenta.
+            </li>
+            <li>
+              <strong class="text-[var(--color-text-primary)]">Eliminación de cuenta:</strong> Al
+              solicitar la eliminación de su cuenta, todos los datos asociados se borran
+              permanentemente de nuestra base de datos en un plazo máximo de 30 días.
+            </li>
+            <li>
+              <strong class="text-[var(--color-text-primary)]">Datos del carrito:</strong> Los
+              datos almacenados en localStorage pueden ser eliminados por usted en cualquier
+              momento desde la configuración del navegador.
+            </li>
+            <li>
+              <strong class="text-[var(--color-text-primary)]">Logs del servidor:</strong> Los
+              registros del servidor que pudieran contener direcciones IP se conservan por un
+              período máximo de 30 días con fines de diagnóstico y seguridad.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section style="scroll-margin-top: 6rem" id="seccion-cambios">
+        <h2 class="mb-4 text-xl font-bold text-[var(--color-text-primary)] md:text-2xl">
+          8. Cambios en esta política
+        </h2>
+        <div class="space-y-3 text-sm leading-relaxed text-[var(--color-text-secondary)] md:text-base">
+          <p>
+            Nos reservamos el derecho de actualizar esta Política de Privacidad en cualquier
+            momento. Los cambios se harán efectivos inmediatamente después de su publicación en
+            esta página.
+          </p>
+          <p>
+            Notificaremos las actualizaciones mediante la modificación de la fecha de "Última
+            actualización" al inicio de esta página. Le recomendamos revisar esta política
+            periódicamente para mantenerse informado sobre cómo protegemos su información.
+          </p>
+        </div>
+      </section>
+
+      <section style="scroll-margin-top: 6rem" id="seccion-contacto">
+        <h2 class="mb-4 text-xl font-bold text-[var(--color-text-primary)] md:text-2xl">
+          9. Contacto
+        </h2>
+        <div class="space-y-3 text-sm leading-relaxed text-[var(--color-text-secondary)] md:text-base">
+          <p>
+            Si tiene preguntas, inquietudes o comentarios sobre esta Política de Privacidad, o
+            desea ejercer sus derechos de protección de datos, puede comunicarse con nosotros:
+          </p>
+          <p class="mt-2">
+            <a
+              href="mailto:contacto@007-sama.com"
+              class="inline-flex items-center gap-2 rounded-lg border border-[var(--color-border-accent)] bg-[var(--color-accent-glow)] px-4 py-2 text-sm font-medium text-[var(--color-accent-neon)] transition-all hover:bg-[var(--color-accent-primary)] hover:text-white"
+            >
+              valensamacoits1@gmail.com
+            </a>
+          </p>
+        </div>
+      </section>
+    </div>
+  </div>
+</BaseLayout>

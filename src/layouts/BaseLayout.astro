@@ -1,0 +1,99 @@
+---
+import Header from '@components/layout/Header.astro';
+import Footer from '@components/layout/Footer.astro';
+import ToastContainer from '@components/ui/Toast';
+import AuthCartSync from '@components/auth/AuthCartSync';
+import { SITE_URL, SITE_NAME } from '@lib/constants';
+import '@styles/global.css';
+
+export interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  noindex?: boolean;
+  type?: 'website' | 'article' | 'product';
+  canonicalUrl?: string;
+}
+
+const {
+  title,
+  description,
+  image,
+  noindex = false,
+  type = 'website',
+  canonicalUrl,
+} = Astro.props;
+
+const pageTitle = `${title} — ${SITE_NAME}`;
+
+let canonical: string;
+if (canonicalUrl) {
+  canonical = canonicalUrl;
+} else {
+  const url = Astro.url;
+  const isSearch = url.pathname === '/search';
+  canonical = isSearch ? url.href : `${SITE_URL}${url.pathname}`;
+}
+
+const ogImage = image
+  ? (image.startsWith('http') ? image : `${SITE_URL}${image}`)
+  : `${SITE_URL}/og-default.png`;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
+    <link rel="alternate icon" href="/favicon.svg?v=2" />
+    <link rel="canonical" href={canonical} />
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={SITE_NAME} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap"
+      />
+    </noscript>
+  </head>
+  <body class="flex min-h-dvh flex-col">
+    <Header />
+    <main class="animate-page-enter flex-1">
+      <slot />
+    </main>
+    <Footer />
+    <ToastContainer client:load />
+    <AuthCartSync client:load />
+  </body>
+</html>

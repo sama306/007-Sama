@@ -1,0 +1,150 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const articles = (await getCollection('news', ({ data }) => data.status === 'published'))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const featured = articles[0];
+const rest = articles.slice(1);
+
+const categoryLabels: Record<string, string> = {
+  lanzamientos: 'Lanzamientos',
+  review: 'Review',
+  eventos: 'Eventos',
+  ofertas: 'Ofertas',
+  industria: 'Industria',
+  tutoriales: 'Tutoriales',
+  opinion: 'Opinión',
+};
+
+const categoryColors: Record<string, string> = {
+  lanzamiento: 'var(--color-accent-primary)',
+  update: '#3b82f6',
+  evento: '#f97316',
+  reseña: '#22c55e',
+};
+
+const siteUrl = 'https://007-sama.vercel.app';
+---
+
+<BaseLayout
+  title="Noticias de Videojuegos"
+  description="Últimas noticias, reviews y lanzamientos del mundo de los videojuegos. Mantente al día con 007-Sama."
+>
+  <div class="mx-auto max-w-[var(--max-width-content)] px-6 py-12">
+    <div class="mb-10">
+      <h1 class="border-l-3 pl-4 text-3xl font-bold text-[var(--color-text-primary)]" style="border-left: 3px solid var(--color-accent-primary);">
+        Noticias
+      </h1>
+      <p class="mt-2 max-w-2xl text-sm text-[var(--color-text-secondary)]">
+        Todo lo que pasa en el mundo gamer. Noticias, análisis y novedades de la industria en un solo lugar.
+      </p>
+    </div>
+
+    {
+      featured && (
+        <a
+          href={`/news/${featured.data.slug}`}
+          class="card-hover group relative mb-10 flex flex-col overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)]"
+        >
+          <div class="card-image-container relative aspect-[21/9] bg-[var(--color-bg-secondary)] sm:aspect-[21/9]">
+            <Image
+              src={featured.data.image}
+              alt={featured.data.imageAlt || featured.data.title}
+              class="h-full w-full object-cover"
+              width={1200}
+              height={514}
+              loading="eager"
+              fetchpriority="high"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-[var(--color-bg-primary)]/90 via-transparent to-transparent" />
+            <div class="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
+              <span
+                class="mb-3 inline-block rounded px-2.5 py-0.5 text-xs font-bold text-white"
+                style="background: {categoryColors[featured.data.category] ?? 'var(--color-accent-primary)'}"
+              >
+                {categoryLabels[featured.data.category] ?? featured.data.category}
+              </span>
+              <h2 class="mb-2 text-xl font-bold text-white sm:text-2xl">{featured.data.title}</h2>
+              <p class="mb-3 line-clamp-2 text-sm text-gray-300">{featured.data.excerpt}</p>
+              <div class="flex items-center gap-3 text-xs text-gray-400">
+                <time datetime={featured.data.date.toISOString()}>
+                  {featured.data.date.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}
+                </time>
+                <span>por {featured.data.author}</span>
+              </div>
+            </div>
+          </div>
+        </a>
+      )
+    }
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 stagger-children">
+      {rest.map((article) => (
+        <a
+          href={`/news/${article.data.slug}`}
+          class="card-hover group flex flex-col overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-card)]"
+        >
+          <div class="card-image-container relative aspect-[16/9] bg-[var(--color-bg-secondary)]">
+            <Image
+              src={article.data.image}
+              alt={article.data.imageAlt || article.data.title}
+              class="h-full w-full object-cover"
+              width={400}
+              height={225}
+              loading="lazy"
+            />
+          </div>
+
+          <div class="flex flex-1 flex-col gap-2 p-4">
+            <div class="flex items-center gap-2">
+              <span
+                class="rounded px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white"
+                style="background: {categoryColors[article.data.category] ?? 'var(--color-accent-primary)'}"
+              >
+                {categoryLabels[article.data.category] ?? article.data.category}
+              </span>
+              <time class="text-xs text-[var(--color-text-muted)]">
+                {article.data.date.toLocaleDateString('es-ES', { year: 'numeric', month: 'short', day: 'numeric' })}
+              </time>
+            </div>
+
+            <h2 class="text-base font-semibold text-[var(--color-text-primary)] line-clamp-2">
+              {article.data.title}
+            </h2>
+
+            <p class="text-xs text-[var(--color-text-muted)] line-clamp-2">{article.data.excerpt}</p>
+
+            <div class="mt-auto text-xs text-[var(--color-text-muted)]">
+              por {article.data.author}
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Noticias de Videojuegos | 007-Sama',
+    description: 'Últimas noticias, reviews y lanzamientos del mundo de los videojuegos.',
+    url: `${siteUrl}/news`,
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: articles.map((a, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        item: {
+          '@type': 'Article',
+          headline: a.data.title,
+          url: `${siteUrl}/news/${a.data.slug}`,
+          author: { '@type': 'Person', name: a.data.author },
+          datePublished: a.data.date.toISOString(),
+        },
+      })),
+    },
+  }, null, 2)} />
+</BaseLayout>

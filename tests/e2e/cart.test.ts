@@ -1,0 +1,74 @@
+import { test, expect } from '@playwright/test'
+import { clearLocalStorage, addGameToCart, waitForToast } from './helpers'
+
+test.beforeEach(async ({ page }) => {
+  await clearLocalStorage(page)
+})
+
+test('el contador del carrito muestra 0 al inicio', async ({ page }) => {
+  await page.goto('/')
+  const cartButton = page.getByRole('button', { name: /carrito/i })
+  await expect(cartButton).toBeVisible()
+})
+
+test('agregar un juego incrementa el contador a 1', async ({ page }) => {
+  await addGameToCart(page, 'elden-ring')
+  await waitForToast(page, 'Agregado al carrito')
+  const cartButton = page.getByRole('button', { name: /carrito/i })
+  await expect(cartButton).toContainText('1')
+})
+
+test('el icono del carrito abre el CartDrawer', async ({ page }) => {
+  await addGameToCart(page, 'elden-ring')
+  await waitForToast(page, 'Agregado al carrito')
+  await page.getByRole('button', { name: /carrito/i }).click()
+  await expect(page.getByText('Carrito')).toBeVisible()
+})
+
+test('el CartDrawer muestra el juego agregado con su titulo', async ({ page }) => {
+  await addGameToCart(page, 'elden-ring')
+  await waitForToast(page, 'Agregado al carrito')
+  await page.getByRole('button', { name: /carrito/i }).click()
+  await expect(page.getByText('Elden Ring')).toBeVisible()
+})
+
+test('aumentar la cantidad en el CartDrawer actualiza el contador', async ({ page }) => {
+  await addGameToCart(page, 'elden-ring')
+  await waitForToast(page, 'Agregado al carrito')
+  await page.getByRole('button', { name: /carrito/i }).click()
+  const plusButton = page.getByRole('button', { name: /carrito/i }).locator('..').getByText('+')
+  await plusButton.click()
+  await page.waitForTimeout(300)
+})
+
+test('eliminar el item del CartDrawer deja el carrito vacio', async ({ page }) => {
+  await addGameToCart(page, 'elden-ring')
+  await waitForToast(page, 'Agregado al carrito')
+  await page.getByRole('button', { name: /carrito/i }).click()
+  const deleteBtn = page.getByRole('button', { name: /eliminar elden ring/i })
+  await deleteBtn.click()
+  await expect(page.getByText('Tu carrito está vacío')).toBeVisible()
+})
+
+test('/cart muestra los items del carrito', async ({ page }) => {
+  await addGameToCart(page, 'elden-ring')
+  await waitForToast(page, 'Agregado al carrito')
+  await page.goto('/cart')
+  await expect(page.getByText('Elden Ring')).toBeVisible()
+})
+
+test('/cart muestra el subtotal y total correctamente', async ({ page }) => {
+  await addGameToCart(page, 'elden-ring')
+  await waitForToast(page, 'Agregado al carrito')
+  await page.goto('/cart')
+  await expect(page.getByText('Subtotal')).toBeVisible()
+  await expect(page.getByText('Total')).toBeVisible()
+})
+
+test('el boton Continuar al checkout en /cart navega a /checkout', async ({ page }) => {
+  await addGameToCart(page, 'elden-ring')
+  await waitForToast(page, 'Agregado al carrito')
+  await page.goto('/cart')
+  await page.getByRole('button', { name: /continuar al checkout/i }).click()
+  await expect(page).toHaveURL(/\/checkout/)
+})

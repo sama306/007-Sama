@@ -1,0 +1,170 @@
+---
+import { GENRES } from '@types/game';
+import type { Genre } from '@types/game';
+import { PLATFORMS } from '@types/game';
+import type { Platform } from '@types/game';
+
+export interface Props {
+  currentGenre?: Genre | '';
+  currentPlatform?: Platform | '';
+  currentMinPrice?: number;
+  currentMaxPrice?: number;
+  currentRating?: number;
+  currentSort?: string;
+}
+
+const {
+  currentGenre = '',
+  currentPlatform = '',
+  currentMinPrice,
+  currentMaxPrice,
+  currentRating = 0,
+  currentSort = '',
+} = Astro.props;
+
+const priceRanges = [
+  { label: 'Todos', value: '', min: undefined, max: undefined },
+  { label: 'Hasta $20', value: '-20', min: undefined, max: 20 },
+  { label: '$20 - $40', value: '20-40', min: 20, max: 40 },
+  { label: '$40 - $60', value: '40-60', min: 40, max: 60 },
+  { label: 'Más de $60', value: '60-', min: 60, max: undefined },
+];
+
+const ratingOptions = [
+  { label: 'Todos', value: '0' },
+  { label: '4+ estrellas', value: '4' },
+  { label: '3+ estrellas', value: '3' },
+  { label: '2+ estrellas', value: '2' },
+];
+
+const sortOptions = [
+  { label: 'Relevancia', value: '' },
+  { label: 'Precio: menor a mayor', value: 'price_asc' },
+  { label: 'Precio: mayor a menor', value: 'price_desc' },
+  { label: 'Mejor valorados', value: 'rating' },
+  { label: 'Fecha de lanzamiento', value: 'release_date' },
+];
+
+const genreLabels: Record<string, string> = {
+  action: 'Acción',
+  rpg: 'RPG',
+  strategy: 'Estrategia',
+  adventure: 'Aventura',
+  simulation: 'Simulación',
+  sports: 'Deportes',
+  horror: 'Terror',
+};
+
+const platformLabels: Record<string, string> = {
+  pc: 'PC',
+  ps5: 'PS5',
+  'xbox-series-x': 'Xbox Series X|S',
+  switch: 'Nintendo Switch',
+};
+
+const currentPriceValue = currentMinPrice !== undefined || currentMaxPrice !== undefined
+  ? `${currentMinPrice ?? ''}-${currentMaxPrice ?? ''}`
+  : '';
+---
+
+<aside class="w-full lg:w-64 shrink-0">
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] p-5">
+    <h2 class="mb-4 text-sm font-semibold uppercase tracking-wider text-[var(--color-text-secondary)]">
+      Filtros
+    </h2>
+
+    <div class="space-y-6" id="game-filters">
+      <fieldset>
+        <legend class="mb-3 text-xs font-medium uppercase text-[var(--color-text-muted)]">Género</legend>
+        <div class="flex flex-wrap gap-2">
+          <label class="cursor-pointer">
+            <input type="radio" name="genre" value="" checked={currentGenre === ''} class="filter-input peer hidden" />
+            <span class="inline-block rounded-full bg-[var(--color-bg-elevated)] px-3 py-1.5 text-xs font-medium text-[var(--color-text-secondary)] transition-all peer-checked:bg-[var(--color-accent-primary)] peer-checked:text-white peer-checked:shadow-[0_0_12px_var(--color-accent-glow)] hover:bg-[var(--color-accent-glow)]">
+              Todos
+            </span>
+          </label>
+          {GENRES.map((genre) => (
+            <label key={genre} class="cursor-pointer">
+              <input type="radio" name="genre" value={genre} checked={currentGenre === genre} class="filter-input peer hidden" />
+              <span class="inline-block rounded-full bg-[var(--color-bg-elevated)] px-3 py-1.5 text-xs font-medium text-[var(--color-text-secondary)] transition-all peer-checked:bg-[var(--color-accent-primary)] peer-checked:text-white peer-checked:shadow-[0_0_12px_var(--color-accent-glow)] hover:bg-[var(--color-accent-glow)]">
+                {genreLabels[genre] ?? genre}
+              </span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend class="mb-3 text-xs font-medium uppercase text-[var(--color-text-muted)]">Plataforma</legend>
+        <div class="flex flex-wrap gap-2">
+          <label class="cursor-pointer">
+            <input type="radio" name="platform" value="" checked={currentPlatform === ''} class="filter-input peer hidden" />
+            <span class="inline-block rounded-full bg-[var(--color-bg-elevated)] px-3 py-1.5 text-xs font-medium text-[var(--color-text-secondary)] transition-all peer-checked:bg-[var(--color-accent-primary)] peer-checked:text-white peer-checked:shadow-[0_0_12px_var(--color-accent-glow)] hover:bg-[var(--color-accent-glow)]">
+              Todas
+            </span>
+          </label>
+          {PLATFORMS.map((platform) => (
+            <label key={platform} class="cursor-pointer">
+              <input type="radio" name="platform" value={platform} checked={currentPlatform === platform} class="filter-input peer hidden" />
+              <span class="inline-block rounded-full bg-[var(--color-bg-elevated)] px-3 py-1.5 text-xs font-medium text-[var(--color-text-secondary)] transition-all peer-checked:bg-[var(--color-accent-primary)] peer-checked:text-white peer-checked:shadow-[0_0_12px_var(--color-accent-glow)] hover:bg-[var(--color-accent-glow)]">
+                {platformLabels[platform]}
+              </span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend class="mb-3 text-xs font-medium uppercase text-[var(--color-text-muted)]">Precio</legend>
+        <div class="flex flex-wrap gap-2">
+          {priceRanges.map((range) => (
+            <label key={range.value} class="cursor-pointer">
+              <input
+                type="radio"
+                name="price"
+                value={range.value}
+                checked={currentPriceValue === range.value}
+                class="filter-input peer hidden"
+              />
+              <span class="inline-block rounded-full bg-[var(--color-bg-elevated)] px-3 py-1.5 text-xs font-medium text-[var(--color-text-secondary)] transition-all peer-checked:bg-[var(--color-accent-primary)] peer-checked:text-white peer-checked:shadow-[0_0_12px_var(--color-accent-glow)] hover:bg-[var(--color-accent-glow)]">
+                {range.label}
+              </span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend class="mb-3 text-xs font-medium uppercase text-[var(--color-text-muted)]">Valoración</legend>
+        <div class="flex flex-wrap gap-2">
+          {ratingOptions.map((opt) => (
+            <label key={opt.value} class="cursor-pointer">
+              <input type="radio" name="rating" value={opt.value} checked={currentRating === Number(opt.value)} class="filter-input peer hidden" />
+              <span class="inline-block rounded-full bg-[var(--color-bg-elevated)] px-3 py-1.5 text-xs font-medium text-[var(--color-text-secondary)] transition-all peer-checked:bg-[var(--color-accent-primary)] peer-checked:text-white peer-checked:shadow-[0_0_12px_var(--color-accent-glow)] hover:bg-[var(--color-accent-glow)]">
+                {opt.label}
+              </span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <div>
+        <label class="mb-2 block text-xs font-medium uppercase text-[var(--color-text-muted)]">Ordenar por</label>
+        <select name="sort" id="filter-sort" class="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-elevated)] px-3 py-2 text-sm text-[var(--color-text-primary)] outline-none transition-all focus:border-[var(--color-accent-primary)] focus:ring-1 focus:ring-[var(--color-accent-primary)]">
+          {sortOptions.map((opt) => (
+            <option key={opt.value} value={opt.value} selected={currentSort === opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <button
+        id="apply-filters"
+        class="btn-primary w-full rounded-lg bg-[var(--color-accent-primary)] px-4 py-2.5 text-sm font-semibold text-white"
+      >
+        Aplicar filtros
+      </button>
+    </div>
+  </div>
+</aside>

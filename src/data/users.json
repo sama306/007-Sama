@@ -1,0 +1,18 @@
+[
+  {
+    "id": "1b99f7fc-b440-4caa-b3cc-28b74dbe072c",
+    "name": "Valentin Samacoits",
+    "email": "valensamacoits1@gmail.com",
+    "password": "$2b$12$uElHQTJK50qZe/VK.MnH1esHi6qXwHRK8zZisnnI1m.LUbJ1W2dS6",
+    "role": "user",
+    "createdAt": "2026-06-15T19:44:08.079Z"
+  },
+  {
+    "id": "fc655972-2216-43a3-87ca-f22f71f4fb98",
+    "name": "Valentin Samacoits",
+    "email": "valensamcoits1@gmail.com",
+    "password": "$2b$12$VFyNLWNqrDl2GGu4ilCwj.wyoaEWVwpu1K6LAP5MH6ggEgN4pVBRq",
+    "role": "user",
+    "createdAt": "2026-06-15T19:50:04.377Z"
+  }
+]

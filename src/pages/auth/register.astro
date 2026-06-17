@@ -1,0 +1,39 @@
+---
+export const prerender = false;
+
+import BaseLayout from '@layouts/BaseLayout.astro';
+import RegisterForm from '@components/auth/RegisterForm';
+
+const { user } = Astro.locals;
+
+if (user) {
+  return Astro.redirect('/account');
+}
+
+const redirect = Astro.url.searchParams.get('redirect') || '/';
+---
+
+<BaseLayout title="Crear Cuenta" description="Regístrate en 007-Sama para gestionar tus compras y favoritos." noindex={true}>
+  <div class="flex min-h-[calc(100dvh-var(--header-height))] items-center justify-center px-4 py-12">
+    <div class="w-full max-w-md">
+      <div class="animate-fade-in-up text-center">
+        <a href="/" class="inline-block text-3xl font-bold text-[var(--color-accent-neon)]" aria-label="007-Sama inicio">
+          007-Sama
+        </a>
+        <h1 class="mt-6 text-2xl font-bold text-[var(--color-text-primary)]">
+          Crear cuenta
+        </h1>
+        <p class="mt-2 text-sm text-[var(--color-text-secondary)]">
+          Unite a 007-Sama para acceder a tu carrito y seguí tus juegos favoritos.
+        </p>
+      </div>
+
+      <div class="animate-fade-in-up mt-8" style="animation-delay: 0.1s">
+        <RegisterForm
+          client:load
+          redirect={redirect}
+        />
+      </div>
+    </div>
+  </div>
+</BaseLayout>

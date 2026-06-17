@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /api/
+Disallow: /auth/
+Disallow: /checkout/
+
+Sitemap: https://007-sama.vercel.app/sitemap-index.xml

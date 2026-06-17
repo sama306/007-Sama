@@ -1,0 +1,36 @@
+---
+import GameCard from '@components/game/GameCard.astro';
+import type { CollectionEntry } from 'astro:content';
+
+export interface Props {
+  games: CollectionEntry<'games'>[];
+  columns?: 2 | 3 | 4;
+  userId?: string;
+}
+
+const { games, columns = 3, userId = 'guest' } = Astro.props;
+
+const colsClass: Record<number, string> = {
+  2: 'sm:grid-cols-2',
+  3: 'sm:grid-cols-2 lg:grid-cols-3',
+  4: 'sm:grid-cols-2 lg:grid-cols-4',
+};
+---
+
+{
+  games.length > 0 ? (
+    <div class={`grid gap-6 ${colsClass[columns]}`}>
+      {games.map((game) => <GameCard game={game} userId={userId} />)}
+    </div>
+  ) : (
+    <div class="flex flex-col items-center justify-center py-16 text-center">
+      <p class="text-lg text-[var(--color-text-muted)]">No se encontraron juegos con estos filtros.</p>
+      <a
+        href="/games"
+        class="mt-4 text-sm text-[var(--color-accent)] hover:text-[var(--color-accent-hover)]"
+      >
+        Limpiar filtros
+      </a>
+    </div>
+  )
+}
