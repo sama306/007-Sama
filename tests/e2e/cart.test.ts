@@ -43,7 +43,8 @@ test('eliminar el item del CartDrawer deja el carrito vacio', async ({ page }) =
   await addGameToCart(page, 'elden-ring')
   await waitForToast(page, 'Agregado al carrito')
   const deleteBtn = page.getByRole('button', { name: /eliminar elden ring/i })
-  await deleteBtn.click({ force: true })
+  await deleteBtn.scrollIntoViewIfNeeded()
+  await deleteBtn.click()
   await expect(page.getByText('Tu carrito está vacío').first()).toBeVisible()
 })
 
