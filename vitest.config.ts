@@ -20,6 +20,10 @@ export default defineConfig({
     globals: true,
     setupFiles: './tests/setup.ts',
     include: ['tests/unit/**/*.test.ts', 'tests/unit/**/*.test.tsx'],
+    reporters: ['default', 'junit'],
+    outputFile: {
+      junit: './test-results/junit.xml',
+    },
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html'],
