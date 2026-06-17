@@ -1,5 +1,6 @@
 import Stripe from 'stripe';
 import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
 import type { CartItem } from '@/types/cart';
 
 export const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY);
@@ -8,7 +9,7 @@ export async function createCheckoutSession(items: CartItem[], origin: string) {
   const games = await getCollection('games');
 
   const line_items = items.map((item) => {
-    const game = games.find((g) => g.data.slug === item.slug);
+    const game = games.find((g: CollectionEntry<'games'>) => g.data.slug === item.slug);
     if (!game) {
       throw new Error(`Game not found: ${item.slug}`);
     }
