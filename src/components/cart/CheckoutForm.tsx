@@ -9,12 +9,6 @@ export default function CheckoutForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    if (items.length === 0) {
-      window.location.href = '/cart';
-    }
-  }, [items]);
-
   const handlePay = useCallback(async () => {
     setLoading(true);
     setError('');
@@ -33,7 +27,16 @@ export default function CheckoutForm() {
     }
   }, [items]);
 
-  if (items.length === 0) return null;
+  if (items.length === 0) {
+    return (
+      <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] p-6 text-center">
+        <p className="text-[var(--color-text-muted)]">Tu carrito está vacío.</p>
+        <a href="/cart" className="mt-4 inline-block rounded-lg bg-[var(--color-accent-primary)] px-6 py-3 text-sm font-semibold text-white">
+          Volver al carrito
+        </a>
+      </div>
+    );
+  }
 
   return (
     <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-card)] p-6">
