@@ -1,6 +1,6 @@
 import Stripe from 'stripe';
 import { getCollection } from 'astro:content';
-import type { CartItem } from '@types/cart';
+import type { CartItem } from '@/types/cart';
 
 export const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY);
 

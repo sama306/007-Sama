@@ -25,16 +25,16 @@ export default defineConfig({
         const url = new URL(item.url).pathname;
         if (url === '/') {
           item.priority = 1.0;
-          item.changefreq = 'monthly';
+          item.changefreq = /** @type {any} */ ('monthly');
         } else if (url.startsWith('/games') || url.startsWith('/news')) {
           item.priority = 0.8;
-          item.changefreq = 'weekly';
+          item.changefreq = /** @type {any} */ ('weekly');
         } else if (url.startsWith('/legal')) {
           item.priority = 0.3;
-          item.changefreq = 'monthly';
+          item.changefreq = /** @type {any} */ ('monthly');
         } else {
           item.priority = 0.6;
-          item.changefreq = 'monthly';
+          item.changefreq = /** @type {any} */ ('monthly');
         }
         return item;
       },

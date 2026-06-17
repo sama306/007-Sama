@@ -9,6 +9,7 @@ export interface StoredUser {
   name: string;
   email: string;
   password: string;
+  image?: string;
   role: 'user';
   createdAt: string;
 }

@@ -18,7 +18,7 @@ export const fuseKeys = [
   { name: 'tags', weight: 3 },
   { name: 'developer', weight: 1 },
   { name: 'genre', weight: 1 },
-] as const;
+];
 
 export const fuseOptions = {
   keys: fuseKeys,
@@ -26,4 +26,4 @@ export const fuseOptions = {
   distance: 200,
   includeScore: true,
   minMatchCharLength: 2,
-} as const;
+};

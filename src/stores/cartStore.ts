@@ -1,5 +1,5 @@
 import { atom, computed, onMount } from 'nanostores';
-import type { CartItem } from '@types/cart';
+import type { CartItem } from '@/types/cart';
 
 const CART_STORAGE_KEY = '007-sama-cart';
 
@@ -14,7 +14,7 @@ function loadCart(): CartItem[] {
   return [];
 }
 
-function saveCart(items: CartItem[]): void {
+function saveCart(items: readonly CartItem[]): void {
   try {
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
   } catch {}

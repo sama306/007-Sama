@@ -1,6 +1,6 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import type { Order } from '@types/cart';
+import type { Order } from '@/types/cart';
 
 function formatDate(dateStr: string): string {
   const date = new Date(dateStr);

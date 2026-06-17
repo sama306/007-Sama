@@ -4,3 +4,5 @@ allowBuilds:
   sharp: true
 onlyBuiltDependencies:
   - core-js
+patchedDependencies:
+  auth-astro: patches/auth-astro.patch

@@ -14,11 +14,11 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   context.locals.user = session?.user
     ? {
-        id: session.user.id,
-        name: session.user.name,
-        email: session.user.email,
-        image: session.user.image,
-        role: (session.user.role as 'guest' | 'user' | 'premium' | 'editor' | 'admin') || 'user',
+        id: session.user.id ?? '',
+        name: session.user.name ?? '',
+        email: session.user.email ?? '',
+        image: (session.user as { image?: string }).image ?? undefined,
+        role: ((session.user as { role?: string }).role ?? 'user') as 'guest' | 'user' | 'premium' | 'editor' | 'admin',
       }
     : null;
 

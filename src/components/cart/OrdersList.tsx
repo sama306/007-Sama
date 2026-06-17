@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { getOrders } from '@stores/ordersStore';
-import type { Order } from '@types/cart';
+import type { Order } from '@/types/cart';
 
 interface Props {
   userId: string;

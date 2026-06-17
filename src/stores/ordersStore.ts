@@ -1,4 +1,4 @@
-import type { Order } from '@types/cart';
+import type { Order } from '@/types/cart';
 
 // En producción reemplazar localStorage por consultas a DB usando el userId
 // para que los datos persistan entre dispositivos

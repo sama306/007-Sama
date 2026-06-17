@@ -3,7 +3,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import SaveOrder from '@components/cart/SaveOrder';
 import { stripe } from '@lib/stripe';
 import { getCollection } from 'astro:content';
-import type { CartItem } from '@types/cart';
+import type { CartItem } from '@/types/cart';
 
 export const prerender = false;
 

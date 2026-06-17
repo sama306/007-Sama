@@ -2,8 +2,8 @@ import { defineConfig } from '@playwright/test'
 
 export default defineConfig({
   testDir: './tests/e2e',
-  baseURL: 'http://localhost:4321',
   use: {
+    baseURL: 'http://localhost:4321',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     trace: 'retain-on-failure',

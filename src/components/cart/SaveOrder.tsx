@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { addOrder } from '@stores/ordersStore';
 import { clearCart } from '@stores/cartStore';
-import type { CartItem, Order } from '@types/cart';
+import type { CartItem, Order } from '@/types/cart';
 
 interface Props {
   sessionId: string;

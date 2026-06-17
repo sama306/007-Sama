@@ -1,5 +1,6 @@
 import { useStore } from '@nanostores/react';
 import { toasts, removeToast, type ToastType } from '@stores/toastStore';
+import type { JSX } from 'react';
 
 const iconMap: Record<ToastType, JSX.Element> = {
   success: (
