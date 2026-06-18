@@ -70,7 +70,6 @@ El nombre — _007-Sama_ — es un guiño al agente secreto combinado con el suf
 - **Lista de deseos (wishlist)** — sincronizada entre dispositivos vía Redis + localStorage como fallback
 - **Checkout** — formulario SSR, confirmación con comprobante PDF
 - **Panel de usuario** — pedidos, wishlist, datos de perfil
-- **RBAC** — 5 roles (guest, user, premium, editor, admin) con jerarquía de permisos
 - **SEO** — sitemap, structured data (JSON-LD), Open Graph, meta tags
 - **Responsive design** — mobile-first con Tailwind
 - **Tests** — Vitest (unit) + Playwright (e2e)
@@ -179,41 +178,11 @@ Copia `.env.example` como `.env` y completa los valores. Las variables clave son
 |---|---|
 | `AUTH_SECRET` | Clave JWT para sesiones de Auth.js |
 | `AUTH_GOOGLE_ID` / `AUTH_GOOGLE_SECRET` | OAuth Google |
-| `AUTH_DISCORD_ID` / `AUTH_DISCORD_SECRET` | OAuth Discord |
 | `AUTH_STEAM_KEY` | OAuth Steam |
 | `RESEND_API_KEY` | API Key de Resend para emails |
 | `KV_REST_API_URL` / `KV_REST_API_TOKEN` | Upstash Redis (inyectado por Vercel) |
 
 En local/CI, Redis tiene un fallback in-memory: no necesitas una instancia de Redis para desarrollo.
-
----
-
-## Decisiones Técnicas
-
-### Static-first con hybrid output
-
-`output: 'hybrid'` separa dos regímenes de contenido:
-
-- **Catálogo, landing, news** → SSG, HTML en build, servido desde CDN
-- **Checkout, dashboard, API** → SSR, serverless bajo demanda
-
-Esto evita cold-starts en páginas que no lo necesitan y da HTML instantáneo desde el edge.
-
-### Islas de hidratación, no SPAs
-
-Astro permite que componentes React se hidraten individualmente sin que el framework tome el control de la página. Uso `client:visible` para carrito y wishlist, `client:load` para formularios de auth. ~0 KB de JS en la carga inicial de la landing.
-
-### Nano Stores en lugar de Context/Redux
-
-El estado del carrito, sesión y wishlist se manejan con Nano Stores (~1 KB, sin providers). Se integran con Astro y React por igual sin forzar a que todo componente esté dentro del árbol de React.
-
-### Content Collections como fuente de verdad del catálogo
-
-Cada juego es un archivo `.md` con frontmatter validado por Zod. Type safety en build time, autocompletado en el editor, sin necesidad de CMS.
-
-### Upstash Redis para persistencia serverless
-
-Redis vía Upstash con fallback in-memory para local/CI. Almacena usuarios, sesiones y wishlists. Sin base de datos relacional — el catálogo vive en Content Collections (build-time), los datos dinámicos en Redis (runtime).
 
 ---
 
