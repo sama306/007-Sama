@@ -14,5 +14,13 @@
     "password": "$2b$12$VFyNLWNqrDl2GGu4ilCwj.wyoaEWVwpu1K6LAP5MH6ggEgN4pVBRq",
     "role": "user",
     "createdAt": "2026-06-15T19:50:04.377Z"
+  },
+  {
+    "id": "14ccaa21-6c76-4a55-8d1c-2048609f8e40",
+    "name": "Valentin Samacoits",
+    "email": "valensama123@gmail.com",
+    "password": "$2b$12$unnff98QZDMf2TJh3tRGLev5sKzOOoScGihksDyIvxNbLsvf75pQ.",
+    "role": "user",
+    "createdAt": "2026-06-18T05:19:27.765Z"
   }
 ]

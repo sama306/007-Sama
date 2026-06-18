@@ -11,7 +11,7 @@ export default defineConfig({
   timeout: 30000,
   projects: [{ name: 'chromium', use: { browserName: 'chromium' } }],
   webServer: {
-    command: 'pnpm preview',
+    command: 'pnpm build && pnpm exec vite preview --port 4321 --strictPort',
     url: 'http://localhost:4321',
     reuseExistingServer: true,
     timeout: 120000,
