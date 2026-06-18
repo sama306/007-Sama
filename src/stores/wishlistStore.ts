@@ -22,9 +22,11 @@ function postWishlist(action: 'add' | 'remove', slug: string): void {
     credentials: 'same-origin',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ action, slug }),
-  }).then(async (res) => {
-    if (!res.ok) console.error('[wishlist] POST falló:', res.status, await res.text())
-  }).catch((err) => console.error('[wishlist] POST error:', err))
+  })
+    .then(async (res) => {
+      if (!res.ok) console.error('[wishlist] POST falló:', res.status, await res.text())
+    })
+    .catch((err) => console.error('[wishlist] POST error:', err))
 }
 
 export function addToWishlist(userId: string, slug: string): void {
