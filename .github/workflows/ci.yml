@@ -79,13 +79,6 @@ jobs:
         run: echo "SITE_URL=${{ secrets.SITE_URL }}" > .env
       - run: pnpm build
 
-      - name: Subir artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist
-          path: .vercel
-          retention-days: 1
-
   test-e2e:
     needs: build
     runs-on: ubuntu-latest
@@ -124,18 +117,13 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
 
-      - name: Descargar artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: dist
-          path: .vercel
-
       - name: Deploy a Vercel
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
-          pnpm dlx vercel deploy --prebuilt --prod \
-            --token "$VERCEL_TOKEN" \
-            --scope "$VERCEL_ORG_ID"
+          pnpm dlx vercel pull --yes --environment=production \
+            --token "$VERCEL_TOKEN"
+          pnpm dlx vercel deploy --prod \
+            --token "$VERCEL_TOKEN"
