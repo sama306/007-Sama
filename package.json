@@ -33,6 +33,7 @@
     "@nanostores/react": "^1.1.0",
     "@stripe/stripe-js": "^9.8.0",
     "@tailwindcss/vite": "^4.3.0",
+    "@upstash/redis": "^1.38.0",
     "astro": "^6.4.6",
     "auth-astro": "^4.2.0",
     "bcryptjs": "^3.0.3",

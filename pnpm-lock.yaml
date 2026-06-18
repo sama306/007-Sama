@@ -13,7 +13,7 @@ importers:
     dependencies:
       '@astrojs/node':
         specifier: ^10.1.4
-        version: 10.1.4(astro@6.4.6(@types/node@24.13.2)(@vercel/functions@3.7.1)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.61.1)(yaml@2.9.0))
+        version: 10.1.4(astro@6.4.6(@types/node@24.13.2)(@upstash/redis@1.38.0)(@vercel/functions@3.7.1)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.61.1)(yaml@2.9.0))
       '@astrojs/react':
         specifier: ^5.0.7
         version: 5.0.7(@types/node@24.13.2)(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(jiti@2.7.0)(lightningcss@1.32.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(yaml@2.9.0)
@@ -22,7 +22,7 @@ importers:
         version: 3.7.3
       '@astrojs/vercel':
         specifier: ^10.0.8
-        version: 10.0.8(astro@6.4.6(@types/node@24.13.2)(@vercel/functions@3.7.1)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.61.1)(yaml@2.9.0))(next@16.2.9(@babel/core@7.29.7)(@playwright/test@1.61.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)(rollup@4.61.1)
+        version: 10.0.8(astro@6.4.6(@types/node@24.13.2)(@upstash/redis@1.38.0)(@vercel/functions@3.7.1)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.61.1)(yaml@2.9.0))(next@16.2.9(@babel/core@7.29.7)(@playwright/test@1.61.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)(rollup@4.61.1)
       '@auth/core':
         specifier: ^0.37.4
         version: 0.37.4
@@ -35,12 +35,15 @@ importers:
       '@tailwindcss/vite':
         specifier: ^4.3.0
         version: 4.3.0(vite@7.3.5(@types/node@24.13.2)(jiti@2.7.0)(lightningcss@1.32.0)(yaml@2.9.0))
+      '@upstash/redis':
+        specifier: ^1.38.0
+        version: 1.38.0
       astro:
         specifier: ^6.4.6
-        version: 6.4.6(@types/node@24.13.2)(@vercel/functions@3.7.1)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.61.1)(yaml@2.9.0)
+        version: 6.4.6(@types/node@24.13.2)(@upstash/redis@1.38.0)(@vercel/functions@3.7.1)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.61.1)(yaml@2.9.0)
       auth-astro:
         specifier: ^4.2.0
-        version: 4.2.0(patch_hash=94441a96e171df106f48b83aeccfd5185effc7c87c6b0c5837b519e98b90a154)(@auth/core@0.37.4)(astro@6.4.6(@types/node@24.13.2)(@vercel/functions@3.7.1)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.61.1)(yaml@2.9.0))
+        version: 4.2.0(patch_hash=94441a96e171df106f48b83aeccfd5185effc7c87c6b0c5837b519e98b90a154)(@auth/core@0.37.4)(astro@6.4.6(@types/node@24.13.2)(@upstash/redis@1.38.0)(@vercel/functions@3.7.1)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.61.1)(yaml@2.9.0))
       bcryptjs:
         specifier: ^3.0.3
         version: 3.0.3
@@ -1532,6 +1535,9 @@ packages:
 
   '@ungap/structured-clone@1.3.1':
     resolution: {integrity: sha512-mUFwbeTqrVgDQxFveS+df2yfap6iuP20NAKAsBt5jDEoOTDew+zwLAOilHCeQJOVSvmgCX4ogqIrA0mnyr08yQ==}
+
+  '@upstash/redis@1.38.0':
+    resolution: {integrity: sha512-wu+dZBptlLy0+MCUEoHmzrY/TnmgDey3+c7EbIGwrLqAvkP8yi5MWZHYGIFtAygmL4Bkz2TdFu+eU0vFPncIcg==}
 
   '@vercel/analytics@1.6.1':
     resolution: {integrity: sha512-oH9He/bEM+6oKlv3chWuOOcp8Y6fo6/PSro8hEkgCW3pu9/OiCXiUpRUogDh3Fs3LH2sosDrx8CxeOLBEE+afg==}
@@ -4214,10 +4220,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/node@10.1.4(astro@6.4.6(@types/node@24.13.2)(@vercel/functions@3.7.1)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.61.1)(yaml@2.9.0))':
+  '@astrojs/node@10.1.4(astro@6.4.6(@types/node@24.13.2)(@upstash/redis@1.38.0)(@vercel/functions@3.7.1)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.61.1)(yaml@2.9.0))':
     dependencies:
       '@astrojs/internal-helpers': 0.10.0
-      astro: 6.4.6(@types/node@24.13.2)(@vercel/functions@3.7.1)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.61.1)(yaml@2.9.0)
+      astro: 6.4.6(@types/node@24.13.2)(@upstash/redis@1.38.0)(@vercel/functions@3.7.1)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.61.1)(yaml@2.9.0)
       send: 1.2.1
       server-destroy: 1.0.1
     transitivePeerDependencies:
@@ -4266,14 +4272,14 @@ snapshots:
       is-wsl: 3.1.1
       which-pm-runs: 1.1.0
 
-  '@astrojs/vercel@10.0.8(astro@6.4.6(@types/node@24.13.2)(@vercel/functions@3.7.1)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.61.1)(yaml@2.9.0))(next@16.2.9(@babel/core@7.29.7)(@playwright/test@1.61.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)(rollup@4.61.1)':
+  '@astrojs/vercel@10.0.8(astro@6.4.6(@types/node@24.13.2)(@upstash/redis@1.38.0)(@vercel/functions@3.7.1)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.61.1)(yaml@2.9.0))(next@16.2.9(@babel/core@7.29.7)(@playwright/test@1.61.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)(rollup@4.61.1)':
     dependencies:
       '@astrojs/internal-helpers': 0.10.0
       '@vercel/analytics': 1.6.1(next@16.2.9(@babel/core@7.29.7)(@playwright/test@1.61.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)
       '@vercel/functions': 3.7.1
       '@vercel/nft': 1.10.2(rollup@4.61.1)
       '@vercel/routing-utils': 5.3.3
-      astro: 6.4.6(@types/node@24.13.2)(@vercel/functions@3.7.1)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.61.1)(yaml@2.9.0)
+      astro: 6.4.6(@types/node@24.13.2)(@upstash/redis@1.38.0)(@vercel/functions@3.7.1)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.61.1)(yaml@2.9.0)
       esbuild: 0.27.7
       tinyglobby: 0.2.17
     transitivePeerDependencies:
@@ -5350,6 +5356,10 @@ snapshots:
 
   '@ungap/structured-clone@1.3.1': {}
 
+  '@upstash/redis@1.38.0':
+    dependencies:
+      uncrypto: 0.1.3
+
   '@vercel/analytics@1.6.1(next@16.2.9(@babel/core@7.29.7)(@playwright/test@1.61.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)':
     optionalDependencies:
       next: 16.2.9(@babel/core@7.29.7)(@playwright/test@1.61.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -5621,7 +5631,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  astro@6.4.6(@types/node@24.13.2)(@vercel/functions@3.7.1)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.61.1)(yaml@2.9.0):
+  astro@6.4.6(@types/node@24.13.2)(@upstash/redis@1.38.0)(@vercel/functions@3.7.1)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.61.1)(yaml@2.9.0):
     dependencies:
       '@astrojs/compiler': 4.0.0
       '@astrojs/internal-helpers': 0.10.0
@@ -5671,7 +5681,7 @@ snapshots:
       ultrahtml: 1.6.0
       unifont: 0.7.4
       unist-util-visit: 5.1.0
-      unstorage: 1.17.5(@vercel/functions@3.7.1)
+      unstorage: 1.17.5(@upstash/redis@1.38.0)(@vercel/functions@3.7.1)
       vfile: 6.0.3
       vite: 7.3.5(@types/node@24.13.2)(jiti@2.7.0)(lightningcss@1.32.0)(yaml@2.9.0)
       vitefu: 1.1.3(vite@7.3.5(@types/node@24.13.2)(jiti@2.7.0)(lightningcss@1.32.0)(yaml@2.9.0))
@@ -5723,10 +5733,10 @@ snapshots:
 
   asynckit@0.4.0: {}
 
-  auth-astro@4.2.0(patch_hash=94441a96e171df106f48b83aeccfd5185effc7c87c6b0c5837b519e98b90a154)(@auth/core@0.37.4)(astro@6.4.6(@types/node@24.13.2)(@vercel/functions@3.7.1)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.61.1)(yaml@2.9.0)):
+  auth-astro@4.2.0(patch_hash=94441a96e171df106f48b83aeccfd5185effc7c87c6b0c5837b519e98b90a154)(@auth/core@0.37.4)(astro@6.4.6(@types/node@24.13.2)(@upstash/redis@1.38.0)(@vercel/functions@3.7.1)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.61.1)(yaml@2.9.0)):
     dependencies:
       '@auth/core': 0.37.4
-      astro: 6.4.6(@types/node@24.13.2)(@vercel/functions@3.7.1)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.61.1)(yaml@2.9.0)
+      astro: 6.4.6(@types/node@24.13.2)(@upstash/redis@1.38.0)(@vercel/functions@3.7.1)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.61.1)(yaml@2.9.0)
       set-cookie-parser: 2.7.2
 
   axios@1.18.0:
@@ -7934,7 +7944,7 @@ snapshots:
       unist-util-is: 6.0.1
       unist-util-visit-parents: 6.0.2
 
-  unstorage@1.17.5(@vercel/functions@3.7.1):
+  unstorage@1.17.5(@upstash/redis@1.38.0)(@vercel/functions@3.7.1):
     dependencies:
       anymatch: 3.1.3
       chokidar: 5.0.0
@@ -7945,6 +7955,7 @@ snapshots:
       ofetch: 1.5.1
       ufo: 1.6.4
     optionalDependencies:
+      '@upstash/redis': 1.38.0
       '@vercel/functions': 3.7.1
 
   update-browserslist-db@1.2.3(browserslist@4.28.2):
