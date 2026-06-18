@@ -55,23 +55,13 @@ jobs:
           echo "AUTH_URL=${{ secrets.AUTH_URL }}" >> .env
           echo "SITE_URL=${{ secrets.SITE_URL }}" >> .env
 
-      - name: Build de Astro
-        run: pnpm build
-      - name: Build de Vercel
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-        run: |
-          pnpm dlx vercel pull --yes --environment=preview \
-            --token "$VERCEL_TOKEN"
-          pnpm dlx vercel build \
-            --token "$VERCEL_TOKEN"
+      - run: pnpm build
+
       - name: Subir artifact
         uses: actions/upload-artifact@v4
         with:
           name: dist-preview
-          path: .vercel/output
+          path: .vercel
 
   deploy:
     needs: build
@@ -94,7 +84,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: dist-preview
-          path: .vercel/output
+          path: .vercel
 
       - name: Deploy preview to Vercel
         id: vercel
