@@ -16,17 +16,24 @@ export function saveWishlist(userId: string, items: string[]): void {
   } catch {}
 }
 
+function postWishlist(action: 'add' | 'remove', slug: string): void {
+  fetch('/api/wishlist', {
+    method: 'POST',
+    credentials: 'same-origin',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action, slug }),
+  }).then(async (res) => {
+    if (!res.ok) console.error('[wishlist] POST falló:', res.status, await res.text())
+  }).catch((err) => console.error('[wishlist] POST error:', err))
+}
+
 export function addToWishlist(userId: string, slug: string): void {
   const current = getWishlist(userId)
   if (!current.includes(slug)) {
     saveWishlist(userId, [...current, slug])
   }
   if (userId !== 'guest') {
-    fetch('/api/wishlist', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'add', slug }),
-    }).catch(() => {})
+    postWishlist('add', slug)
   }
 }
 
@@ -36,11 +43,7 @@ export function removeFromWishlist(userId: string, slug: string): void {
     getWishlist(userId).filter((s) => s !== slug),
   )
   if (userId !== 'guest') {
-    fetch('/api/wishlist', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'remove', slug }),
-    }).catch(() => {})
+    postWishlist('remove', slug)
   }
 }
 
@@ -64,11 +67,7 @@ export function migrateGuestWishlist(userId: string): void {
 
   for (const slug of guestItems) {
     if (!userItems.includes(slug)) {
-      fetch('/api/wishlist', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'add', slug }),
-      }).catch(() => {})
+      postWishlist('add', slug)
     }
   }
 }
@@ -88,11 +87,7 @@ export async function loadWishlistFromServer(userId: string): Promise<void> {
 
     for (const slug of local) {
       if (!serverSlugs.includes(slug)) {
-        fetch('/api/wishlist', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'add', slug }),
-        }).catch(() => {})
+        postWishlist('add', slug)
       }
     }
   } catch {}
