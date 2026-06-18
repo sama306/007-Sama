@@ -11,7 +11,7 @@ export default defineConfig({
   timeout: 30000,
   projects: [{ name: 'chromium', use: { browserName: 'chromium' } }],
   webServer: {
-    command: 'pnpm dev',
+    command: 'pnpm exec astro dev --no-dev-toolbar',
     url: 'http://localhost:4321',
     reuseExistingServer: true,
     timeout: 120000,

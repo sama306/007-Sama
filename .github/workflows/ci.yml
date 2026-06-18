@@ -108,14 +108,8 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
 
-      - uses: actions/download-artifact@v4
-        with:
-          name: dist
-          path: dist/
-
-      - name: Crear .env para tests e2e
+      - name: Configurar .env para tests
         run: |
-          echo "AUTH_SECRET=${{ secrets.AUTH_SECRET }}" >> .env
           echo "AUTH_URL=http://localhost:4321" >> .env
           echo "SITE_URL=http://localhost:4321" >> .env
       - run: pnpm exec playwright install --with-deps chromium
