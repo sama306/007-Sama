@@ -60,12 +60,9 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: dist-preview
-          path: dist/
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: vercel-output-preview
-          path: .vercel/
+          path: |
+            dist/
+            .vercel/
 
   deploy:
     needs: build
@@ -87,12 +84,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: dist-preview
-          path: dist/
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: vercel-output-preview
-          path: .vercel/
+          path: .
 
       - run: pnpm add -g vercel
 

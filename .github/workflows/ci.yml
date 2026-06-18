@@ -81,13 +81,9 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: dist
-          path: dist/
-          retention-days: 1
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: vercel-output
-          path: .vercel/
+          path: |
+            dist/
+            .vercel/
           retention-days: 1
 
   test-e2e:
@@ -137,12 +133,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: dist
-          path: dist/
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: vercel-output
-          path: .vercel/
+          path: .
 
       - name: Deploy a Vercel
         env:
