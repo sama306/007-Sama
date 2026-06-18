@@ -1,6 +1,3 @@
-// En producción reemplazar localStorage por consultas a DB usando el userId
-// para que los datos persistan entre dispositivos
-
 export function getWishlistKey(userId: string): string {
   return `wishlist:${userId}`
 }
@@ -24,6 +21,13 @@ export function addToWishlist(userId: string, slug: string): void {
   if (!current.includes(slug)) {
     saveWishlist(userId, [...current, slug])
   }
+  if (userId !== 'guest') {
+    fetch('/api/wishlist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'add', slug }),
+    }).catch(() => {})
+  }
 }
 
 export function removeFromWishlist(userId: string, slug: string): void {
@@ -31,6 +35,13 @@ export function removeFromWishlist(userId: string, slug: string): void {
     userId,
     getWishlist(userId).filter((s) => s !== slug),
   )
+  if (userId !== 'guest') {
+    fetch('/api/wishlist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'remove', slug }),
+    }).catch(() => {})
+  }
 }
 
 export function isInWishlist(userId: string, slug: string): boolean {
@@ -50,4 +61,39 @@ export function migrateGuestWishlist(userId: string): void {
   const merged = [...new Set([...userItems, ...guestItems])]
   saveWishlist(userId, merged)
   saveWishlist('guest', [])
+
+  for (const slug of guestItems) {
+    if (!userItems.includes(slug)) {
+      fetch('/api/wishlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'add', slug }),
+      }).catch(() => {})
+    }
+  }
+}
+
+export async function loadWishlistFromServer(userId: string): Promise<void> {
+  if (userId === 'guest') return
+  try {
+    const res = await fetch('/api/wishlist')
+    if (!res.ok) return
+    const data = (await res.json()) as { slugs: string[] }
+    if (!data.slugs) return
+
+    const local = getWishlist(userId)
+    const serverSlugs = data.slugs
+    const merged = [...new Set([...serverSlugs, ...local])]
+    saveWishlist(userId, merged)
+
+    for (const slug of local) {
+      if (!serverSlugs.includes(slug)) {
+        fetch('/api/wishlist', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'add', slug }),
+        }).catch(() => {})
+      }
+    }
+  } catch {}
 }

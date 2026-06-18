@@ -1,6 +1,7 @@
-import { readFile, writeFile } from 'node:fs/promises'
+import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import bcrypt from 'bcryptjs'
+import { kvGet, kvSet, kvKeys } from './kv'
 
 const DATA_PATH = join(process.cwd(), 'src', 'data', 'users.json')
 
@@ -14,27 +15,40 @@ export interface StoredUser {
   createdAt: string
 }
 
-async function readUsers(): Promise<StoredUser[]> {
+function userKeyById(id: string): string {
+  return `user:id:${id}`
+}
+
+function userKeyByEmail(email: string): string {
+  return `user:email:${email.toLowerCase()}`
+}
+
+async function seedFromJson(): Promise<void> {
   try {
+    const existing = await kvKeys('user:id:*')
+    if (existing.length > 0) return
+
     const data = await readFile(DATA_PATH, 'utf-8')
-    return JSON.parse(data) as StoredUser[]
+    const users = JSON.parse(data) as StoredUser[]
+    for (const user of users) {
+      await kvSet(userKeyById(user.id), user)
+      await kvSet(userKeyByEmail(user.email), user.id)
+    }
   } catch {
-    return []
+    /* noop */
   }
 }
 
-async function writeUsers(users: StoredUser[]): Promise<void> {
-  await writeFile(DATA_PATH, JSON.stringify(users, null, 2), 'utf-8')
-}
-
 export async function findUserByEmail(email: string): Promise<StoredUser | undefined> {
-  const users = await readUsers()
-  return users.find((u) => u.email === email.toLowerCase())
+  await seedFromJson()
+  const id = await kvGet<string>(userKeyByEmail(email))
+  if (!id) return undefined
+  return (await kvGet<StoredUser>(userKeyById(id))) ?? undefined
 }
 
 export async function findUserById(id: string): Promise<StoredUser | undefined> {
-  const users = await readUsers()
-  return users.find((u) => u.id === id)
+  await seedFromJson()
+  return (await kvGet<StoredUser>(userKeyById(id))) ?? undefined
 }
 
 export async function createUser(
@@ -42,7 +56,6 @@ export async function createUser(
   email: string,
   password: string,
 ): Promise<Omit<StoredUser, 'password'>> {
-  const users = await readUsers()
   const hashedPassword = await bcrypt.hash(password, 12)
 
   const user: StoredUser = {
@@ -54,8 +67,8 @@ export async function createUser(
     createdAt: new Date().toISOString(),
   }
 
-  users.push(user)
-  await writeUsers(users)
+  await kvSet(userKeyById(user.id), user)
+  await kvSet(userKeyByEmail(user.email), user.id)
 
   const { password: _, ...safeUser } = user
   return safeUser
@@ -69,13 +82,8 @@ export async function verifyPassword(
 }
 
 export async function updateUserPassword(email: string, newPassword: string): Promise<void> {
-  const users = await readUsers()
-  const index = users.findIndex((u) => u.email === email.toLowerCase())
-
-  if (index === -1) {
-    throw new Error('User not found')
-  }
-
-  users[index].password = await bcrypt.hash(newPassword, 12)
-  await writeUsers(users)
+  const existing = await findUserByEmail(email)
+  if (!existing) throw new Error('User not found')
+  existing.password = await bcrypt.hash(newPassword, 12)
+  await kvSet(userKeyById(existing.id), existing)
 }

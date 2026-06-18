@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { cartItems } from '@stores/cartStore'
 import { currentUserId } from '@stores/authStore'
-import { migrateGuestWishlist } from '@stores/wishlistStore'
+import { migrateGuestWishlist, loadWishlistFromServer } from '@stores/wishlistStore'
 import { migrateGuestOrders } from '@stores/ordersStore'
 import { addToast } from '@stores/toastStore'
 
@@ -20,6 +20,7 @@ export default function AuthCartSync() {
         const userId = session.user.id
         if (!userId || userId === 'guest') return
 
+        await loadWishlistFromServer(userId)
         migrateGuestWishlist(userId)
         migrateGuestOrders(userId)
 
