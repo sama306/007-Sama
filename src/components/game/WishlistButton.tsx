@@ -14,7 +14,7 @@ interface Props {
 export default function WishlistButton({ slug, userId: propUserId, variant = 'icon' }: Props) {
   const storeUserId = useStore(currentUserId)
   const effectiveUserId = propUserId !== 'guest' ? propUserId : storeUserId
-  const [active, setActive] = useState(() => isInWishlist(effectiveUserId, slug))
+  const [active, setActive] = useState(false)
   const [animating, setAnimating] = useState(false)
 
   useEffect(() => {
